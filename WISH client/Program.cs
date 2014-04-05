@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 using System.IO.Ports;
 
+
 namespace WISH_client
 {
     static class Program
@@ -30,11 +31,18 @@ namespace WISH_client
             port.Close();
         }
 
-        //Vad gör denna?
+        //Tar emot data från seriell port.
         private static void DataReceivedHandler( object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort sp = (SerialPort)sender;
-            string indata = sp.ReadExisting();
+            int indata1 = sp.ReadByte();
+            int indata2 = sp.ReadByte();
+            //konverterar decimalt -> hexadecimalt.
+            string hex1 = string.Format("{0:x}", indata1);
+            string hex2 = string.Format("{0:x}", indata2);
+
+            //Skriver ut mottagen data i konsolen
+            Console.WriteLine(hex1 + " " + hex2);
         }
     }
 }
