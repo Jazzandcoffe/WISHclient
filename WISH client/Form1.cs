@@ -14,6 +14,8 @@ namespace WISH_client
 {
     public partial class Form1 : Form
     {
+        public SerialPort port;
+
         public Form1()
         {
             InitializeComponent();
@@ -24,13 +26,12 @@ namespace WISH_client
 
             // Instantiate the communications
             // port with some basic settings
-            SerialPort port = new SerialPort("COM3", 115200, Parity.None, 8, StopBits.One);
+            port = new SerialPort("COM3", 115200, Parity.None, 8, StopBits.One);
 
-            //Vad gör denna?
             port.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
 
             //Öppna port
-            //port.Open();
+            port.Open();
         }
 
         void Form1_KeyDownEvent(object sender, KeyEventArgs e)
@@ -39,27 +40,37 @@ namespace WISH_client
             {
                 //q
                 case Keys.Q:
-                    
+                    port.Write(new byte[1] { 1 }, 0, 1);
+                    port.Write(new byte[1] { 5 }, 0, 1);
                     break;
                 //w
                 case Keys.W:
-                   
+                    port.Write(new byte[1] { 1 }, 0, 1);
+                    port.Write(new byte[1] { 2 }, 0, 1);
                     break;
                 //e
                 case Keys.E:
-
+                    port.Write(new byte[1] { 1 }, 0, 1);
+                    port.Write(new byte[1] { 4 }, 0, 1);
                     break;
                 //a
                 case Keys.A:
-
+                    port.Write(new byte[1] { 1 }, 0, 1);
+                    port.Write(new byte[1] { 11 }, 0, 1);
                     break;
                 //s
                 case Keys.S:
-
+                    port.Write(new byte[1] { 1 }, 0, 1);
+                    port.Write(new byte[1] { 3 }, 0, 1);
                     break;
                 //d
                 case Keys.D:
-
+                    port.Write(new byte[1] { 1 }, 0, 1);
+                    port.Write(new byte[1] { 10 }, 0, 1);
+                    break;
+                case Keys.Space:
+                    port.Write(new byte[1] { 1 }, 0, 1);
+                    port.Write(new byte[1] { 0 }, 0, 1);
                     break;
             }
         }
@@ -70,27 +81,33 @@ namespace WISH_client
             {
                 //q
                 case Keys.Q:
-                  
+                    port.Write(new byte[1] { 2 }, 0, 1);
+                    port.Write(new byte[1] { 5 }, 0, 1);
                     break;
                 //w
                 case Keys.W:
-
+                    port.Write(new byte[1] { 2 }, 0, 1);
+                    port.Write(new byte[1] { 2 }, 0, 1);
                     break;
                 //e
                 case Keys.E:
-
+                    port.Write(new byte[1] { 2 }, 0, 1);
+                    port.Write(new byte[1] { 4 }, 0, 1);
                     break;
                 //a
                 case Keys.A:
-
+                    port.Write(new byte[1] { 2 }, 0, 1);
+                    port.Write(new byte[1] { 11 }, 0, 1);
                     break;
                 //s
                 case Keys.S:
-
+                    port.Write(new byte[1] { 2 }, 0, 1);
+                    port.Write(new byte[1] { 3 }, 0, 1);
                     break;
                 //d
                 case Keys.D:
-
+                    port.Write(new byte[1] { 2 }, 0, 1);
+                    port.Write(new byte[1] { 10 }, 0, 1);
                     break;
             }
         }
