@@ -22,13 +22,13 @@ namespace WISH_client
             port.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
 
             //Öppna port
-            port.Open();
+            //port.Open();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
 
-            port.Close();
+            //port.Close();
         }
 
         //Tar emot data från seriell port.
