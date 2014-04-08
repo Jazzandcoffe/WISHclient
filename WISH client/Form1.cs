@@ -68,9 +68,30 @@ namespace WISH_client
                     port.Write(new byte[1] { 1 }, 0, 1);
                     port.Write(new byte[1] { 10 }, 0, 1);
                     break;
+                //Space
                 case Keys.Space:
                     port.Write(new byte[1] { 1 }, 0, 1);
                     port.Write(new byte[1] { 0 }, 0, 1);
+                    break;
+                //1
+                case Keys.D1:
+                    port.Write(new byte[1] { 3 }, 0, 1);
+                    port.Write(new byte[1] { 0 }, 0, 1);
+                    break;
+                //2
+                case Keys.D2:
+                    port.Write(new byte[1] { 3 }, 0, 1);
+                    port.Write(new byte[1] { 1 }, 0, 1);
+                    break;
+                //3
+                case Keys.D3:
+                    port.Write(new byte[1] { 3 }, 0, 1);
+                    port.Write(new byte[1] { 2 }, 0, 1);
+                    break;
+                //4
+                case Keys.D4:
+                    port.Write(new byte[1] { 3 }, 0, 1);
+                    port.Write(new byte[1] { 3 }, 0, 1);
                     break;
             }
         }
