@@ -14,7 +14,7 @@ namespace WISH_client
 {
     public partial class Form1 : Form
     {
-        public SerialPort port;
+        public Bluetooth bt;
 
         public Form1()
         {
@@ -24,14 +24,7 @@ namespace WISH_client
             this.KeyDown += new KeyEventHandler(Form1_KeyDownEvent);
             this.KeyUp += new KeyEventHandler(Form1_KeyUpEvent);
 
-            // Instantiate the communications
-            // port with some basic settings
-            port = new SerialPort("COM3", 115200, Parity.None, 8, StopBits.One);
-
-            port.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-
-            //Öppna port
-            port.Open();
+            bt = new Bluetooth();
         }
 
         void Form1_KeyDownEvent(object sender, KeyEventArgs e)
@@ -40,58 +33,58 @@ namespace WISH_client
             {
                 //q
                 case Keys.Q:
-                    port.Write(new byte[1] { 1 }, 0, 1);
-                    port.Write(new byte[1] { 5 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 1 });
+                    bt.transmit_byte(new byte[1] { 5 });
                     break;
                 //w
                 case Keys.W:
-                    port.Write(new byte[1] { 1 }, 0, 1);
-                    port.Write(new byte[1] { 2 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 1 });
+                    bt.transmit_byte(new byte[1] { 2 });
                     break;
                 //e
                 case Keys.E:
-                    port.Write(new byte[1] { 1 }, 0, 1);
-                    port.Write(new byte[1] { 4 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 1 });
+                    bt.transmit_byte(new byte[1] { 4 });
                     break;
                 //a
                 case Keys.A:
-                    port.Write(new byte[1] { 1 }, 0, 1);
-                    port.Write(new byte[1] { 11 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 1 });
+                    bt.transmit_byte(new byte[1] { 11 });
                     break;
                 //s
                 case Keys.S:
-                    port.Write(new byte[1] { 1 }, 0, 1);
-                    port.Write(new byte[1] { 3 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 1 });
+                    bt.transmit_byte(new byte[1] { 3 });
                     break;
                 //d
                 case Keys.D:
-                    port.Write(new byte[1] { 1 }, 0, 1);
-                    port.Write(new byte[1] { 10 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 1 });
+                    bt.transmit_byte(new byte[1] { 10 });
                     break;
                 //Space
                 case Keys.Space:
-                    port.Write(new byte[1] { 1 }, 0, 1);
-                    port.Write(new byte[1] { 0 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 1 });
+                    bt.transmit_byte(new byte[1] { 0 });
                     break;
                 //1
                 case Keys.D1:
-                    port.Write(new byte[1] { 3 }, 0, 1);
-                    port.Write(new byte[1] { 0 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 3 });
+                    bt.transmit_byte(new byte[1] { 0 });
                     break;
                 //2
                 case Keys.D2:
-                    port.Write(new byte[1] { 3 }, 0, 1);
-                    port.Write(new byte[1] { 1 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 3 });
+                    bt.transmit_byte(new byte[1] { 1 });
                     break;
                 //3
                 case Keys.D3:
-                    port.Write(new byte[1] { 3 }, 0, 1);
-                    port.Write(new byte[1] { 2 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 3 });
+                    bt.transmit_byte(new byte[1] { 2 });
                     break;
                 //4
                 case Keys.D4:
-                    port.Write(new byte[1] { 3 }, 0, 1);
-                    port.Write(new byte[1] { 3 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 3 });
+                    bt.transmit_byte(new byte[1] { 3 });
                     break;
             }
         }
@@ -102,50 +95,38 @@ namespace WISH_client
             {
                 //q
                 case Keys.Q:
-                    port.Write(new byte[1] { 2 }, 0, 1);
-                    port.Write(new byte[1] { 5 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 2 });
+                    bt.transmit_byte(new byte[1] { 5 });
                     break;
                 //w
                 case Keys.W:
-                    port.Write(new byte[1] { 2 }, 0, 1);
-                    port.Write(new byte[1] { 2 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 2 });
+                    bt.transmit_byte(new byte[1] { 2 });
                     break;
                 //e
                 case Keys.E:
-                    port.Write(new byte[1] { 2 }, 0, 1);
-                    port.Write(new byte[1] { 4 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 2 });
+                    bt.transmit_byte(new byte[1] { 4 });
                     break;
                 //a
                 case Keys.A:
-                    port.Write(new byte[1] { 2 }, 0, 1);
-                    port.Write(new byte[1] { 11 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 2 });
+                    bt.transmit_byte(new byte[1] { 11 });
                     break;
                 //s
                 case Keys.S:
-                    port.Write(new byte[1] { 2 }, 0, 1);
-                    port.Write(new byte[1] { 3 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 2 });
+                    bt.transmit_byte(new byte[1] { 3 });
                     break;
                 //d
                 case Keys.D:
-                    port.Write(new byte[1] { 2 }, 0, 1);
-                    port.Write(new byte[1] { 10 }, 0, 1);
+                    bt.transmit_byte(new byte[1] { 2 });
+                    bt.transmit_byte(new byte[1] { 10 });
                     break;
             }
         }
 
-        //Tar emot data från seriell port.
-        private static void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
-        {
-            SerialPort sp = (SerialPort)sender;
-            int indata1 = sp.ReadByte();
-            int indata2 = sp.ReadByte();
-            //konverterar decimalt -> hexadecimalt.
-            string hex1 = string.Format("{0:x}", indata1);
-            string hex2 = string.Format("{0:x}", indata2);
-
-            //Skriver ut mottagen data i konsolen
-            Console.WriteLine(hex1 + " " + hex2);
-        }
+       
 
         private void Form1_Load(object sender, EventArgs e)
         {

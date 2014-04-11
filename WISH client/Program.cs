@@ -19,7 +19,7 @@ namespace WISH_client
             Form1 gui = new Form1();
             Application.Run(gui);
 
-            gui.port.Close();
+            gui.bt.port.Close();
         }
     }
 }
