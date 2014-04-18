@@ -16,10 +16,10 @@ namespace WISH_client
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Form1 gui = new Form1();
+            MainProgram gui = new MainProgram();
             Application.Run(gui);
 
-            gui.bt.port.Close();
+            gui.CloseConnection();
         }
     }
 }
