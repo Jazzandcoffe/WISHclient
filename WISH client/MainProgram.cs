@@ -18,6 +18,9 @@ namespace WISH_client
     /// </summary>
     public partial class MainProgram : Form
     {
+        /// <summary>
+        /// Klass som krävs för att på ett smidigt sätt fylla comboboxen för players på Xboxkontrollen.
+        /// </summary>
         private class Players
         {
             public string Name { get; set; }
@@ -32,6 +35,7 @@ namespace WISH_client
         private List<int[]> _lastData = new List<int[]>(); //Senaste datan från bluetooth ligger i denna lista. Vid varje tick kan denna itereras igenom. 
         private List<Players> _playerList = new List<Players>();
         private Xboxkontroll _player;
+        List<int[]> temp = new List<int[]>();
 
         /// <summary>
         /// Konstruktorn för klassen.
@@ -43,7 +47,7 @@ namespace WISH_client
             FillControlCommandsDictionary();
             FillControlDecisionsDictionary();
             FillPlayersComboBox();
-            initTimer1(ref _timer1, 1);
+            initTimer1(ref _timer1, 100);
 
             //this.KeyPreview = true;
             //this.KeyDown += new KeyEventHandler(Form1_KeyDownEvent);
@@ -57,6 +61,10 @@ namespace WISH_client
         {
             UpdateComPorts();
             lblBaudRate.Text = "115200";
+            lblDistanceMid.Text = String.Empty;
+            lblDistLeft.Text = String.Empty;
+            lblDistRight.Text = String.Empty;
+            lblSpeedMid.Text = String.Empty;
             btnComStart.Enabled = true;
             btnComStop.Enabled = false; 
         }
@@ -132,10 +140,24 @@ namespace WISH_client
         /// </summary>
         private void UpdateGUIwithListData()
         {
-            foreach (int[] element in _lastData)
-            { 
-                //Kod här, element är varje "paket" som ska uppdatera GUI någonstanns
-                //index 0 i element är typen, index 1 är datan. 
+            //Try-catch då btDataReceived använder samma variabel. Fel kan därför inträffa.
+            //Om så är fallet uppdateras inte sensordatan denna körning.
+            try
+            { temp = new List<int[]>(_lastData); }
+            catch
+            { return; }
+            foreach(int[] element in temp)
+            {
+                //Provisorisk lösning för att få ut sensordata i GUI.
+                //Bättre implementering möjlig.
+                if (element[0] == 5)
+                    lblDistanceMid.Text = element[1].ToString();
+                else if (element[0] == 6)
+                    lblSpeedMid.Text = element[1].ToString();
+                else if (element[0] == 7)
+                    lblDistRight.Text = element[1].ToString();
+                else if (element[0] == 8)
+                    lblDistLeft.Text = element[1].ToString();
             }
         }
 
@@ -151,10 +173,10 @@ namespace WISH_client
 
         private int ConvertDataToInt(byte type, byte data)
         {
-            if (type != 5 || type != 6)
-                return Convert.ToInt32(data);
+            if (type != 5 && type != 6)
+            { return Convert.ToInt32(data); }
             else
-                return Convert.ToInt32(unchecked((SByte)data));
+            { return Convert.ToInt32(unchecked((SByte)data)); }
         }
 
         /// <summary>
@@ -245,6 +267,7 @@ namespace WISH_client
 
         /// <summary>
         /// Läser av Xboxkontrollen och sänder detta till roboten.
+        /// Lämpligt att byta namn på metoden vid full implementering. 
         /// </summary>
         private void SendCommands()
         {
@@ -291,6 +314,7 @@ namespace WISH_client
         {
             _player.TickUpdate();
             SendCommands();
+            UpdateGUIwithListData();
         }
 
         /// <summary>
@@ -314,7 +338,6 @@ namespace WISH_client
                 byte type = Args.btData[i];
                 int data = ConvertDataToInt(type, Args.btData[i + 1]);
                 _lastData.Add(new int[2] { Convert.ToInt32(type), data });
-                Console.WriteLine("Weee tar mig hit");
             }
         }
 

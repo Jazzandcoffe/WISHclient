@@ -41,8 +41,17 @@
             this.btnAutomatic = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.cmbPlayers = new System.Windows.Forms.ComboBox();
+            this.lblDistanceMid = new System.Windows.Forms.Label();
+            this.lblSpeedMid = new System.Windows.Forms.Label();
+            this.lblDistRight = new System.Windows.Forms.Label();
+            this.lblDistLeft = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmbComPorts
@@ -219,6 +228,14 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.label6);
+            this.groupBox4.Controls.Add(this.label5);
+            this.groupBox4.Controls.Add(this.label4);
+            this.groupBox4.Controls.Add(this.lblDistLeft);
+            this.groupBox4.Controls.Add(this.lblDistRight);
+            this.groupBox4.Controls.Add(this.lblSpeedMid);
+            this.groupBox4.Controls.Add(this.lblDistanceMid);
             this.groupBox4.Location = new System.Drawing.Point(18, 23);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(646, 303);
@@ -233,6 +250,82 @@
             this.cmbPlayers.Name = "cmbPlayers";
             this.cmbPlayers.Size = new System.Drawing.Size(117, 21);
             this.cmbPlayers.TabIndex = 8;
+            // 
+            // lblDistanceMid
+            // 
+            this.lblDistanceMid.AutoSize = true;
+            this.lblDistanceMid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblDistanceMid.Location = new System.Drawing.Point(333, 68);
+            this.lblDistanceMid.Name = "lblDistanceMid";
+            this.lblDistanceMid.Size = new System.Drawing.Size(37, 15);
+            this.lblDistanceMid.TabIndex = 0;
+            this.lblDistanceMid.Text = "label4";
+            // 
+            // lblSpeedMid
+            // 
+            this.lblSpeedMid.AutoSize = true;
+            this.lblSpeedMid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSpeedMid.Location = new System.Drawing.Point(333, 99);
+            this.lblSpeedMid.Name = "lblSpeedMid";
+            this.lblSpeedMid.Size = new System.Drawing.Size(37, 15);
+            this.lblSpeedMid.TabIndex = 1;
+            this.lblSpeedMid.Text = "label4";
+            // 
+            // lblDistRight
+            // 
+            this.lblDistRight.AutoSize = true;
+            this.lblDistRight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblDistRight.Location = new System.Drawing.Point(333, 135);
+            this.lblDistRight.Name = "lblDistRight";
+            this.lblDistRight.Size = new System.Drawing.Size(37, 15);
+            this.lblDistRight.TabIndex = 2;
+            this.lblDistRight.Text = "label4";
+            // 
+            // lblDistLeft
+            // 
+            this.lblDistLeft.AutoSize = true;
+            this.lblDistLeft.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblDistLeft.Location = new System.Drawing.Point(333, 162);
+            this.lblDistLeft.Name = "lblDistLeft";
+            this.lblDistLeft.Size = new System.Drawing.Size(37, 15);
+            this.lblDistLeft.TabIndex = 3;
+            this.lblDistLeft.Text = "label4";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(176, 68);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(120, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Avvikelse från mittlinjen:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(176, 99);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(122, 13);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Derivatan av avvikelsen";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(178, 135);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(76, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Avstånd höger";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(178, 164);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(84, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Avstånd vänster";
             // 
             // MainProgram
             // 
@@ -253,6 +346,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -279,6 +374,14 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnUpdateSpeed;
         private System.Windows.Forms.ComboBox cmbPlayers;
+        private System.Windows.Forms.Label lblDistLeft;
+        private System.Windows.Forms.Label lblDistRight;
+        private System.Windows.Forms.Label lblSpeedMid;
+        private System.Windows.Forms.Label lblDistanceMid;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
     }
 }
 
