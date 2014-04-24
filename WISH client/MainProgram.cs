@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using System.IO.Ports;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace WISH_client
 {
@@ -17,12 +18,20 @@ namespace WISH_client
     /// </summary>
     public partial class MainProgram : Form
     {
+        private class Players
+        {
+            public string Name { get; set; }
+            public PlayerIndex Player { get; set; }
+        }
+
         private Bluetooth _bt; //objektet som sköter kommunikationen via bluetooth. 
         private Dictionary<string, byte[]> _ctrlCommands = new Dictionary<string,byte[]>(); //en dictionary som tolkar en sträng av ett kommando till en byte-array.
         private Dictionary<int, string> _ctrlDecisions = new Dictionary<int,string>(); //en dictionary där en textsträng till typen 5 styrbeslut enkelt kan hämtas. 
         private Timer _timer1; //Timern som är tänkt ticka för kontroll över vilka knappar användaren trycker ner. 
         private Timer _timer2; //Timern som GUI:t är tänkt att uppdateras med. 
         private List<int[]> _lastData = new List<int[]>(); //Senaste datan från bluetooth ligger i denna lista. Vid varje tick kan denna itereras igenom. 
+        private List<Players> _playerList = new List<Players>();
+        private Xboxkontroll _player;
 
         /// <summary>
         /// Konstruktorn för klassen.
@@ -33,11 +42,12 @@ namespace WISH_client
             InitializeGUI();
             FillControlCommandsDictionary();
             FillControlDecisionsDictionary();
-            initTimer1(ref _timer1, 30);
+            FillPlayersComboBox();
+            initTimer1(ref _timer1, 1);
 
-            this.KeyPreview = true;
-            this.KeyDown += new KeyEventHandler(Form1_KeyDownEvent);
-            this.KeyUp += new KeyEventHandler(Form1_KeyUpEvent);
+            //this.KeyPreview = true;
+            //this.KeyDown += new KeyEventHandler(Form1_KeyDownEvent);
+            //this.KeyUp += new KeyEventHandler(Form1_KeyUpEvent);
         }
 
         /// <summary>
@@ -58,6 +68,19 @@ namespace WISH_client
         {
             cmbComPorts.Items.Clear();
             cmbComPorts.Items.AddRange(SerialPort.GetPortNames());
+        }
+
+        /// <summary>
+        /// Fyller combobox med spelarna. 
+        /// </summary>
+        private void FillPlayersComboBox()
+        {
+            _playerList.Add(new Players { Name = "1", Player = PlayerIndex.One });
+            _playerList.Add(new Players { Name = "2", Player = PlayerIndex.Two });
+            _playerList.Add(new Players { Name = "3", Player = PlayerIndex.Three });
+            _playerList.Add(new Players { Name = "4", Player = PlayerIndex.Four });
+            cmbPlayers.DataSource = _playerList;
+            cmbPlayers.DisplayMember = "Name";
         }
 
         /// <summary>
@@ -206,10 +229,39 @@ namespace WISH_client
 
             btnComStart.Enabled = false;
             btnComStop.Enabled = true;
+            PlayerIndex temp = ((Players)cmbPlayers.SelectedItem).Player;
+
+            if (GamePad.GetState(temp).IsConnected)
+            {
+                _player = new Xboxkontroll(temp);
+            }
+            else
+            { MessageBox.Show("Kan inte få kontakt med den valda kontrollen", "ERROR!", MessageBoxButtons.OK); }
 
             OpenConnection(cmbComPorts.Text);
             _timer1.Start();
             
+        }
+
+        /// <summary>
+        /// Läser av Xboxkontrollen och sänder detta till roboten.
+        /// </summary>
+        private void SendCommands()
+        {
+            if (_player.APressedDown())
+            {
+                _bt.transmit_byte(new byte[2] { 3, 0 });
+            }
+            else
+            {
+                byte forward = unchecked((byte)_player.GetLeftY());
+                byte sideways = unchecked((byte)_player.GetLeftX());
+                byte rotation = unchecked((byte)_player.GetRightX());
+
+                _bt.transmit_byte(new byte[2] { 0, forward });
+                _bt.transmit_byte(new byte[2] { 1, sideways });
+                _bt.transmit_byte(new byte[2] { 2, rotation });
+            }
         }
 
         /// <summary>
@@ -235,15 +287,16 @@ namespace WISH_client
         /// <summary>
         /// Eventet då Timer1 når sitt inställda värde för tick. 
         /// </summary>
-        private static void Timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
-
+            _player.TickUpdate();
+            SendCommands();
         }
 
         /// <summary>
         /// Eventet då Timer1 når sitt inställda värde för tick. 
         /// </summary>
-        private static void Timer2_Tick(object sender, EventArgs e)
+        private void Timer2_Tick(object sender, EventArgs e)
         { 
             
         }
@@ -273,106 +326,106 @@ namespace WISH_client
         /// Måste kollas upp med styrgruppen om styrmodulen klarar av att få ett gå framåt kommando
         /// när den redan går, innan implementation. 
         /// </summary>
-        void Form1_KeyDownEvent(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.Q:
-                    _bt.transmit_byte(_ctrlCommands["Rotate left"]);
-                    break;
+        //void Form1_KeyDownEvent(object sender, KeyEventArgs e)
+        //{
+        //    switch (e.KeyCode)
+        //    {
+        //        case Keys.Q:
+        //            _bt.transmit_byte(_ctrlCommands["Rotate left"]);
+        //            break;
 
-                case Keys.W:
-                    _bt.transmit_byte(_ctrlCommands["Forward"]);
-                    break;
+        //        case Keys.W:
+        //            _bt.transmit_byte(_ctrlCommands["Forward"]);
+        //            break;
 
-                case Keys.E:
-                    _bt.transmit_byte(_ctrlCommands["Rotate right"]);
-                    break;
+        //        case Keys.E:
+        //            _bt.transmit_byte(_ctrlCommands["Rotate right"]);
+        //            break;
 
-                case Keys.A:
-                    _bt.transmit_byte(_ctrlCommands["Left"]);
-                    break;
+        //        case Keys.A:
+        //            _bt.transmit_byte(_ctrlCommands["Left"]);
+        //            break;
 
-                case Keys.S:
-                    _bt.transmit_byte(_ctrlCommands["Back"]);
-                    break;
+        //        case Keys.S:
+        //            _bt.transmit_byte(_ctrlCommands["Back"]);
+        //            break;
 
-                case Keys.D:
-                    _bt.transmit_byte(_ctrlCommands["Right"]);
-                    break;
+        //        case Keys.D:
+        //            _bt.transmit_byte(_ctrlCommands["Right"]);
+        //            break;
 
-                case Keys.Space:
-                    _bt.transmit_byte(_ctrlCommands["Reset"]);
-                    break;
+        //        case Keys.Space:
+        //            _bt.transmit_byte(_ctrlCommands["Reset"]);
+        //            break;
 
-                ///<summary>
-                ///Knapparna D1, D2, D3, D4 ska implementeras i GUI där man kan välja hastighet
-                ///Låter därför denna koden finnas kvar. 
-                ///</summary>
-                //1
-                case Keys.D1:
-                    _bt.transmit_byte(new byte[1] { 3 });
-                    _bt.transmit_byte(new byte[1] { 0 });
-                    break;
-                //2
-                case Keys.D2:
-                    _bt.transmit_byte(new byte[1] { 3 });
-                    _bt.transmit_byte(new byte[1] { 1 });
-                    break;
-                //3
-                case Keys.D3:
-                    _bt.transmit_byte(new byte[1] { 3 });
-                    _bt.transmit_byte(new byte[1] { 2 });
-                    break;
-                //4
-                case Keys.D4:
-                    _bt.transmit_byte(new byte[1] { 3 });
-                    _bt.transmit_byte(new byte[1] { 3 });
-                    break;
-            }
-        }
+        //        ///<summary>
+        //        ///Knapparna D1, D2, D3, D4 ska implementeras i GUI där man kan välja hastighet
+        //        ///Låter därför denna koden finnas kvar. 
+        //        ///</summary>
+        //        //1
+        //        case Keys.D1:
+        //            _bt.transmit_byte(new byte[1] { 3 });
+        //            _bt.transmit_byte(new byte[1] { 0 });
+        //            break;
+        //        //2
+        //        case Keys.D2:
+        //            _bt.transmit_byte(new byte[1] { 3 });
+        //            _bt.transmit_byte(new byte[1] { 1 });
+        //            break;
+        //        //3
+        //        case Keys.D3:
+        //            _bt.transmit_byte(new byte[1] { 3 });
+        //            _bt.transmit_byte(new byte[1] { 2 });
+        //            break;
+        //        //4
+        //        case Keys.D4:
+        //            _bt.transmit_byte(new byte[1] { 3 });
+        //            _bt.transmit_byte(new byte[1] { 3 });
+        //            break;
+        //    }
+        //}
 
         /// <summary>
         /// se kommentar på KeyDownEvent
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void Form1_KeyUpEvent(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                //q
-                case Keys.Q:
-                    _bt.transmit_byte(new byte[1] { 2 });
-                    _bt.transmit_byte(new byte[1] { 5 });
-                    break;
-                //w
-                case Keys.W:
-                    _bt.transmit_byte(new byte[1] { 2 });
-                    _bt.transmit_byte(new byte[1] { 2 });
-                    break;
-                //e
-                case Keys.E:
-                    _bt.transmit_byte(new byte[1] { 2 });
-                    _bt.transmit_byte(new byte[1] { 4 });
-                    break;
-                //a
-                case Keys.A:
-                    _bt.transmit_byte(new byte[1] { 2 });
-                    _bt.transmit_byte(new byte[1] { 11 });
-                    break;
-                //s
-                case Keys.S:
-                    _bt.transmit_byte(new byte[1] { 2 });
-                    _bt.transmit_byte(new byte[1] { 3 });
-                    break;
-                //d
-                case Keys.D:
-                    _bt.transmit_byte(new byte[1] { 2 });
-                    _bt.transmit_byte(new byte[1] { 10 });
-                    break;
-            }
-        }
+        //void Form1_KeyUpEvent(object sender, KeyEventArgs e)
+        //{
+        //    switch (e.KeyCode)
+        //    {
+        //        //q
+        //        case Keys.Q:
+        //            _bt.transmit_byte(new byte[1] { 2 });
+        //            _bt.transmit_byte(new byte[1] { 5 });
+        //            break;
+        //        //w
+        //        case Keys.W:
+        //            _bt.transmit_byte(new byte[1] { 2 });
+        //            _bt.transmit_byte(new byte[1] { 2 });
+        //            break;
+        //        //e
+        //        case Keys.E:
+        //            _bt.transmit_byte(new byte[1] { 2 });
+        //            _bt.transmit_byte(new byte[1] { 4 });
+        //            break;
+        //        //a
+        //        case Keys.A:
+        //            _bt.transmit_byte(new byte[1] { 2 });
+        //            _bt.transmit_byte(new byte[1] { 11 });
+        //            break;
+        //        //s
+        //        case Keys.S:
+        //            _bt.transmit_byte(new byte[1] { 2 });
+        //            _bt.transmit_byte(new byte[1] { 3 });
+        //            break;
+        //        //d
+        //        case Keys.D:
+        //            _bt.transmit_byte(new byte[1] { 2 });
+        //            _bt.transmit_byte(new byte[1] { 10 });
+        //            break;
+        //    }
+        //}
 
 
         private void MainForm_Load(object sender, EventArgs e)

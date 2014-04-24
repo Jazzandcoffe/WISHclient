@@ -33,13 +33,14 @@
             this.txtOutput = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnAutomatic = new System.Windows.Forms.Button();
-            this.btnManual = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtSpeed = new System.Windows.Forms.TextBox();
             this.btnUpdateSpeed = new System.Windows.Forms.Button();
+            this.txtSpeed = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnManual = new System.Windows.Forms.Button();
+            this.btnAutomatic = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.cmbPlayers = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
@@ -163,58 +164,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Styrning";
             // 
-            // btnAutomatic
-            // 
-            this.btnAutomatic.Location = new System.Drawing.Point(64, 200);
-            this.btnAutomatic.Name = "btnAutomatic";
-            this.btnAutomatic.Size = new System.Drawing.Size(155, 40);
-            this.btnAutomatic.TabIndex = 0;
-            this.btnAutomatic.Text = "Autonomt";
-            this.btnAutomatic.UseVisualStyleBackColor = true;
-            // 
-            // btnManual
-            // 
-            this.btnManual.Location = new System.Drawing.Point(285, 200);
-            this.btnManual.Name = "btnManual";
-            this.btnManual.Size = new System.Drawing.Size(155, 40);
-            this.btnManual.TabIndex = 1;
-            this.btnManual.Text = "Manuellt";
-            this.btnManual.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(80, 67);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(280, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Kanske lite info här om vilka knappar som används till vad";
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Location = new System.Drawing.Point(18, 23);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(646, 303);
-            this.groupBox4.TabIndex = 7;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Diverse sensorinformation";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 166);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(82, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Hastighet (1-4): ";
-            // 
-            // txtSpeed
-            // 
-            this.txtSpeed.Location = new System.Drawing.Point(100, 163);
-            this.txtSpeed.Name = "txtSpeed";
-            this.txtSpeed.Size = new System.Drawing.Size(58, 20);
-            this.txtSpeed.TabIndex = 4;
-            // 
             // btnUpdateSpeed
             // 
             this.btnUpdateSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -225,12 +174,73 @@
             this.btnUpdateSpeed.Text = "Uppdatera";
             this.btnUpdateSpeed.UseVisualStyleBackColor = true;
             // 
+            // txtSpeed
+            // 
+            this.txtSpeed.Location = new System.Drawing.Point(100, 163);
+            this.txtSpeed.Name = "txtSpeed";
+            this.txtSpeed.Size = new System.Drawing.Size(58, 20);
+            this.txtSpeed.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(18, 166);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(82, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Hastighet (1-4): ";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(80, 67);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(280, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Kanske lite info här om vilka knappar som används till vad";
+            // 
+            // btnManual
+            // 
+            this.btnManual.Location = new System.Drawing.Point(285, 200);
+            this.btnManual.Name = "btnManual";
+            this.btnManual.Size = new System.Drawing.Size(155, 40);
+            this.btnManual.TabIndex = 1;
+            this.btnManual.Text = "Manuellt";
+            this.btnManual.UseVisualStyleBackColor = true;
+            // 
+            // btnAutomatic
+            // 
+            this.btnAutomatic.Location = new System.Drawing.Point(64, 200);
+            this.btnAutomatic.Name = "btnAutomatic";
+            this.btnAutomatic.Size = new System.Drawing.Size(155, 40);
+            this.btnAutomatic.TabIndex = 0;
+            this.btnAutomatic.Text = "Autonomt";
+            this.btnAutomatic.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Location = new System.Drawing.Point(18, 23);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(646, 303);
+            this.groupBox4.TabIndex = 7;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Diverse sensorinformation";
+            // 
+            // cmbPlayers
+            // 
+            this.cmbPlayers.FormattingEnabled = true;
+            this.cmbPlayers.Location = new System.Drawing.Point(703, 223);
+            this.cmbPlayers.Name = "cmbPlayers";
+            this.cmbPlayers.Size = new System.Drawing.Size(117, 21);
+            this.cmbPlayers.TabIndex = 8;
+            // 
             // MainProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1225, 593);
+            this.Controls.Add(this.cmbPlayers);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.txtOutput);
@@ -268,6 +278,7 @@
         private System.Windows.Forms.TextBox txtSpeed;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnUpdateSpeed;
+        private System.Windows.Forms.ComboBox cmbPlayers;
     }
 }
 

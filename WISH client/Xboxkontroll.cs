@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace XBOXcontrol
+namespace WISH_client
 {
     class Xboxkontroll
     {
