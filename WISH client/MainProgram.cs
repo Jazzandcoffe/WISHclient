@@ -35,6 +35,7 @@ namespace WISH_client
         private List<int[]> _lastData = new List<int[]>(); //Senaste datan från bluetooth ligger i denna lista. Vid varje tick kan denna itereras igenom. 
         private List<Players> _playerList = new List<Players>();
         private Xboxkontroll _player;
+        public static object locker = new object();   //Låsobjekt, för att ingen information ska visas vid låsning av access till _lastData.
         List<int[]> temp = new List<int[]>();
 
         /// <summary>
@@ -140,12 +141,13 @@ namespace WISH_client
         /// </summary>
         private void UpdateGUIwithListData()
         {
-            //Try-catch då btDataReceived använder samma variabel. Fel kan därför inträffa.
-            //Om så är fallet uppdateras inte sensordatan denna körning.
-            try
-            { temp = new List<int[]>(_lastData); }
-            catch
-            { return; }
+            //Om detta fungerar så låser den _lastData så att andra trådar måste vänta
+            //tills kopieringen är klar. 
+            lock (locker)
+            {
+                temp = new List<int[]>(_lastData);
+            }
+
             foreach(int[] element in temp)
             {
                 //Provisorisk lösning för att få ut sensordata i GUI.
@@ -332,12 +334,17 @@ namespace WISH_client
         /// <param name="Args"></param>
         void bt_DataReceived(object sender, BtDataReceivedEventArgs Args)
         {
-            _lastData.Clear();
-            for (int i = 0; i < Args.btData.Length - 1; i = i + 2)
+            //Om detta fungerar så låser den locker under tiden eventet körs.
+            //Samma lås finns i UpdateGUIwithListData() då _lastData ska accessas. 
+            lock (locker)
             {
-                byte type = Args.btData[i];
-                int data = ConvertDataToInt(type, Args.btData[i + 1]);
-                _lastData.Add(new int[2] { Convert.ToInt32(type), data });
+                _lastData.Clear();
+                for (int i = 0; i < Args.btData.Length - 1; i = i + 2)
+                {
+                    byte type = Args.btData[i];
+                    int data = ConvertDataToInt(type, Args.btData[i + 1]);
+                    _lastData.Add(new int[2] { Convert.ToInt32(type), data });
+                }
             }
         }
 
