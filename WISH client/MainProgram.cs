@@ -20,8 +20,8 @@ namespace WISH_client
         private Bluetooth _bt; //objektet som sköter kommunikationen via bluetooth. 
         private Dictionary<string, byte[]> _ctrlCommands = new Dictionary<string,byte[]>(); //en dictionary som tolkar en sträng av ett kommando till en byte-array.
         private Dictionary<int, string> _ctrlDecisions = new Dictionary<int,string>(); //en dictionary där en textsträng till typen 5 styrbeslut enkelt kan hämtas. 
-        private Timer _tick30ms; //Timern som är tänkt ticka för kontroll över vilka knappar användaren trycker ner. 
-        private Timer _tickGUI; //Timern som GUI:t är tänkt att uppdateras med. 
+        private Timer _timer1; //Timern som är tänkt ticka för kontroll över vilka knappar användaren trycker ner. 
+        private Timer _timer2; //Timern som GUI:t är tänkt att uppdateras med. 
         private List<int[]> _lastData = new List<int[]>(); //Senaste datan från bluetooth ligger i denna lista. Vid varje tick kan denna itereras igenom. 
 
         /// <summary>
@@ -33,10 +33,11 @@ namespace WISH_client
             InitializeGUI();
             FillControlCommandsDictionary();
             FillControlDecisionsDictionary();
+            initTimer1(ref _timer1, 30);
 
-            //this.KeyPreview = true;
-            //this.KeyDown += new KeyEventHandler(Form1_KeyDownEvent);
-            //this.KeyUp += new KeyEventHandler(Form1_KeyUpEvent);
+            this.KeyPreview = true;
+            this.KeyDown += new KeyEventHandler(Form1_KeyDownEvent);
+            this.KeyUp += new KeyEventHandler(Form1_KeyUpEvent);
         }
 
         /// <summary>
@@ -174,9 +175,9 @@ namespace WISH_client
         /// <param name="tickInMs">Antalet millisekunder varje tick ska vara</param>
         private void initTimer1(ref Timer timer, int tickInMs)
         {
+            timer = new Timer();
             timer.Tick += new EventHandler(Timer1_Tick);
             timer.Interval = tickInMs;
-            timer.Start();
         }
 
         /// <summary>
@@ -186,6 +187,7 @@ namespace WISH_client
         /// <param name="tickInMs"></param>
         private void initTimer2(ref Timer timer, int tickInMs)
         {
+            timer = new Timer();
             timer.Tick += new EventHandler(Timer2_Tick);
             timer.Interval = tickInMs;
             timer.Start();
@@ -206,6 +208,8 @@ namespace WISH_client
             btnComStop.Enabled = true;
 
             OpenConnection(cmbComPorts.Text);
+            _timer1.Start();
+            
         }
 
         /// <summary>
@@ -224,6 +228,7 @@ namespace WISH_client
         {
             btnComStop.Enabled = false;
             btnComStart.Enabled = true;
+            _timer1.Stop();
             CloseConnection();
         }
 
@@ -256,6 +261,7 @@ namespace WISH_client
                 byte type = Args.btData[i];
                 int data = ConvertDataToInt(type, Args.btData[i + 1]);
                 _lastData.Add(new int[2] { Convert.ToInt32(type), data });
+                Console.WriteLine("Weee tar mig hit");
             }
         }
 
