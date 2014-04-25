@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using System.IO.Ports;
 using Microsoft.Xna.Framework;
@@ -30,13 +31,14 @@ namespace WISH_client
         private Bluetooth _bt; //objektet som sköter kommunikationen via bluetooth. 
         private Dictionary<string, byte[]> _ctrlCommands = new Dictionary<string,byte[]>(); //en dictionary som tolkar en sträng av ett kommando till en byte-array.
         private Dictionary<int, string> _ctrlDecisions = new Dictionary<int,string>(); //en dictionary där en textsträng till typen 5 styrbeslut enkelt kan hämtas. 
-        private Timer _timer1; //Timern som är tänkt ticka för kontroll över vilka knappar användaren trycker ner. 
-        private Timer _timer2; //Timern som GUI:t är tänkt att uppdateras med. 
+        private System.Windows.Forms.Timer _timer1; //Timern som är tänkt ticka för kontroll över vilka knappar användaren trycker ner. 
+        private System.Windows.Forms.Timer _timer2; //Timern som GUI:t är tänkt att uppdateras med. 
         private List<int[]> _lastData = new List<int[]>(); //Senaste datan från bluetooth ligger i denna lista. Vid varje tick kan denna itereras igenom. 
         private List<Players> _playerList = new List<Players>();
         private Xboxkontroll _player;
         public static object locker = new object();   //Låsobjekt, för att ingen information ska visas vid låsning av access till _lastData.
         List<int[]> temp = new List<int[]>();
+        int[] dataOfTypes = new int[4];
 
         /// <summary>
         /// Konstruktorn för klassen.
@@ -49,6 +51,7 @@ namespace WISH_client
             FillControlDecisionsDictionary();
             FillPlayersComboBox();
             initTimer1(ref _timer1, 100);
+            initTimer2(ref _timer2, 50);
 
             //this.KeyPreview = true;
             //this.KeyDown += new KeyEventHandler(Form1_KeyDownEvent);
@@ -145,22 +148,20 @@ namespace WISH_client
             //tills kopieringen är klar. 
             lock (locker)
             {
-                temp = new List<int[]>(_lastData);
+               temp = new List<int[]>(_lastData);
             }
-
-            foreach(int[] element in temp)
+    
+            foreach (int[] element in temp) 
             {
                 //Provisorisk lösning för att få ut sensordata i GUI.
                 //Bättre implementering möjlig.
-                if (element[0] == 5)
-                    lblDistanceMid.Text = element[1].ToString();
-                else if (element[0] == 6)
-                    lblSpeedMid.Text = element[1].ToString();
-                else if (element[0] == 7)
-                    lblDistRight.Text = element[1].ToString();
-                else if (element[0] == 8)
-                    lblDistLeft.Text = element[1].ToString();
+                if (element[0] > 4 && element[0] < 9)
+                    dataOfTypes[element[0]-5] = element[1];
             }
+            lblDistanceMid.Text = dataOfTypes[0].ToString();
+            lblSpeedMid.Text = dataOfTypes[1].ToString();
+            lblDistRight.Text = dataOfTypes[2].ToString();
+            lblDistLeft.Text = dataOfTypes[3].ToString();
         }
 
         /// <summary>
@@ -220,9 +221,9 @@ namespace WISH_client
         /// </summary>
         /// <param name="timer">referens till timern som ska vara Timer1</param>
         /// <param name="tickInMs">Antalet millisekunder varje tick ska vara</param>
-        private void initTimer1(ref Timer timer, int tickInMs)
+        private void initTimer1(ref System.Windows.Forms.Timer timer, int tickInMs)
         {
-            timer = new Timer();
+            timer = new System.Windows.Forms.Timer();
             timer.Tick += new EventHandler(Timer1_Tick);
             timer.Interval = tickInMs;
         }
@@ -232,12 +233,11 @@ namespace WISH_client
         /// </summary>
         /// <param name="timer"></param>
         /// <param name="tickInMs"></param>
-        private void initTimer2(ref Timer timer, int tickInMs)
+        private void initTimer2(ref System.Windows.Forms.Timer timer, int tickInMs)
         {
-            timer = new Timer();
+            timer = new System.Windows.Forms.Timer();
             timer.Tick += new EventHandler(Timer2_Tick);
             timer.Interval = tickInMs;
-            timer.Start();
         }
 
         /// <summary>
@@ -264,6 +264,7 @@ namespace WISH_client
 
             OpenConnection(cmbComPorts.Text);
             _timer1.Start();
+            _timer2.Start();
             
         }
 
@@ -273,19 +274,20 @@ namespace WISH_client
         /// </summary>
         private void SendCommands()
         {
-            if (_player.APressedDown())
+            byte[] dataToSend = new byte[6];
+            if (!_player.APressedDown())
             {
-                _bt.transmit_byte(new byte[2] { 3, 0 });
+                dataToSend[0] = 2;
+                dataToSend[2] = 1;
+                dataToSend[4] = 0;
+                dataToSend[5] = unchecked((byte)_player.GetLeftY());
+                dataToSend[3] = unchecked((byte)_player.GetLeftX());
+                dataToSend[1] = unchecked((byte)_player.GetRightX());
+                _bt.transmit_byte(dataToSend);
             }
             else
             {
-                byte forward = unchecked((byte)_player.GetLeftY());
-                byte sideways = unchecked((byte)_player.GetLeftX());
-                byte rotation = unchecked((byte)_player.GetRightX());
-
-                _bt.transmit_byte(new byte[2] { 0, forward });
-                _bt.transmit_byte(new byte[2] { 1, sideways });
-                _bt.transmit_byte(new byte[2] { 2, rotation });
+                _bt.transmit_byte(new byte[2] { 3, 0 });
             }
         }
 
@@ -306,6 +308,7 @@ namespace WISH_client
             btnComStop.Enabled = false;
             btnComStart.Enabled = true;
             _timer1.Stop();
+            _timer2.Stop();
             CloseConnection();
         }
 
@@ -314,8 +317,6 @@ namespace WISH_client
         /// </summary>
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            _player.TickUpdate();
-            SendCommands();
             UpdateGUIwithListData();
         }
 
@@ -323,8 +324,9 @@ namespace WISH_client
         /// Eventet då Timer1 når sitt inställda värde för tick. 
         /// </summary>
         private void Timer2_Tick(object sender, EventArgs e)
-        { 
-            
+        {
+            _player.TickUpdate();
+            SendCommands();
         }
 
         /// <summary>

@@ -90,10 +90,11 @@ namespace WISH_client
         /// <param name="data">En byte array med datan som ska skickas.</param>
         public void transmit_byte(byte[] data)
         {
-            foreach (byte info in data)
-            {
-                _port.Write(new byte[] {info}, 0, 1);
-            }
+
+            //foreach (byte info in data)
+            //{
+                _port.Write(data, 0, data.Length);
+            //}
         }
 
     }
