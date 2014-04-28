@@ -50,8 +50,8 @@ namespace WISH_client
             FillControlCommandsDictionary();
             FillControlDecisionsDictionary();
             FillPlayersComboBox();
-            initTimer1(ref _timer1, 100);
-            initTimer2(ref _timer2, 50);
+            initTimer1(ref _timer1, 120);
+            initTimer2(ref _timer2, 200);
 
             //this.KeyPreview = true;
             //this.KeyDown += new KeyEventHandler(Form1_KeyDownEvent);
@@ -103,7 +103,7 @@ namespace WISH_client
         {
             _ctrlCommands.Add("Rotate left", new byte[2] { 1, 5 });
             _ctrlCommands.Add("Rotate right", new byte[2] { 1, 4 });
-            _ctrlCommands.Add("Forward", new byte[2] { 1, 2 });
+            _ctrlCommands.Add("Forward", new byte[2] { 1, 5 });
             _ctrlCommands.Add("Back", new byte[2] { 1, 3 });
             _ctrlCommands.Add("Left", new byte[2] { 1, 11 });
             _ctrlCommands.Add("Right", new byte[2] { 1, 10 });
@@ -277,17 +277,17 @@ namespace WISH_client
             byte[] dataToSend = new byte[6];
             if (!_player.APressedDown())
             {
-                dataToSend[0] = 2;
-                dataToSend[2] = 1;
-                dataToSend[4] = 0;
-                dataToSend[5] = unchecked((byte)_player.GetLeftY());
+                dataToSend[0] = 1;
+                dataToSend[2] = 2;
+                dataToSend[4] = 3;
+                dataToSend[1] = unchecked((byte)_player.GetLeftY());
                 dataToSend[3] = unchecked((byte)_player.GetLeftX());
-                dataToSend[1] = unchecked((byte)_player.GetRightX());
+                dataToSend[5] = unchecked((byte)_player.GetRightX());
                 _bt.transmit_byte(dataToSend);
             }
             else
             {
-                _bt.transmit_byte(new byte[2] { 3, 0 });
+                _bt.transmit_byte(new byte[2] { 4, 0 });
             }
         }
 
@@ -327,6 +327,7 @@ namespace WISH_client
         {
             _player.TickUpdate();
             SendCommands();
+            //_bt.transmit_byte(new byte[] { 1, 10 });
         }
 
         /// <summary>
