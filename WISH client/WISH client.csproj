@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bluetooth.cs" />
+    <Compile Include="DictWithCharts.cs" />
     <Compile Include="SensorDataGraph.cs" />
     <Compile Include="MainProgram.cs">
       <SubType>Form</SubType>

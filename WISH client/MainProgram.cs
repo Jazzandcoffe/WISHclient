@@ -38,9 +38,8 @@ namespace WISH_client
         private double _maximumY = 200;
         private List<SensorDataGraph> _dataFront = new List<SensorDataGraph>();
         private List<SensorDataGraph> _dataRight = new List<SensorDataGraph>();
-        private Dictionary<string, List<SensorDataGraph>> _dictWithChartData = new Dictionary<string,List<SensorDataGraph>>();
+        private List<DictWithCharts> _dictWithChartData = new List<DictWithCharts>();
 
-        
 
         private Bluetooth _bt; //objektet som sköter kommunikationen via bluetooth. 
         private Dictionary<string, byte[]> _ctrlCommands = new Dictionary<string,byte[]>(); //en dictionary som tolkar en sträng av ett kommando till en byte-array.
@@ -422,13 +421,12 @@ namespace WISH_client
             chart.Series[0].BorderWidth = 2;
 
             //Lägg in data i Dictionary för Combobox och fyll denna.
-            _dictWithChartData.Add("Avstånd fram", _dataFront);
-            _dictWithChartData.Add("Avstånd höger", _dataFront);
+            _dictWithChartData.Add(new DictWithCharts {Name = "Avstånd höger", Data = _dataRight });
+            _dictWithChartData.Add(new DictWithCharts{Name = "Avstånd fram", Data = _dataFront});
 
-            cmbChart.DisplayMember = "Key";
-            cmbChart.ValueMember = "Value";
-            cmbChart.DataSource = new BindingSource(_dictWithChartData, null);
-            cmbChart.SelectedValue = Data;
+            cmbChart.DataSource = _dictWithChartData;
+            cmbChart.DisplayMember = "Name";
+            cmbChart.SelectedIndex = 0;
 
         }
 
@@ -445,7 +443,7 @@ namespace WISH_client
 
         private void cmbChart_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _chart.DataSource = (List<SensorDataGraph>)cmbChart.SelectedValue;
+            _chart.DataSource = ((DictWithCharts)cmbChart.SelectedItem).Data;
             _chart.DataBind();
         }
 
