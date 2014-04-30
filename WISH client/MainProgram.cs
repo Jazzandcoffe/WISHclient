@@ -30,6 +30,15 @@ namespace WISH_client
             public PlayerIndex Player { get; set; }
         }
 
+        /// <summary>
+        /// Chart variabler
+        /// </summary>
+        public ChartArea _cArea = new ChartArea("Chart1");
+        private double _maximumX = 300;
+        private double _maximumY = 200;
+        private List<SensorDataGraph> _dataFront = new List<SensorDataGraph>();
+        private List<SensorDataGraph> _dataRight = new List<SensorDataGraph>();
+
         
 
         private Bluetooth _bt; //objektet som sköter kommunikationen via bluetooth. 
@@ -76,7 +85,7 @@ namespace WISH_client
             btnComStart.Enabled = true;
             btnComStop.Enabled = false;
 
-            SetupChart(ref _chart, ref _data);
+            SetupChart(ref _chart, ref _dataFront);
         }
 
         /// <summary>
@@ -174,7 +183,8 @@ namespace WISH_client
             lblRearDetect.Text = dataOfTypes[12].ToString();
             lblDistRight.Text = dataOfTypes[13].ToString();
             lblDistLeft.Text = dataOfTypes[14].ToString();
-            AddValueToChart(ref _data, dataOfTypes[9]);
+            AddValueToChart(ref _dataFront, dataOfTypes[9]);
+            AddValueToChart(ref _dataRight, dataOfTypes[13]);
         }
 
         /// <summary>
@@ -381,10 +391,7 @@ namespace WISH_client
             _bt.transmit_byte(new byte[2] { 0x00, 0x00 });
         }
 
-        public ChartArea _cArea = new ChartArea("Framsensor");
-        private double _maximumX = 300;
-        private double _maximumY = 200;
-        private List<SensorDataGraph> _data = new List<SensorDataGraph>();
+        
 
         private void SetupChart(ref Chart chart, ref List<SensorDataGraph> Data)
         {
@@ -411,7 +418,7 @@ namespace WISH_client
 
             chart.Series[0].ChartType = SeriesChartType.Line;
             chart.Series[0].Color = orgColor.Color.White;
-            chart.Series[0].BorderWidth = 1;
+            chart.Series[0].BorderWidth = 2;
         }
 
         private void AddValueToChart(ref List<SensorDataGraph> list, int data)
@@ -424,6 +431,19 @@ namespace WISH_client
             list.Add(new SensorDataGraph(list.Count, data));
             _chart.DataBind();
         }
+
+        private void ChangeDataInChart(ref List<SensorDataGraph> Data)
+        {
+            _chart.DataSource = Data;
+            _chart.DataBind();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ChangeDataInChart(ref _dataRight);
+        }
+
+
         
     }
 }
