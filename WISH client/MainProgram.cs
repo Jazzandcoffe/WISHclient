@@ -465,5 +465,17 @@ namespace WISH_client
         {
 
         }
+
+        private void btnAutomatic_Click(object sender, EventArgs e)
+        {
+            //Skicka bt_data för aktivering av autonomt läge
+            _bt.transmit_byte(new byte[2] { 0x00, 0xFF });
+        }
+
+        private void btnManual_Click(object sender, EventArgs e)
+        {
+            //Skicka bt_data för aktivering av manuellt läge
+            _bt.transmit_byte(new byte[2] { 0x00, 0x00 });
+        }
     }
 }

@@ -40,15 +40,15 @@
             this.btnManual = new System.Windows.Forms.Button();
             this.btnAutomatic = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.cmbPlayers = new System.Windows.Forms.ComboBox();
-            this.lblDistanceMid = new System.Windows.Forms.Label();
-            this.lblSpeedMid = new System.Windows.Forms.Label();
-            this.lblDistRight = new System.Windows.Forms.Label();
-            this.lblDistLeft = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblDistLeft = new System.Windows.Forms.Label();
+            this.lblDistRight = new System.Windows.Forms.Label();
+            this.lblSpeedMid = new System.Windows.Forms.Label();
+            this.lblDistanceMid = new System.Windows.Forms.Label();
+            this.cmbPlayers = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -216,6 +216,7 @@
             this.btnManual.TabIndex = 1;
             this.btnManual.Text = "Manuellt";
             this.btnManual.UseVisualStyleBackColor = true;
+            this.btnManual.Click += new System.EventHandler(this.btnManual_Click);
             // 
             // btnAutomatic
             // 
@@ -225,6 +226,7 @@
             this.btnAutomatic.TabIndex = 0;
             this.btnAutomatic.Text = "Autonomt";
             this.btnAutomatic.UseVisualStyleBackColor = true;
+            this.btnAutomatic.Click += new System.EventHandler(this.btnAutomatic_Click);
             // 
             // groupBox4
             // 
@@ -243,43 +245,41 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Diverse sensorinformation";
             // 
-            // cmbPlayers
+            // label7
             // 
-            this.cmbPlayers.FormattingEnabled = true;
-            this.cmbPlayers.Location = new System.Drawing.Point(703, 223);
-            this.cmbPlayers.Name = "cmbPlayers";
-            this.cmbPlayers.Size = new System.Drawing.Size(117, 21);
-            this.cmbPlayers.TabIndex = 8;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(178, 164);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(84, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Avstånd vänster";
             // 
-            // lblDistanceMid
+            // label6
             // 
-            this.lblDistanceMid.AutoSize = true;
-            this.lblDistanceMid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblDistanceMid.Location = new System.Drawing.Point(333, 68);
-            this.lblDistanceMid.Name = "lblDistanceMid";
-            this.lblDistanceMid.Size = new System.Drawing.Size(37, 15);
-            this.lblDistanceMid.TabIndex = 0;
-            this.lblDistanceMid.Text = "label4";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(178, 135);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(76, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Avstånd höger";
             // 
-            // lblSpeedMid
+            // label5
             // 
-            this.lblSpeedMid.AutoSize = true;
-            this.lblSpeedMid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblSpeedMid.Location = new System.Drawing.Point(333, 99);
-            this.lblSpeedMid.Name = "lblSpeedMid";
-            this.lblSpeedMid.Size = new System.Drawing.Size(37, 15);
-            this.lblSpeedMid.TabIndex = 1;
-            this.lblSpeedMid.Text = "label4";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(176, 99);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(122, 13);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Derivatan av avvikelsen";
             // 
-            // lblDistRight
+            // label4
             // 
-            this.lblDistRight.AutoSize = true;
-            this.lblDistRight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblDistRight.Location = new System.Drawing.Point(333, 135);
-            this.lblDistRight.Name = "lblDistRight";
-            this.lblDistRight.Size = new System.Drawing.Size(37, 15);
-            this.lblDistRight.TabIndex = 2;
-            this.lblDistRight.Text = "label4";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(176, 68);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(120, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Avvikelse från mittlinjen:";
             // 
             // lblDistLeft
             // 
@@ -291,41 +291,43 @@
             this.lblDistLeft.TabIndex = 3;
             this.lblDistLeft.Text = "label4";
             // 
-            // label4
+            // lblDistRight
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(176, 68);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(120, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Avvikelse från mittlinjen:";
+            this.lblDistRight.AutoSize = true;
+            this.lblDistRight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblDistRight.Location = new System.Drawing.Point(333, 135);
+            this.lblDistRight.Name = "lblDistRight";
+            this.lblDistRight.Size = new System.Drawing.Size(37, 15);
+            this.lblDistRight.TabIndex = 2;
+            this.lblDistRight.Text = "label4";
             // 
-            // label5
+            // lblSpeedMid
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(176, 99);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(122, 13);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Derivatan av avvikelsen";
+            this.lblSpeedMid.AutoSize = true;
+            this.lblSpeedMid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSpeedMid.Location = new System.Drawing.Point(333, 99);
+            this.lblSpeedMid.Name = "lblSpeedMid";
+            this.lblSpeedMid.Size = new System.Drawing.Size(37, 15);
+            this.lblSpeedMid.TabIndex = 1;
+            this.lblSpeedMid.Text = "label4";
             // 
-            // label6
+            // lblDistanceMid
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(178, 135);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(76, 13);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "Avstånd höger";
+            this.lblDistanceMid.AutoSize = true;
+            this.lblDistanceMid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblDistanceMid.Location = new System.Drawing.Point(333, 68);
+            this.lblDistanceMid.Name = "lblDistanceMid";
+            this.lblDistanceMid.Size = new System.Drawing.Size(37, 15);
+            this.lblDistanceMid.TabIndex = 0;
+            this.lblDistanceMid.Text = "label4";
             // 
-            // label7
+            // cmbPlayers
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(178, 164);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(84, 13);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "Avstånd vänster";
+            this.cmbPlayers.FormattingEnabled = true;
+            this.cmbPlayers.Location = new System.Drawing.Point(703, 223);
+            this.cmbPlayers.Name = "cmbPlayers";
+            this.cmbPlayers.Size = new System.Drawing.Size(117, 21);
+            this.cmbPlayers.TabIndex = 8;
             // 
             // MainProgram
             // 
