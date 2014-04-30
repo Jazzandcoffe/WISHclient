@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using System.IO.Ports;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Windows.Forms.DataVisualization.Charting;
+using orgColor = System.Drawing;
 
 namespace WISH_client
 {
@@ -27,6 +29,8 @@ namespace WISH_client
             public string Name { get; set; }
             public PlayerIndex Player { get; set; }
         }
+
+        
 
         private Bluetooth _bt; //objektet som sköter kommunikationen via bluetooth. 
         private Dictionary<string, byte[]> _ctrlCommands = new Dictionary<string,byte[]>(); //en dictionary som tolkar en sträng av ett kommando till en byte-array.
@@ -50,8 +54,8 @@ namespace WISH_client
             FillControlCommandsDictionary();
             FillControlDecisionsDictionary();
             FillPlayersComboBox();
-            initTimer1(ref _timer1, 120);
-            initTimer2(ref _timer2, 200);
+            initTimer1(ref _timer1, 100);
+            initTimer2(ref _timer2, 60);
 
             //this.KeyPreview = true;
             //this.KeyDown += new KeyEventHandler(Form1_KeyDownEvent);
@@ -70,7 +74,9 @@ namespace WISH_client
             lblRightDetect.Text = String.Empty;
             lblSpeedMid.Text = String.Empty;
             btnComStart.Enabled = true;
-            btnComStop.Enabled = false; 
+            btnComStop.Enabled = false;
+
+            SetupChart(ref _chart, ref _data);
         }
 
         /// <summary>
@@ -168,6 +174,7 @@ namespace WISH_client
             lblRearDetect.Text = dataOfTypes[12].ToString();
             lblDistRight.Text = dataOfTypes[13].ToString();
             lblDistLeft.Text = dataOfTypes[14].ToString();
+            AddValueToChart(ref _data, dataOfTypes[9]);
         }
 
         /// <summary>
@@ -357,116 +364,6 @@ namespace WISH_client
             }
         }
 
-        /// <summary>
-        /// Eventet som tar hand om vad som ska hända då en knapp tryckts ner. 
-        /// Ticks ska införas så att den kan kontrollera vilka knappar som är nedtrycka
-        /// vid vissa tidpunkter. På det sättet kan fler än en knapp tryckas ned. 
-        /// KeyUp- och KeyDownEvent blir då meningslösa.
-        /// Måste kollas upp med styrgruppen om styrmodulen klarar av att få ett gå framåt kommando
-        /// när den redan går, innan implementation. 
-        /// </summary>
-        //void Form1_KeyDownEvent(object sender, KeyEventArgs e)
-        //{
-        //    switch (e.KeyCode)
-        //    {
-        //        case Keys.Q:
-        //            _bt.transmit_byte(_ctrlCommands["Rotate left"]);
-        //            break;
-
-        //        case Keys.W:
-        //            _bt.transmit_byte(_ctrlCommands["Forward"]);
-        //            break;
-
-        //        case Keys.E:
-        //            _bt.transmit_byte(_ctrlCommands["Rotate right"]);
-        //            break;
-
-        //        case Keys.A:
-        //            _bt.transmit_byte(_ctrlCommands["Left"]);
-        //            break;
-
-        //        case Keys.S:
-        //            _bt.transmit_byte(_ctrlCommands["Back"]);
-        //            break;
-
-        //        case Keys.D:
-        //            _bt.transmit_byte(_ctrlCommands["Right"]);
-        //            break;
-
-        //        case Keys.Space:
-        //            _bt.transmit_byte(_ctrlCommands["Reset"]);
-        //            break;
-
-        //        ///<summary>
-        //        ///Knapparna D1, D2, D3, D4 ska implementeras i GUI där man kan välja hastighet
-        //        ///Låter därför denna koden finnas kvar. 
-        //        ///</summary>
-        //        //1
-        //        case Keys.D1:
-        //            _bt.transmit_byte(new byte[1] { 3 });
-        //            _bt.transmit_byte(new byte[1] { 0 });
-        //            break;
-        //        //2
-        //        case Keys.D2:
-        //            _bt.transmit_byte(new byte[1] { 3 });
-        //            _bt.transmit_byte(new byte[1] { 1 });
-        //            break;
-        //        //3
-        //        case Keys.D3:
-        //            _bt.transmit_byte(new byte[1] { 3 });
-        //            _bt.transmit_byte(new byte[1] { 2 });
-        //            break;
-        //        //4
-        //        case Keys.D4:
-        //            _bt.transmit_byte(new byte[1] { 3 });
-        //            _bt.transmit_byte(new byte[1] { 3 });
-        //            break;
-        //    }
-        //}
-
-        /// <summary>
-        /// se kommentar på KeyDownEvent
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //void Form1_KeyUpEvent(object sender, KeyEventArgs e)
-        //{
-        //    switch (e.KeyCode)
-        //    {
-        //        //q
-        //        case Keys.Q:
-        //            _bt.transmit_byte(new byte[1] { 2 });
-        //            _bt.transmit_byte(new byte[1] { 5 });
-        //            break;
-        //        //w
-        //        case Keys.W:
-        //            _bt.transmit_byte(new byte[1] { 2 });
-        //            _bt.transmit_byte(new byte[1] { 2 });
-        //            break;
-        //        //e
-        //        case Keys.E:
-        //            _bt.transmit_byte(new byte[1] { 2 });
-        //            _bt.transmit_byte(new byte[1] { 4 });
-        //            break;
-        //        //a
-        //        case Keys.A:
-        //            _bt.transmit_byte(new byte[1] { 2 });
-        //            _bt.transmit_byte(new byte[1] { 11 });
-        //            break;
-        //        //s
-        //        case Keys.S:
-        //            _bt.transmit_byte(new byte[1] { 2 });
-        //            _bt.transmit_byte(new byte[1] { 3 });
-        //            break;
-        //        //d
-        //        case Keys.D:
-        //            _bt.transmit_byte(new byte[1] { 2 });
-        //            _bt.transmit_byte(new byte[1] { 10 });
-        //            break;
-        //    }
-        //}
-
-
         private void MainForm_Load(object sender, EventArgs e)
         {
 
@@ -483,5 +380,50 @@ namespace WISH_client
             //Skicka bt_data för aktivering av manuellt läge
             _bt.transmit_byte(new byte[2] { 0x00, 0x00 });
         }
+
+        public ChartArea _cArea = new ChartArea("Framsensor");
+        private double _maximumX = 300;
+        private double _maximumY = 200;
+        private List<SensorDataGraph> _data = new List<SensorDataGraph>();
+
+        private void SetupChart(ref Chart chart, ref List<SensorDataGraph> Data)
+        {
+            ///Chartareans utseende
+            _cArea.AxisX.Minimum = 0;
+            _cArea.AxisX.Maximum = _maximumX;
+            _cArea.AxisX.MajorGrid.LineColor = orgColor.Color.White;
+            _cArea.AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
+            _cArea.AxisX.Interval = _maximumX / 5;
+            _cArea.AxisY.Maximum = _maximumY;
+            _cArea.AxisY.Minimum = 0;
+            _cArea.AxisY.MajorGrid.LineColor = orgColor.Color.White;
+            _cArea.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
+            _cArea.AxisY.Interval = _maximumY / 4;
+            _cArea.BackColor = orgColor.Color.Black;
+            chart.ChartAreas.Add(_cArea);
+
+            //Ordnar till vilken data som ska plottas. 
+            chart.DataSource = Data;
+            chart.Series.Add("Sensordatan");
+            chart.Series[0].XValueMember = "X";
+            chart.Series[0].YValueMembers = "Y";
+            chart.DataBind();
+
+            chart.Series[0].ChartType = SeriesChartType.Line;
+            chart.Series[0].Color = orgColor.Color.White;
+            chart.Series[0].BorderWidth = 1;
+        }
+
+        private void AddValueToChart(ref List<SensorDataGraph> list, int data)
+        {
+            if(list.Count >= 300)
+            {
+                list.Clear();
+                list.TrimExcess();
+            }
+            list.Add(new SensorDataGraph(list.Count, data));
+            _chart.DataBind();
+        }
+        
     }
 }
