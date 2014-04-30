@@ -66,8 +66,8 @@ namespace WISH_client
             UpdateComPorts();
             lblBaudRate.Text = "115200";
             lblDistanceMid.Text = String.Empty;
-            lblDistLeft.Text = String.Empty;
-            lblDistRight.Text = String.Empty;
+            lblLeftDetect.Text = String.Empty;
+            lblRightDetect.Text = String.Empty;
             lblSpeedMid.Text = String.Empty;
             btnComStart.Enabled = true;
             btnComStop.Enabled = false; 
@@ -155,13 +155,19 @@ namespace WISH_client
             {
                 //Provisorisk lösning för att få ut sensordata i GUI.
                 //Bättre implementering möjlig.
-                if (element[0] > 4 && element[0] < 9)
-                    dataOfTypes[element[0]-5] = element[1];
+                if (element[0] > 4 && element[0] < 15)
+                    dataOfTypes[element[0]] = element[1];
             }
-            lblDistanceMid.Text = dataOfTypes[0].ToString();
-            lblSpeedMid.Text = dataOfTypes[1].ToString();
-            lblDistRight.Text = dataOfTypes[2].ToString();
-            lblDistLeft.Text = dataOfTypes[3].ToString();
+            lblDistanceMid.Text = dataOfTypes[5].ToString();
+            lblSpeedMid.Text = dataOfTypes[6].ToString();
+            lblRightDetect.Text = dataOfTypes[7].ToString();
+            lblLeftDetect.Text = dataOfTypes[8].ToString();
+            lblDistFront.Text = dataOfTypes[9].ToString();
+            lblDistRear.Text = dataOfTypes[10].ToString();
+            lblFrontDetect.Text = dataOfTypes[11].ToString();
+            lblRearDetect.Text = dataOfTypes[12].ToString();
+            lblDistRight.Text = dataOfTypes[13].ToString();
+            lblDistLeft.Text = dataOfTypes[14].ToString();
         }
 
         /// <summary>
