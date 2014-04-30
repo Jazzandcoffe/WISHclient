@@ -445,7 +445,7 @@ namespace WISH_client
 
         private void cmbChart_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _chart.DataSource = cmbChart.SelectedValue;
+            _chart.DataSource = (List<SensorDataGraph>)cmbChart.SelectedValue;
             _chart.DataBind();
         }
 
