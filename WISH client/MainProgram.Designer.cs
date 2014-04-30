@@ -62,7 +62,7 @@
             this.lblSpeedMid = new System.Windows.Forms.Label();
             this.lblDistanceMid = new System.Windows.Forms.Label();
             this.cmbPlayers = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.cmbChart = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -247,6 +247,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.cmbChart);
             this.groupBox4.Controls.Add(this._chart);
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.label8);
@@ -461,15 +462,14 @@
             this.cmbPlayers.Size = new System.Drawing.Size(117, 21);
             this.cmbPlayers.TabIndex = 8;
             // 
-            // button1
+            // cmbChart
             // 
-            this.button1.Location = new System.Drawing.Point(781, 594);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(173, 60);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.cmbChart.FormattingEnabled = true;
+            this.cmbChart.Location = new System.Drawing.Point(519, 120);
+            this.cmbChart.Name = "cmbChart";
+            this.cmbChart.Size = new System.Drawing.Size(121, 21);
+            this.cmbChart.TabIndex = 21;
+            this.cmbChart.SelectedIndexChanged += new System.EventHandler(this.cmbChart_SelectedIndexChanged);
             // 
             // MainProgram
             // 
@@ -477,7 +477,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1225, 767);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.cmbPlayers);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -540,7 +539,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataVisualization.Charting.Chart _chart;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox cmbChart;
     }
 }
 

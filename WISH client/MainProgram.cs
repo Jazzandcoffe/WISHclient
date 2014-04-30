@@ -38,6 +38,7 @@ namespace WISH_client
         private double _maximumY = 200;
         private List<SensorDataGraph> _dataFront = new List<SensorDataGraph>();
         private List<SensorDataGraph> _dataRight = new List<SensorDataGraph>();
+        private Dictionary<string, List<SensorDataGraph>> _dictWithChartData = new Dictionary<string,List<SensorDataGraph>>();
 
         
 
@@ -419,6 +420,16 @@ namespace WISH_client
             chart.Series[0].ChartType = SeriesChartType.Line;
             chart.Series[0].Color = orgColor.Color.White;
             chart.Series[0].BorderWidth = 2;
+
+            //Lägg in data i Dictionary för Combobox och fyll denna.
+            _dictWithChartData.Add("Avstånd fram", _dataFront);
+            _dictWithChartData.Add("Avstånd höger", _dataFront);
+
+            cmbChart.DisplayMember = "Key";
+            cmbChart.ValueMember = "Value";
+            cmbChart.DataSource = new BindingSource(_dictWithChartData, null);
+            cmbChart.SelectedValue = Data;
+
         }
 
         private void AddValueToChart(ref List<SensorDataGraph> list, int data)
@@ -432,15 +443,10 @@ namespace WISH_client
             _chart.DataBind();
         }
 
-        private void ChangeDataInChart(ref List<SensorDataGraph> Data)
+        private void cmbChart_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _chart.DataSource = Data;
+            _chart.DataSource = cmbChart.SelectedValue;
             _chart.DataBind();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ChangeDataInChart(ref _dataRight);
         }
 
 
