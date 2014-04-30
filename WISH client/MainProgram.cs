@@ -38,7 +38,7 @@ namespace WISH_client
         private Xboxkontroll _player;
         public static object locker = new object();   //Låsobjekt, för att ingen information ska visas vid låsning av access till _lastData.
         List<int[]> temp = new List<int[]>();
-        int[] dataOfTypes = new int[4];
+        int[] dataOfTypes = new int[30];
 
         /// <summary>
         /// Konstruktorn för klassen.
