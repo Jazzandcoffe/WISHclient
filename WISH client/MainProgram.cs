@@ -435,10 +435,10 @@ namespace WISH_client
             _cAreaSigned.AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
             _cAreaSigned.AxisX.Interval = _maximumX / 5;
             _cAreaSigned.AxisY.Maximum = 20;
-            _cAreaSigned.AxisY.Minimum = 0;
+            _cAreaSigned.AxisY.Minimum = -20;
             _cAreaSigned.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
             _cAreaSigned.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            _cAreaSigned.AxisY.Interval = _maximumY / 4;
+            _cAreaSigned.AxisY.Interval = 5;
             _cAreaSigned.BackColor = orgColor.Color.Black;
 
 
@@ -469,6 +469,7 @@ namespace WISH_client
                     list.TrimExcess();
                 }
                 list.Add(new SensorDataGraph(list.Count, data));
+                _chart.DataBind();
             }
         }
 
