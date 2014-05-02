@@ -33,22 +33,22 @@ namespace WISH_client
         /// <summary>
         /// Chart variabler
         /// </summary>
-        public ChartArea _cAreaPos = new ChartArea("Positive");
-        public ChartArea _cAreaSigned = new ChartArea("Signed");
+        public ChartArea _cAreaPos;
+        public ChartArea _cAreaSigned;
         private double _maximumX = 300;
         private double _maximumY = 200;
-        private List<SensorDataGraph> _dataFront = new List<SensorDataGraph>();
-        private List<SensorDataGraph> _dataBack = new List<SensorDataGraph>();
-        private List<SensorDataGraph> _dataRight = new List<SensorDataGraph>();
-        private List<SensorDataGraph> _dataLeft = new List<SensorDataGraph>();
-        private List<SensorDataGraph> _dataTypeRight = new List<SensorDataGraph>();
-        private List<SensorDataGraph> _dataTypeLeft = new List<SensorDataGraph>();
-        private List<SensorDataGraph> _angelRight = new List<SensorDataGraph>();
-        private List<SensorDataGraph> _angelLeft = new List<SensorDataGraph>();
-        private List<SensorDataGraph> _deviationMid = new List<SensorDataGraph>();
-        private List<SensorDataGraph> _speedDeviation = new List<SensorDataGraph>();
+        private List<SensorDataGraph> _dataFront;
+        private List<SensorDataGraph> _dataBack;
+        private List<SensorDataGraph> _dataRight;
+        private List<SensorDataGraph> _dataLeft;
+        private List<SensorDataGraph> _dataTypeRight;
+        private List<SensorDataGraph> _dataTypeLeft;
+        private List<SensorDataGraph> _angelRight;
+        private List<SensorDataGraph> _angelLeft;
+        private List<SensorDataGraph> _deviationMid;
+        private List<SensorDataGraph> _speedDeviation;
 
-        private List<DictWithCharts> _dictWithChartData = new List<DictWithCharts>();
+        private List<DictWithCharts> _dictWithChartData;
 
 
         private Bluetooth _bt; //objektet som sköter kommunikationen via bluetooth. 
@@ -56,13 +56,13 @@ namespace WISH_client
         private Dictionary<int, string> _ctrlDecisions = new Dictionary<int,string>(); //en dictionary där en textsträng till typen 5 styrbeslut enkelt kan hämtas. 
         private System.Windows.Forms.Timer _timer1; //Timern som är tänkt ticka för kontroll över vilka knappar användaren trycker ner. 
         private System.Windows.Forms.Timer _timer2; //Timern som GUI:t är tänkt att uppdateras med. 
-        private List<int[]> _lastData = new List<int[]>(); //Senaste datan från bluetooth ligger i denna lista. Vid varje tick kan denna itereras igenom. 
+        private List<int[]> _lastData; //Senaste datan från bluetooth ligger i denna lista. Vid varje tick kan denna itereras igenom. 
         private List<Players> _playerList = new List<Players>();
         private Xboxkontroll _player;
-        public static object locker = new object();   //Låsobjekt, för att ingen information ska visas vid låsning av access till _lastData.
-        private object lockerChart = new object();  //Låser chart
+        public static object locker;   //Låsobjekt, för att ingen information ska visas vid låsning av access till _lastData.
+        private object lockerChart;  //Låser chart
         List<int[]> temp = new List<int[]>();
-        int[] dataOfTypes = new int[30];
+        int[] dataOfType = new int[40];
 
         /// <summary>
         /// Konstruktorn för klassen.
@@ -70,21 +70,22 @@ namespace WISH_client
         public MainProgram()
         {
             InitializeComponent();
-            InitializeGUI();
-            FillDictWithCharts();
-            FillControlDecisionsDictionary();
-            FillPlayersComboBox();
-            SetupChart(ref _chart, ref _dataFront);
-            initTimer1(ref _timer1, 100);
-            initTimer2(ref _timer2, 60);
+            Initialize();
         }
 
         /// <summary>
         /// Ställer in allt som är visuellt för användaren.
         /// </summary>
-        private void InitializeGUI()
+        private void Initialize()
         {
+            DefineVariables();
+            initTimer1(ref _timer1, 100);
+            initTimer2(ref _timer2, 60);
             UpdateComPorts();
+            FillDictWithCharts();
+            FillControlDecisionsDictionary();
+            FillPlayersComboBox();
+            SetupChart(ref _chart, ref _dataFront);
             lblBaudRate.Text = "115200";
             lblDistanceMid.Text = String.Empty;
             lblLeftDetect.Text = String.Empty;
@@ -92,6 +93,15 @@ namespace WISH_client
             lblSpeedMid.Text = String.Empty;
             btnComStart.Enabled = true;
             btnComStop.Enabled = false;
+        }
+
+        private void Reset()
+        {
+            _timer1.Tick -= new EventHandler(Timer1_Tick);
+            _timer2.Tick -= new EventHandler(Timer2_Tick);
+            _timer1.Stop();
+            _timer2.Stop();
+            Initialize();
         }
 
         /// <summary>
@@ -103,12 +113,33 @@ namespace WISH_client
             cmbComPorts.Items.AddRange(SerialPort.GetPortNames());
         }
 
+        private void DefineVariables()
+        {
+            _dataFront = new List<SensorDataGraph>();
+            _dataBack = new List<SensorDataGraph>();
+            _dataRight = new List<SensorDataGraph>();
+            _dataLeft = new List<SensorDataGraph>();
+            _dataTypeRight = new List<SensorDataGraph>();
+            _dataTypeLeft = new List<SensorDataGraph>();
+            _angelRight = new List<SensorDataGraph>();
+            _angelLeft = new List<SensorDataGraph>();
+            _deviationMid = new List<SensorDataGraph>();
+            _speedDeviation = new List<SensorDataGraph>();
+
+            _dictWithChartData = new List<DictWithCharts>();
+            _lastData = new List<int[]>();
+            locker = new object();
+            lockerChart = new object();
+        }
+
         /// <summary>
         /// Fyller Dictionaryn _dictWithChartData med alla Lists som innehåller datan för olika sensorer. 
         /// </summary>
         private void FillDictWithCharts()
         {
             //Lägg in data i Dictionary för Combobox och fyll denna.
+            _dictWithChartData.Clear();
+            _dictWithChartData.TrimExcess();
             _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd höger", Data = _dataRight });
             _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd vänster", Data = _dataLeft });
             _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd fram", Data = _dataFront });
@@ -126,6 +157,8 @@ namespace WISH_client
         /// </summary>
         private void FillPlayersComboBox()
         {
+            _playerList.Clear();
+            _playerList.TrimExcess();
             _playerList.Add(new Players { Name = "1", Player = PlayerIndex.One });
             _playerList.Add(new Players { Name = "2", Player = PlayerIndex.Two });
             _playerList.Add(new Players { Name = "3", Player = PlayerIndex.Three });
@@ -179,31 +212,31 @@ namespace WISH_client
             {
                 //Provisorisk lösning för att få ut sensordata i GUI.
                 //Bättre implementering möjlig.
-                if (element[0] > 4 && element[0] < 25)
-                    dataOfTypes[element[0]] = element[1];
+                if (element[0] > 4 && element[0] < 40)
+                    dataOfType[element[0]] = element[1];
             }
 
-            lblDistanceMid.Text = dataOfTypes[5].ToString();
-            lblSpeedMid.Text = dataOfTypes[6].ToString();
-            lblRightDetect.Text = dataOfTypes[7].ToString();
-            lblLeftDetect.Text = dataOfTypes[8].ToString();
-            lblDistFront.Text = dataOfTypes[9].ToString();
-            lblDistRear.Text = dataOfTypes[10].ToString();
-            lblFrontDetect.Text = dataOfTypes[11].ToString();
-            lblRearDetect.Text = dataOfTypes[12].ToString();
-            lblDistRight.Text = dataOfTypes[13].ToString();
-            lblDistLeft.Text = dataOfTypes[14].ToString();
-            //updateTxtBox(_ctrlDecisions[dataOfTypes[30]]); //Ändra typ efter protokoll  ((((EJ implementerad i Styr))))
-            AddValueToChart(ref _dataFront, dataOfTypes[9]);
-            AddValueToChart(ref _dataRight, dataOfTypes[13]);
-            AddValueToChart(ref _dataBack, dataOfTypes[10]);
-            AddValueToChart(ref _dataLeft, dataOfTypes[14]);
-            AddValueToChart(ref _dataTypeLeft, dataOfTypes[8]);
-            AddValueToChart(ref _dataTypeRight, dataOfTypes[7]);
-            AddValueToChart(ref _deviationMid, dataOfTypes[5]);
-            AddValueToChart(ref _speedDeviation, dataOfTypes[6]);
-            AddValueToChart(ref _angelLeft, dataOfTypes[16]);
-            AddValueToChart(ref _angelRight, dataOfTypes[15]);
+            lblDistanceMid.Text = dataOfType[5].ToString();
+            lblSpeedMid.Text = dataOfType[6].ToString();
+            lblRightDetect.Text = dataOfType[7].ToString();
+            lblLeftDetect.Text = dataOfType[8].ToString();
+            lblDistFront.Text = dataOfType[9].ToString();
+            lblDistRear.Text = dataOfType[10].ToString();
+            lblFrontDetect.Text = dataOfType[11].ToString();
+            lblRearDetect.Text = dataOfType[12].ToString();
+            lblDistRight.Text = dataOfType[13].ToString();
+            lblDistLeft.Text = dataOfType[14].ToString();
+            txtOutput.Text = txtOutput.Text + dataOfType[32].ToString() + " \n "; //Ändra typ efter protokoll  ((((EJ implementerad i Styr))))
+            AddValueToChart(ref _dataFront, dataOfType[9]);
+            AddValueToChart(ref _dataRight, dataOfType[13]);
+            AddValueToChart(ref _dataBack, dataOfType[10]);
+            AddValueToChart(ref _dataLeft, dataOfType[14]);
+            AddValueToChart(ref _dataTypeLeft, dataOfType[8]);
+            AddValueToChart(ref _dataTypeRight, dataOfType[7]);
+            AddValueToChart(ref _deviationMid, dataOfType[5]);
+            AddValueToChart(ref _speedDeviation, dataOfType[6]);
+            AddValueToChart(ref _angelLeft, dataOfType[16]);
+            AddValueToChart(ref _angelRight, dataOfType[15]);
         }
 
         /// <summary>
@@ -248,7 +281,9 @@ namespace WISH_client
         public void CloseConnection()
         {
             try
-            {   _bt.ClosePort();   }
+            {   
+                _bt.ClosePort();   
+            }
             catch
             { 
                 MessageBox.Show("Kan inte stänga porten mot Bluetoothen", "Fel", MessageBoxButtons.OK);
@@ -360,7 +395,6 @@ namespace WISH_client
         private void Timer1_Tick(object sender, EventArgs e)
         {
             UpdateGUIwithListData();
-
         }
 
         /// <summary>
@@ -368,8 +402,16 @@ namespace WISH_client
         /// </summary>
         private void Timer2_Tick(object sender, EventArgs e)
         {
-            _player.TickUpdate();
-            SendCommands();
+            try
+            {
+                _player.TickUpdate();
+                SendCommands();
+            }
+            catch (ArgumentException msg)
+            {
+                Reset();
+                MessageBox.Show("Fel har inträffat med orsak: " + msg.Message + " , programmet återställs.", "ERROR!", MessageBoxButtons.OK);
+            }
         }
 
         /// <summary>
@@ -414,6 +456,8 @@ namespace WISH_client
 
         private void SetupChart(ref Chart chart, ref List<SensorDataGraph> Data)
         {
+            _cAreaPos = new ChartArea("Positive");
+            _cAreaSigned = new ChartArea("Signed");
             ///Chartareans utseende för positiva värden
             _cAreaPos.AxisX.Minimum = 0;
             _cAreaPos.AxisX.Maximum = _maximumX;
@@ -434,11 +478,11 @@ namespace WISH_client
             _cAreaSigned.AxisX.MajorGrid.LineColor = orgColor.Color.Blue;
             _cAreaSigned.AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
             _cAreaSigned.AxisX.Interval = _maximumX / 5;
-            _cAreaSigned.AxisY.Maximum = 20;
-            _cAreaSigned.AxisY.Minimum = -20;
+            _cAreaSigned.AxisY.Maximum = 60;
+            _cAreaSigned.AxisY.Minimum = -60;
             _cAreaSigned.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
             _cAreaSigned.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            _cAreaSigned.AxisY.Interval = 5;
+            _cAreaSigned.AxisY.Interval = 15;
             _cAreaSigned.BackColor = orgColor.Color.Black;
 
 
@@ -502,7 +546,11 @@ namespace WISH_client
         /// </summary>
         private void updateTxtBox(string text)
         {
-            if (text != txtOutput.Lines.ElementAt(0))
+            if (txtOutput == null)
+            {
+                txtOutput.Lines.SetValue(text, 0);
+            }
+            else if (text != txtOutput.Lines[0])
             {
                 for (int i = 10; i > 0; i--)
                 {

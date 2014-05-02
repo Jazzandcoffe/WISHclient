@@ -18,8 +18,6 @@ namespace WISH_client
             Application.SetCompatibleTextRenderingDefault(false);
             MainProgram gui = new MainProgram();
             Application.Run(gui);
-
-            gui.CloseConnection();
         }
     }
 }

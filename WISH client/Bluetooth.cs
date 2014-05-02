@@ -90,10 +90,10 @@ namespace WISH_client
         /// <param name="data">En byte array med datan som ska skickas.</param>
         public void transmit_byte(byte[] data)
         {
-            //foreach (byte info in data)
-            //{
-                _port.Write(data, 0, data.Length);
-            //}
+            try
+            { _port.Write(data, 0, data.Length); }
+            catch
+            { throw new ArgumentException("Kan inte skicka datan via bluetooth"); }
         }
 
       
