@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO.Ports;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms.DataVisualization.Charting;
 using orgColor = System.Drawing;
 
@@ -33,11 +33,21 @@ namespace WISH_client
         /// <summary>
         /// Chart variabler
         /// </summary>
-        public ChartArea _cArea = new ChartArea("Chart1");
+        public ChartArea _cAreaPos = new ChartArea("Positive");
+        public ChartArea _cAreaSigned = new ChartArea("Signed");
         private double _maximumX = 300;
         private double _maximumY = 200;
         private List<SensorDataGraph> _dataFront = new List<SensorDataGraph>();
+        private List<SensorDataGraph> _dataBack = new List<SensorDataGraph>();
         private List<SensorDataGraph> _dataRight = new List<SensorDataGraph>();
+        private List<SensorDataGraph> _dataLeft = new List<SensorDataGraph>();
+        private List<SensorDataGraph> _dataTypeRight = new List<SensorDataGraph>();
+        private List<SensorDataGraph> _dataTypeLeft = new List<SensorDataGraph>();
+        private List<SensorDataGraph> _angelRight = new List<SensorDataGraph>();
+        private List<SensorDataGraph> _angelLeft = new List<SensorDataGraph>();
+        private List<SensorDataGraph> _deviationMid = new List<SensorDataGraph>();
+        private List<SensorDataGraph> _speedDeviation = new List<SensorDataGraph>();
+
         private List<DictWithCharts> _dictWithChartData = new List<DictWithCharts>();
 
 
@@ -50,6 +60,7 @@ namespace WISH_client
         private List<Players> _playerList = new List<Players>();
         private Xboxkontroll _player;
         public static object locker = new object();   //Låsobjekt, för att ingen information ska visas vid låsning av access till _lastData.
+        private object lockerChart = new object();  //Låser chart
         List<int[]> temp = new List<int[]>();
         int[] dataOfTypes = new int[30];
 
@@ -60,15 +71,12 @@ namespace WISH_client
         {
             InitializeComponent();
             InitializeGUI();
-            FillControlCommandsDictionary();
+            FillDictWithCharts();
             FillControlDecisionsDictionary();
             FillPlayersComboBox();
+            SetupChart(ref _chart, ref _dataFront);
             initTimer1(ref _timer1, 100);
             initTimer2(ref _timer2, 60);
-
-            //this.KeyPreview = true;
-            //this.KeyDown += new KeyEventHandler(Form1_KeyDownEvent);
-            //this.KeyUp += new KeyEventHandler(Form1_KeyUpEvent);
         }
 
         /// <summary>
@@ -84,8 +92,6 @@ namespace WISH_client
             lblSpeedMid.Text = String.Empty;
             btnComStart.Enabled = true;
             btnComStop.Enabled = false;
-
-            SetupChart(ref _chart, ref _dataFront);
         }
 
         /// <summary>
@@ -95,6 +101,24 @@ namespace WISH_client
         {
             cmbComPorts.Items.Clear();
             cmbComPorts.Items.AddRange(SerialPort.GetPortNames());
+        }
+
+        /// <summary>
+        /// Fyller Dictionaryn _dictWithChartData med alla Lists som innehåller datan för olika sensorer. 
+        /// </summary>
+        private void FillDictWithCharts()
+        {
+            //Lägg in data i Dictionary för Combobox och fyll denna.
+            _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd höger", Data = _dataRight });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd vänster", Data = _dataLeft });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd fram", Data = _dataFront });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd bak", Data = _dataBack });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Typ vänster", Data = _dataTypeLeft });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Typ höger", Data = _dataTypeRight });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Vinkel vänster", Data = _angelLeft });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Vinkel höger", Data = _angelRight });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Avvikelse mitt", Data = _deviationMid });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Hastighet sidled", Data = _speedDeviation });
         }
 
         /// <summary>
@@ -108,21 +132,6 @@ namespace WISH_client
             _playerList.Add(new Players { Name = "4", Player = PlayerIndex.Four });
             cmbPlayers.DataSource = _playerList;
             cmbPlayers.DisplayMember = "Name";
-        }
-
-        /// <summary>
-        /// Fyller Dictionaryn _mvCommands med alla styrkommandon. 
-        /// Denna form valdes för att det enkelt ska gå för utomstående att tyda vad som är tanken. 
-        /// </summary>
-        private void FillControlCommandsDictionary()
-        {
-            _ctrlCommands.Add("Rotate left", new byte[2] { 1, 5 });
-            _ctrlCommands.Add("Rotate right", new byte[2] { 1, 4 });
-            _ctrlCommands.Add("Forward", new byte[2] { 1, 5 });
-            _ctrlCommands.Add("Back", new byte[2] { 1, 3 });
-            _ctrlCommands.Add("Left", new byte[2] { 1, 11 });
-            _ctrlCommands.Add("Right", new byte[2] { 1, 10 });
-            _ctrlCommands.Add("Reset", new byte[2] { 1, 0 });
         }
 
         /// <summary>
@@ -170,9 +179,10 @@ namespace WISH_client
             {
                 //Provisorisk lösning för att få ut sensordata i GUI.
                 //Bättre implementering möjlig.
-                if (element[0] > 4 && element[0] < 15)
+                if (element[0] > 4 && element[0] < 25)
                     dataOfTypes[element[0]] = element[1];
             }
+
             lblDistanceMid.Text = dataOfTypes[5].ToString();
             lblSpeedMid.Text = dataOfTypes[6].ToString();
             lblRightDetect.Text = dataOfTypes[7].ToString();
@@ -183,15 +193,24 @@ namespace WISH_client
             lblRearDetect.Text = dataOfTypes[12].ToString();
             lblDistRight.Text = dataOfTypes[13].ToString();
             lblDistLeft.Text = dataOfTypes[14].ToString();
+            //updateTxtBox(_ctrlDecisions[dataOfTypes[30]]); //Ändra typ efter protokoll  ((((EJ implementerad i Styr))))
             AddValueToChart(ref _dataFront, dataOfTypes[9]);
             AddValueToChart(ref _dataRight, dataOfTypes[13]);
+            AddValueToChart(ref _dataBack, dataOfTypes[10]);
+            AddValueToChart(ref _dataLeft, dataOfTypes[14]);
+            AddValueToChart(ref _dataTypeLeft, dataOfTypes[8]);
+            AddValueToChart(ref _dataTypeRight, dataOfTypes[7]);
+            AddValueToChart(ref _deviationMid, dataOfTypes[5]);
+            AddValueToChart(ref _speedDeviation, dataOfTypes[6]);
+            AddValueToChart(ref _angelLeft, dataOfTypes[16]);
+            AddValueToChart(ref _angelRight, dataOfTypes[15]);
         }
 
         /// <summary>
         /// Då vissa värden kommer vara i en byte och ska tolkas som 2Complement krävs denna funktionen. 
         /// </summary>
         /// <param name="value">Byten som ska konverteras till int med 2-komplement</param>
-        /// <returns></returns>
+        /// <returns>Returnerar konverterat värde</returns>
         private int ConvertByteToInt_2Complement(byte value)
         { 
             return Convert.ToInt32(unchecked((SByte) value));
@@ -199,7 +218,7 @@ namespace WISH_client
 
         private int ConvertDataToInt(byte type, byte data)
         {
-            if (type != 5 && type != 6)
+            if (type != 5 && type != 6 && type != 15 && type != 16)
             { return Convert.ToInt32(data); }
             else
             { return Convert.ToInt32(unchecked((SByte)data)); }
@@ -341,6 +360,7 @@ namespace WISH_client
         private void Timer1_Tick(object sender, EventArgs e)
         {
             UpdateGUIwithListData();
+
         }
 
         /// <summary>
@@ -350,7 +370,6 @@ namespace WISH_client
         {
             _player.TickUpdate();
             SendCommands();
-            //_bt.transmit_byte(new byte[] { 1, 10 });
         }
 
         /// <summary>
@@ -395,19 +414,33 @@ namespace WISH_client
 
         private void SetupChart(ref Chart chart, ref List<SensorDataGraph> Data)
         {
-            ///Chartareans utseende
-            _cArea.AxisX.Minimum = 0;
-            _cArea.AxisX.Maximum = _maximumX;
-            _cArea.AxisX.MajorGrid.LineColor = orgColor.Color.White;
-            _cArea.AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            _cArea.AxisX.Interval = _maximumX / 5;
-            _cArea.AxisY.Maximum = _maximumY;
-            _cArea.AxisY.Minimum = 0;
-            _cArea.AxisY.MajorGrid.LineColor = orgColor.Color.White;
-            _cArea.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            _cArea.AxisY.Interval = _maximumY / 4;
-            _cArea.BackColor = orgColor.Color.Black;
-            chart.ChartAreas.Add(_cArea);
+            ///Chartareans utseende för positiva värden
+            _cAreaPos.AxisX.Minimum = 0;
+            _cAreaPos.AxisX.Maximum = _maximumX;
+            _cAreaPos.AxisX.MajorGrid.LineColor = orgColor.Color.Blue;
+            _cAreaPos.AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
+            _cAreaPos.AxisX.Interval = _maximumX / 5;
+            _cAreaPos.AxisY.Maximum = _maximumY;
+            _cAreaPos.AxisY.Minimum = 0;
+            _cAreaPos.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
+            _cAreaPos.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
+            _cAreaPos.AxisY.Interval = _maximumY / 4;
+            _cAreaPos.BackColor = orgColor.Color.Black;
+            _chart.ChartAreas.Add(_cAreaPos);
+
+            //Chartareans utseende för negativa värden
+            _cAreaSigned.AxisX.Minimum = 0;
+            _cAreaSigned.AxisX.Maximum = _maximumX;
+            _cAreaSigned.AxisX.MajorGrid.LineColor = orgColor.Color.Blue;
+            _cAreaSigned.AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
+            _cAreaSigned.AxisX.Interval = _maximumX / 5;
+            _cAreaSigned.AxisY.Maximum = 20;
+            _cAreaSigned.AxisY.Minimum = 0;
+            _cAreaSigned.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
+            _cAreaSigned.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
+            _cAreaSigned.AxisY.Interval = _maximumY / 4;
+            _cAreaSigned.BackColor = orgColor.Color.Black;
+
 
             //Ordnar till vilken data som ska plottas. 
             chart.DataSource = Data;
@@ -420,10 +453,6 @@ namespace WISH_client
             chart.Series[0].Color = orgColor.Color.White;
             chart.Series[0].BorderWidth = 2;
 
-            //Lägg in data i Dictionary för Combobox och fyll denna.
-            _dictWithChartData.Add(new DictWithCharts {Name = "Avstånd höger", Data = _dataRight });
-            _dictWithChartData.Add(new DictWithCharts{Name = "Avstånd fram", Data = _dataFront});
-
             cmbChart.DataSource = _dictWithChartData;
             cmbChart.DisplayMember = "Name";
             cmbChart.SelectedIndex = 0;
@@ -432,19 +461,54 @@ namespace WISH_client
 
         private void AddValueToChart(ref List<SensorDataGraph> list, int data)
         {
-            if(list.Count >= 300)
-            {
-                list.Clear();
-                list.TrimExcess();
+            lock (lockerChart)
+            { 
+                if(list.Count >= 300)
+                {
+                    list.Clear();
+                    list.TrimExcess();
+                }
+                list.Add(new SensorDataGraph(list.Count, data));
             }
-            list.Add(new SensorDataGraph(list.Count, data));
-            _chart.DataBind();
         }
 
         private void cmbChart_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _chart.DataSource = ((DictWithCharts)cmbChart.SelectedItem).Data;
-            _chart.DataBind();
+            lock (lockerChart)
+            {
+                _chart.ChartAreas.Clear();
+                _chart.Series.Clear();
+                if (cmbChart.SelectedIndex > 5)
+                { _chart.ChartAreas.Add(_cAreaSigned); }
+                else
+                { _chart.ChartAreas.Add(_cAreaPos); }
+
+                _chart.DataSource = ((DictWithCharts)cmbChart.SelectedItem).Data;
+                _chart.Series.Add("Sensordatan");
+                _chart.Series[0].XValueMember = "X";
+                _chart.Series[0].YValueMembers = "Y";
+                _chart.DataBind();
+
+                _chart.Series[0].ChartType = SeriesChartType.Line;
+                _chart.Series[0].Color = orgColor.Color.White;
+                _chart.Series[0].BorderWidth = 2;
+            }
+        }
+
+        /// <summary>
+        /// Uppdaterar txtBox om ett nytt styrbeslut kommer.
+        /// Placerar senaste styrbeslutet överst och skiftar ner de historiska besluten.
+        /// </summary>
+        private void updateTxtBox(string text)
+        {
+            if (text != txtOutput.Lines.ElementAt(0))
+            {
+                for (int i = 10; i > 0; i--)
+                {
+                    txtOutput.Lines.SetValue(txtOutput.Lines.ElementAt(i - 1), i);
+                }
+                txtOutput.Lines.SetValue(text, 0);
+            }
         }
 
 
