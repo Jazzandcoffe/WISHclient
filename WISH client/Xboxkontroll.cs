@@ -63,6 +63,7 @@ namespace WISH_client
         public SByte GetRightX()
         {
             SByte temp = (SByte)(_kontroll.ThumbSticks.Right.X * 100 - Math.Sign(_kontroll.ThumbSticks.Right.X) * 70*Math.Abs(_kontroll.ThumbSticks.Left.Y)); //Lite osäker här om det verkligen var 0->100 på rotationen.
+            temp = (SByte)(Math.Sign(_kontroll.ThumbSticks.Right.X) * Math.Abs(temp));
 
             if (Math.Abs(_kontroll.ThumbSticks.Right.X) < 0.1)
                 return 0;
