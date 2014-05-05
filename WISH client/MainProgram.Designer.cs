@@ -171,7 +171,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.txtOutput);
-            this.groupBox2.Location = new System.Drawing.Point(548, 594);
+            this.groupBox2.Location = new System.Drawing.Point(18, 498);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(646, 227);
             this.groupBox2.TabIndex = 5;
@@ -256,7 +256,7 @@
             this.groupBox4.Controls.Add(this.lblDistanceMid);
             this.groupBox4.Location = new System.Drawing.Point(18, 23);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(646, 554);
+            this.groupBox4.Size = new System.Drawing.Size(646, 458);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Diverse sensorinformation";
@@ -274,7 +274,7 @@
             // 
             this._chart.Location = new System.Drawing.Point(27, 161);
             this._chart.Name = "_chart";
-            this._chart.Size = new System.Drawing.Size(572, 373);
+            this._chart.Size = new System.Drawing.Size(572, 280);
             this._chart.TabIndex = 20;
             this._chart.Text = "chart1";
             // 

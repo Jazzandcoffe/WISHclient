@@ -231,7 +231,7 @@ namespace WISH_client
             lblRearDetect.Text = dataOfType[12].ToString();
             lblDistRight.Text = dataOfType[13].ToString();
             lblDistLeft.Text = dataOfType[14].ToString();
-            //txtOutput.Text = txtOutput.Text + dataOfType[32].ToString() + " \n "; //Ändra typ efter protokoll  ((((EJ implementerad i Styr))))
+            updateTxtBox(dataOfType[32].ToString()); //Ändra typ efter protokoll  ((((EJ implementerad i Styr))))
             AddValueToChart(ref _dataFront, dataOfType[9]);
             AddValueToChart(ref _dataRight, dataOfType[13]);
             AddValueToChart(ref _dataBack, dataOfType[10]);
@@ -362,18 +362,7 @@ namespace WISH_client
         /// </summary>
         private void updateTxtBox(string text)
         {
-            if (txtOutput == null)
-            {
-                txtOutput.Lines.SetValue(text, 0);
-            }
-            else if (text != txtOutput.Lines[0])
-            {
-                for (int i = 10; i > 0; i--)
-                {
-                    txtOutput.Lines.SetValue(txtOutput.Lines.ElementAt(i - 1), i);
-                }
-                txtOutput.Lines.SetValue(text, 0);
-            }
+            txtOutput.Text = text + Environment.NewLine + txtOutput.Text + Environment.NewLine;
         }
 
         /// <summary>
