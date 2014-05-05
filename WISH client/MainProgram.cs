@@ -91,10 +91,23 @@ namespace WISH_client
             lblLeftDetect.Text = String.Empty;
             lblRightDetect.Text = String.Empty;
             lblSpeedMid.Text = String.Empty;
+            lblDistFront.Text = String.Empty;
+            lblDistLeft.Text = String.Empty;
+            lblDistRear.Text = String.Empty;
+            lblDistRight.Text = String.Empty;
+            lblFrontDetect.Text = String.Empty;
+            lblRearDetect.Text = String.Empty;
             btnComStart.Enabled = true;
             btnComStop.Enabled = false;
+            btnManual.Enabled = false; 
+            btnAutomatic.Enabled = false;
+            cmbChart.Enabled = false;
+            cmbPlayers.Enabled = false; 
         }
 
+        /// <summary>
+        /// Återställer programmet till sitt grundläge. 
+        /// </summary>
         private void Reset()
         {
             _timer1.Tick -= new EventHandler(Timer1_Tick);
@@ -113,6 +126,7 @@ namespace WISH_client
             cmbComPorts.Items.AddRange(SerialPort.GetPortNames());
         }
 
+        //Definierar alla variabler som finns i klassen.
         private void DefineVariables()
         {
             _dataFront = new List<SensorDataGraph>();
@@ -175,6 +189,8 @@ namespace WISH_client
         /// </summary>
         private void FillControlDecisionsDictionary()
         {
+            _playerList.Clear();
+            _playerList.TrimExcess();
             _ctrlDecisions.Add(0, "Servofel, overload");
             _ctrlDecisions.Add(1, "Servofel, range");
             _ctrlDecisions.Add(2, "Servofel, overheat");
@@ -226,7 +242,7 @@ namespace WISH_client
             lblRearDetect.Text = dataOfType[12].ToString();
             lblDistRight.Text = dataOfType[13].ToString();
             lblDistLeft.Text = dataOfType[14].ToString();
-            txtOutput.Text = txtOutput.Text + dataOfType[32].ToString() + " \n "; //Ändra typ efter protokoll  ((((EJ implementerad i Styr))))
+            //txtOutput.Text = txtOutput.Text + dataOfType[32].ToString() + " \n "; //Ändra typ efter protokoll  ((((EJ implementerad i Styr))))
             AddValueToChart(ref _dataFront, dataOfType[9]);
             AddValueToChart(ref _dataRight, dataOfType[13]);
             AddValueToChart(ref _dataBack, dataOfType[10]);
@@ -249,6 +265,12 @@ namespace WISH_client
             return Convert.ToInt32(unchecked((SByte) value));
         }
 
+        /// <summary>
+        /// Konverterar ett data-fälts värde till int. 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         private int ConvertDataToInt(byte type, byte data)
         {
             if (type != 5 && type != 6 && type != 15 && type != 16)
@@ -264,15 +286,17 @@ namespace WISH_client
         /// <param name="port">COM-porten som seriellporten ska öppnas mot</param>
         private void OpenConnection(string port)
         {
-            _bt = new Bluetooth(port);
             try
-            {   _bt.OpenPort();    }
+            {
+                _bt = new Bluetooth(port);
+                _bt.OpenPort();
+                _bt.BtDataReceived += new BtDataReceivedEventHandler(bt_DataReceived);
+            }
             catch
             {
                 MessageBox.Show("Kan inte öppna porten mot Bluetoothen!", "Fel", MessageBoxButtons.OK);
-                return;
             }
-            _bt.BtDataReceived += new BtDataReceivedEventHandler(bt_DataReceived);
+            
         }
 
         /// <summary>
@@ -282,15 +306,14 @@ namespace WISH_client
         {
             try
             {   
-                _bt.ClosePort();   
+                _bt.ClosePort();
+                //Stänger av eventet så att ingen behandling görs ifall porten skulle skicka ut data.
+                _bt.BtDataReceived -= bt_DataReceived;
             }
             catch
             { 
                 MessageBox.Show("Kan inte stänga porten mot Bluetoothen", "Fel", MessageBoxButtons.OK);
-                return;
             }
-            //Stänger av eventet så att ingen behandling görs ifall porten skulle skicka ut data.
-            _bt.BtDataReceived -= bt_DataReceived;
         }
 
         /// <summary>
@@ -330,18 +353,13 @@ namespace WISH_client
 
             btnComStart.Enabled = false;
             btnComStop.Enabled = true;
-            PlayerIndex temp = ((Players)cmbPlayers.SelectedItem).Player;
-
-            if (GamePad.GetState(temp).IsConnected)
-            {
-                _player = new Xboxkontroll(temp);
-            }
-            else
-            { MessageBox.Show("Kan inte få kontakt med den valda kontrollen", "ERROR!", MessageBoxButtons.OK); }
+            btnAutomatic.Enabled = true;
+            btnManual.Enabled = true;
+            cmbPlayers.Enabled = true;
+            cmbChart.Enabled = true;
 
             OpenConnection(cmbComPorts.Text);
             _timer1.Start();
-            _timer2.Start();
             
         }
 
@@ -395,6 +413,8 @@ namespace WISH_client
         private void Timer1_Tick(object sender, EventArgs e)
         {
             UpdateGUIwithListData();
+            Reset();
+            MessageBox.Show("Kontakten med bluetooth har försvunnit. Återställning av GUI sker.", "ERROR!", MessageBoxButtons.OK);
         }
 
         /// <summary>
@@ -448,12 +468,26 @@ namespace WISH_client
 
         private void btnManual_Click(object sender, EventArgs e)
         {
-            //Skicka bt_data för aktivering av manuellt läge
-            _bt.transmit_byte(new byte[2] { 0x00, 0x00 });
+            PlayerIndex temp = ((Players)cmbPlayers.SelectedItem).Player;
+
+            if (GamePad.GetState(temp).IsConnected)
+            {
+                _player = new Xboxkontroll(temp);
+                //Skicka bt_data för aktivering av manuellt läge
+                _bt.transmit_byte(new byte[2] { 0, 0 });
+                _timer2.Start();
+                btnManual.Enabled = false;
+            }
+            else
+            { MessageBox.Show("Kan inte få kontakt med den valda kontrollen", "ERROR!", MessageBoxButtons.OK); }
         }
 
         
-
+        /// <summary>
+        /// Ordnar till Charten och har default _cAreaPos.
+        /// </summary>
+        /// <param name="chart">Charten som ska konfigureras</param>
+        /// <param name="Data">Datan som ska knytas till grafen</param>
         private void SetupChart(ref Chart chart, ref List<SensorDataGraph> Data)
         {
             _cAreaPos = new ChartArea("Positive");
@@ -503,6 +537,11 @@ namespace WISH_client
 
         }
 
+        /// <summary>
+        /// Adderar ett datavärde till en lista med objekt SensorDataGraph.
+        /// </summary>
+        /// <param name="list">referens till listan</param>
+        /// <param name="data">datan som ska läggas in i listan</param>
         private void AddValueToChart(ref List<SensorDataGraph> list, int data)
         {
             lock (lockerChart)
@@ -517,6 +556,12 @@ namespace WISH_client
             }
         }
 
+        /// <summary>
+        /// Metod som har hand om vad som ska göras när användaren ändrar värde i comboboxen
+        /// där man väljer vilken chartdata som ska visas. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmbChart_SelectedIndexChanged(object sender, EventArgs e)
         {
             lock (lockerChart)

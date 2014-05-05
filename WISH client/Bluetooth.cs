@@ -95,8 +95,5 @@ namespace WISH_client
             catch
             { throw new ArgumentException("Kan inte skicka datan via bluetooth"); }
         }
-
-      
-
     }
 }
