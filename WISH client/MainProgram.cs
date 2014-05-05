@@ -272,17 +272,21 @@ namespace WISH_client
         /// Aktiverar även eventet som triggas när Bluetooth-objektet tömt inkommande buffern. 
         /// </summary>
         /// <param name="port">COM-porten som seriellporten ska öppnas mot</param>
-        private void OpenConnection(string port)
+        /// <returns>True om öppningen lyckades, false annars</returns>
+        private bool OpenConnection(string port)
         {
             try
             {
                 _bt = new Bluetooth(port);
                 _bt.OpenPort();
                 _bt.BtDataReceived += new BtDataReceivedEventHandler(bt_DataReceived);
+                return true;
             }
             catch
             {
+                _bt = null;
                 MessageBox.Show("Kan inte öppna porten mot Bluetoothen!", "Fel", MessageBoxButtons.OK);
+                return false;
             }
             
         }

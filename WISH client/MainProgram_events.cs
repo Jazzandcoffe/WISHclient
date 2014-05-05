@@ -79,6 +79,8 @@ namespace WISH_client
         {
             //Skicka bt_data för aktivering av autonomt läge
             _bt.transmit_byte(new byte[2] { 0x00, 0xFF });
+            btnAutomatic.Enabled = false;
+            btnManual.Enabled = true; 
         }
 
         private void btnManual_Click(object sender, EventArgs e)
@@ -92,6 +94,7 @@ namespace WISH_client
                 _bt.transmit_byte(new byte[2] { 0, 0 });
                 _timer2.Start();
                 btnManual.Enabled = false;
+                btnAutomatic.Enabled = true;
             }
             else
             { MessageBox.Show("Kan inte få kontakt med den valda kontrollen", "ERROR!", MessageBoxButtons.OK); }
@@ -108,19 +111,20 @@ namespace WISH_client
                 return;
             }
 
-            btnComStart.Enabled = false;
-            btnComStop.Enabled = true;
-            btnAutomatic.Enabled = true;
-            btnManual.Enabled = true;
-            cmbPlayers.Enabled = true;
-            cmbChart.Enabled = true;
-            btnSendControls.Enabled = true;
-            txtKd.Enabled = true;
-            txtKp.Enabled = true;
-            lblPlayer.Enabled = true;
-
-            OpenConnection(cmbComPorts.Text);
-            _timer1.Start();
+            if (OpenConnection(cmbComPorts.Text))
+            {
+                btnComStart.Enabled = false;
+                btnComStop.Enabled = true;
+                btnAutomatic.Enabled = true;
+                btnManual.Enabled = true;
+                cmbPlayers.Enabled = true;
+                cmbChart.Enabled = true;
+                btnSendControls.Enabled = true;
+                txtKd.Enabled = true;
+                txtKp.Enabled = true;
+                lblPlayer.Enabled = true;
+                _timer1.Start();
+            }
         }
 
         /// <summary>
