@@ -79,8 +79,7 @@ namespace WISH_client
         {
             //Skicka bt_data för aktivering av autonomt läge
             _bt.transmit_byte(new byte[2] { 0x00, 0xFF });
-            btnAutomatic.Enabled = false;
-            btnManual.Enabled = true; 
+            _timer2.Stop();
         }
 
         private void btnManual_Click(object sender, EventArgs e)
@@ -93,8 +92,6 @@ namespace WISH_client
                 //Skicka bt_data för aktivering av manuellt läge
                 _bt.transmit_byte(new byte[2] { 0, 0 });
                 _timer2.Start();
-                btnManual.Enabled = false;
-                btnAutomatic.Enabled = true;
             }
             else
             { MessageBox.Show("Kan inte få kontakt med den valda kontrollen", "ERROR!", MessageBoxButtons.OK); }

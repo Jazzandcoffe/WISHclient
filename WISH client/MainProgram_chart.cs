@@ -45,29 +45,25 @@ namespace WISH_client
             ///Chartareans utseende för positiva värden
             _cAreaPos.AxisX.Minimum = 0;
             _cAreaPos.AxisX.Maximum = _maximumX;
-            _cAreaPos.AxisX.MajorGrid.LineColor = orgColor.Color.Blue;
-            _cAreaPos.AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
             _cAreaPos.AxisX.Interval = _maximumX / 5;
             _cAreaPos.AxisY.Maximum = _maximumY;
             _cAreaPos.AxisY.Minimum = 0;
             _cAreaPos.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
             _cAreaPos.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
             _cAreaPos.AxisY.Interval = _maximumY / 4;
-            _cAreaPos.BackColor = orgColor.Color.Black;
+            _cAreaPos.BackColor = orgColor.Color.White;
             _chart.ChartAreas.Add(_cAreaPos);
 
             //Chartareans utseende för negativa värden
             _cAreaSigned.AxisX.Minimum = 0;
             _cAreaSigned.AxisX.Maximum = _maximumX;
-            _cAreaSigned.AxisX.MajorGrid.LineColor = orgColor.Color.Blue;
-            _cAreaSigned.AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
             _cAreaSigned.AxisX.Interval = _maximumX / 5;
             _cAreaSigned.AxisY.Maximum = 60;
             _cAreaSigned.AxisY.Minimum = -60;
             _cAreaSigned.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
             _cAreaSigned.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
             _cAreaSigned.AxisY.Interval = 15;
-            _cAreaSigned.BackColor = orgColor.Color.Black;
+            _cAreaSigned.BackColor = orgColor.Color.White;
 
 
             //Ordnar till vilken data som ska plottas. 
@@ -78,7 +74,7 @@ namespace WISH_client
             chart.DataBind();
 
             chart.Series[0].ChartType = SeriesChartType.Line;
-            chart.Series[0].Color = orgColor.Color.White;
+            chart.Series[0].Color = orgColor.Color.Black;
             chart.Series[0].BorderWidth = 2;
 
             cmbChart.DataSource = _dictWithChartData;
