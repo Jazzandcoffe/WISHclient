@@ -109,7 +109,8 @@ namespace WISH_client
             txtKd.Enabled = false;
             txtKp.Enabled = false;
             btnSendControls.Enabled = false;
-            lblPlayer.Enabled = false; 
+            lblPlayer.Enabled = false;
+            txtOutput.Text = String.Empty;
 
         }
 
@@ -362,7 +363,16 @@ namespace WISH_client
         /// </summary>
         private void updateTxtBox(string text)
         {
-            txtOutput.Text = text + Environment.NewLine + txtOutput.Text + Environment.NewLine;
+            string[] temp = new string[15];
+
+            if(txtOutput.Lines.Length > 25)
+            {
+                Array.Copy(txtOutput.Lines, 0, temp, 0, 15);
+                txtOutput.Lines = temp;
+            }
+
+            if (!txtOutput.Lines[0].Equals(text))
+                txtOutput.Text = text + Environment.NewLine + txtOutput.Text + Environment.NewLine;
         }
 
         /// <summary>
