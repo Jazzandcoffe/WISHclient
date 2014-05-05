@@ -97,12 +97,19 @@ namespace WISH_client
             lblDistRight.Text = String.Empty;
             lblFrontDetect.Text = String.Empty;
             lblRearDetect.Text = String.Empty;
+            txtKd.Text = "0";
+            txtKp.Text = "0";
             btnComStart.Enabled = true;
             btnComStop.Enabled = false;
             btnManual.Enabled = false; 
             btnAutomatic.Enabled = false;
             cmbChart.Enabled = false;
-            cmbPlayers.Enabled = false; 
+            cmbPlayers.Enabled = false;
+            txtKd.Enabled = false;
+            txtKp.Enabled = false;
+            btnSendControls.Enabled = false;
+            lblPlayer.Enabled = false; 
+
         }
 
         /// <summary>
@@ -146,25 +153,7 @@ namespace WISH_client
             lockerChart = new object();
         }
 
-        /// <summary>
-        /// Fyller Dictionaryn _dictWithChartData med alla Lists som innehåller datan för olika sensorer. 
-        /// </summary>
-        private void FillDictWithCharts()
-        {
-            //Lägg in data i Dictionary för Combobox och fyll denna.
-            _dictWithChartData.Clear();
-            _dictWithChartData.TrimExcess();
-            _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd höger", Data = _dataRight });
-            _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd vänster", Data = _dataLeft });
-            _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd fram", Data = _dataFront });
-            _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd bak", Data = _dataBack });
-            _dictWithChartData.Add(new DictWithCharts { Name = "Typ vänster", Data = _dataTypeLeft });
-            _dictWithChartData.Add(new DictWithCharts { Name = "Typ höger", Data = _dataTypeRight });
-            _dictWithChartData.Add(new DictWithCharts { Name = "Vinkel vänster", Data = _angelLeft });
-            _dictWithChartData.Add(new DictWithCharts { Name = "Vinkel höger", Data = _angelRight });
-            _dictWithChartData.Add(new DictWithCharts { Name = "Avvikelse mitt", Data = _deviationMid });
-            _dictWithChartData.Add(new DictWithCharts { Name = "Hastighet sidled", Data = _speedDeviation });
-        }
+        
 
         /// <summary>
         /// Fyller combobox med spelarna. 
@@ -189,8 +178,7 @@ namespace WISH_client
         /// </summary>
         private void FillControlDecisionsDictionary()
         {
-            _playerList.Clear();
-            _playerList.TrimExcess();
+            _ctrlDecisions.Clear();
             _ctrlDecisions.Add(0, "Servofel, overload");
             _ctrlDecisions.Add(1, "Servofel, range");
             _ctrlDecisions.Add(2, "Servofel, overheat");
@@ -341,29 +329,6 @@ namespace WISH_client
         }
 
         /// <summary>
-        /// Då Start-knappen för bluetooth-kommunikationen klickas på kontrolleras att en COM port är vald. 
-        /// </summary>
-        private void btnComStart_Click(object sender, EventArgs e)
-        {
-            if (cmbComPorts.SelectedIndex == -1)
-            {
-                MessageBox.Show("Vänligen välj en COM port", "Fel", MessageBoxButtons.OK);
-                return;
-            }
-
-            btnComStart.Enabled = false;
-            btnComStop.Enabled = true;
-            btnAutomatic.Enabled = true;
-            btnManual.Enabled = true;
-            cmbPlayers.Enabled = true;
-            cmbChart.Enabled = true;
-
-            OpenConnection(cmbComPorts.Text);
-            _timer1.Start();
-            
-        }
-
-        /// <summary>
         /// Läser av Xboxkontrollen och sänder detta till roboten.
         /// Lämpligt att byta namn på metoden vid full implementering. 
         /// </summary>
@@ -387,205 +352,6 @@ namespace WISH_client
         }
 
         /// <summary>
-        /// Eventet då Uppdatera knappen vid listan med COM-porten trycks på. 
-        /// Anropar uppdatering av listan
-        /// </summary>
-        private void btnCOMUpdate_Click(object sender, EventArgs e)
-        {
-            UpdateComPorts();
-        }
-
-        /// <summary>
-        /// Eventet då STOP-knappen för Bluetooth trycks på.
-        /// </summary>
-        private void btnCOMStop_Click(object sender, EventArgs e)
-        {
-            btnComStop.Enabled = false;
-            btnComStart.Enabled = true;
-            _timer1.Stop();
-            _timer2.Stop();
-            CloseConnection();
-        }
-
-        /// <summary>
-        /// Eventet då Timer1 når sitt inställda värde för tick. 
-        /// </summary>
-        private void Timer1_Tick(object sender, EventArgs e)
-        {
-            UpdateGUIwithListData();
-            Reset();
-            MessageBox.Show("Kontakten med bluetooth har försvunnit. Återställning av GUI sker.", "ERROR!", MessageBoxButtons.OK);
-        }
-
-        /// <summary>
-        /// Eventet då Timer1 når sitt inställda värde för tick. 
-        /// </summary>
-        private void Timer2_Tick(object sender, EventArgs e)
-        {
-            try
-            {
-                _player.TickUpdate();
-                SendCommands();
-            }
-            catch (ArgumentException msg)
-            {
-                Reset();
-                MessageBox.Show("Fel har inträffat med orsak: " + msg.Message + " , programmet återställs.", "ERROR!", MessageBoxButtons.OK);
-            }
-        }
-
-        /// <summary>
-        /// Eventet som körs då bt tagit emot data.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="Args"></param>
-        void bt_DataReceived(object sender, BtDataReceivedEventArgs Args)
-        {
-            //Om detta fungerar så låser den locker under tiden eventet körs.
-            //Samma lås finns i UpdateGUIwithListData() då _lastData ska accessas. 
-            lock (locker)
-            {
-                _lastData.Clear();
-                for (int i = 0; i < Args.btData.Length - 1; i = i + 2)
-                {
-                    byte type = Args.btData[i];
-                    int data = ConvertDataToInt(type, Args.btData[i + 1]);
-                    _lastData.Add(new int[2] { Convert.ToInt32(type), data });
-                }
-            }
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnAutomatic_Click(object sender, EventArgs e)
-        {
-            //Skicka bt_data för aktivering av autonomt läge
-            _bt.transmit_byte(new byte[2] { 0x00, 0xFF });
-        }
-
-        private void btnManual_Click(object sender, EventArgs e)
-        {
-            PlayerIndex temp = ((Players)cmbPlayers.SelectedItem).Player;
-
-            if (GamePad.GetState(temp).IsConnected)
-            {
-                _player = new Xboxkontroll(temp);
-                //Skicka bt_data för aktivering av manuellt läge
-                _bt.transmit_byte(new byte[2] { 0, 0 });
-                _timer2.Start();
-                btnManual.Enabled = false;
-            }
-            else
-            { MessageBox.Show("Kan inte få kontakt med den valda kontrollen", "ERROR!", MessageBoxButtons.OK); }
-        }
-
-        
-        /// <summary>
-        /// Ordnar till Charten och har default _cAreaPos.
-        /// </summary>
-        /// <param name="chart">Charten som ska konfigureras</param>
-        /// <param name="Data">Datan som ska knytas till grafen</param>
-        private void SetupChart(ref Chart chart, ref List<SensorDataGraph> Data)
-        {
-            _cAreaPos = new ChartArea("Positive");
-            _cAreaSigned = new ChartArea("Signed");
-            ///Chartareans utseende för positiva värden
-            _cAreaPos.AxisX.Minimum = 0;
-            _cAreaPos.AxisX.Maximum = _maximumX;
-            _cAreaPos.AxisX.MajorGrid.LineColor = orgColor.Color.Blue;
-            _cAreaPos.AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            _cAreaPos.AxisX.Interval = _maximumX / 5;
-            _cAreaPos.AxisY.Maximum = _maximumY;
-            _cAreaPos.AxisY.Minimum = 0;
-            _cAreaPos.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
-            _cAreaPos.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            _cAreaPos.AxisY.Interval = _maximumY / 4;
-            _cAreaPos.BackColor = orgColor.Color.Black;
-            _chart.ChartAreas.Add(_cAreaPos);
-
-            //Chartareans utseende för negativa värden
-            _cAreaSigned.AxisX.Minimum = 0;
-            _cAreaSigned.AxisX.Maximum = _maximumX;
-            _cAreaSigned.AxisX.MajorGrid.LineColor = orgColor.Color.Blue;
-            _cAreaSigned.AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            _cAreaSigned.AxisX.Interval = _maximumX / 5;
-            _cAreaSigned.AxisY.Maximum = 60;
-            _cAreaSigned.AxisY.Minimum = -60;
-            _cAreaSigned.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
-            _cAreaSigned.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            _cAreaSigned.AxisY.Interval = 15;
-            _cAreaSigned.BackColor = orgColor.Color.Black;
-
-
-            //Ordnar till vilken data som ska plottas. 
-            chart.DataSource = Data;
-            chart.Series.Add("Sensordatan");
-            chart.Series[0].XValueMember = "X";
-            chart.Series[0].YValueMembers = "Y";
-            chart.DataBind();
-
-            chart.Series[0].ChartType = SeriesChartType.Line;
-            chart.Series[0].Color = orgColor.Color.White;
-            chart.Series[0].BorderWidth = 2;
-
-            cmbChart.DataSource = _dictWithChartData;
-            cmbChart.DisplayMember = "Name";
-            cmbChart.SelectedIndex = 0;
-
-        }
-
-        /// <summary>
-        /// Adderar ett datavärde till en lista med objekt SensorDataGraph.
-        /// </summary>
-        /// <param name="list">referens till listan</param>
-        /// <param name="data">datan som ska läggas in i listan</param>
-        private void AddValueToChart(ref List<SensorDataGraph> list, int data)
-        {
-            lock (lockerChart)
-            { 
-                if(list.Count >= 300)
-                {
-                    list.Clear();
-                    list.TrimExcess();
-                }
-                list.Add(new SensorDataGraph(list.Count, data));
-                _chart.DataBind();
-            }
-        }
-
-        /// <summary>
-        /// Metod som har hand om vad som ska göras när användaren ändrar värde i comboboxen
-        /// där man väljer vilken chartdata som ska visas. 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cmbChart_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            lock (lockerChart)
-            {
-                _chart.ChartAreas.Clear();
-                _chart.Series.Clear();
-                if (cmbChart.SelectedIndex > 5)
-                { _chart.ChartAreas.Add(_cAreaSigned); }
-                else
-                { _chart.ChartAreas.Add(_cAreaPos); }
-
-                _chart.DataSource = ((DictWithCharts)cmbChart.SelectedItem).Data;
-                _chart.Series.Add("Sensordatan");
-                _chart.Series[0].XValueMember = "X";
-                _chart.Series[0].YValueMembers = "Y";
-                _chart.DataBind();
-
-                _chart.Series[0].ChartType = SeriesChartType.Line;
-                _chart.Series[0].Color = orgColor.Color.White;
-                _chart.Series[0].BorderWidth = 2;
-            }
-        }
-
-        /// <summary>
         /// Uppdaterar txtBox om ett nytt styrbeslut kommer.
         /// Placerar senaste styrbeslutet överst och skiftar ner de historiska besluten.
         /// </summary>
@@ -603,6 +369,32 @@ namespace WISH_client
                 }
                 txtOutput.Lines.SetValue(text, 0);
             }
+        }
+
+        /// <summary>
+        /// Metod som läser av txtKp och txtKd. Metoden kontrollerar även
+        /// att värdet i textboxarna är ett giltigt byte värde (0-255).
+        /// </summary>
+        /// <param name="Kp">Värdet från txtKp.Text i Byte</param>
+        /// <param name="Kd">Värdet från txtKd.Text i Byte</param>
+        /// <returns>True om konverteringen av båda är giltig</returns>
+        private bool ReadControlValues(out Byte Kp, out Byte Kd)
+        {
+            Kp = 0;
+            Kd = 0;
+            return (Byte.TryParse(txtKp.Text, out Kp) && Byte.TryParse(txtKd.Text, out Kd));
+        }
+
+        /// <summary>
+        /// Sänder iväg Kp och Kd via Bluetoothen. 
+        /// Felkontroll inkluderad då den anropar ReadControlValues().
+        /// </summary>
+        private void btnSendControls_Click(object sender, EventArgs e)
+        {
+            Byte Kd = 0;
+            Byte Kp = 0;
+            if (ReadControlValues(out Kp, out Kd))
+                _bt.transmit_byte(new byte[4] { 33, Kp, 34, Kd });
         }
 
 

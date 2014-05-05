@@ -33,6 +33,8 @@
             this.txtOutput = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lblPlayer = new System.Windows.Forms.Label();
+            this.cmbPlayers = new System.Windows.Forms.ComboBox();
             this.btnManual = new System.Windows.Forms.Button();
             this.btnAutomatic = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -58,13 +60,18 @@
             this.lblRightDetect = new System.Windows.Forms.Label();
             this.lblSpeedMid = new System.Windows.Forms.Label();
             this.lblDistanceMid = new System.Windows.Forms.Label();
-            this.cmbPlayers = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnSendControls = new System.Windows.Forms.Button();
+            this.txtKd = new System.Windows.Forms.TextBox();
+            this.txtKp = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._chart)).BeginInit();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmbComPorts
@@ -174,22 +181,40 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.lblPlayer);
             this.groupBox3.Controls.Add(this.cmbPlayers);
             this.groupBox3.Controls.Add(this.btnManual);
             this.groupBox3.Controls.Add(this.btnAutomatic);
-            this.groupBox3.Location = new System.Drawing.Point(720, 262);
+            this.groupBox3.Location = new System.Drawing.Point(914, 206);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(493, 152);
+            this.groupBox3.Size = new System.Drawing.Size(299, 110);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Styrning";
             // 
+            // lblPlayer
+            // 
+            this.lblPlayer.AutoSize = true;
+            this.lblPlayer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayer.Location = new System.Drawing.Point(182, 68);
+            this.lblPlayer.Name = "lblPlayer";
+            this.lblPlayer.Size = new System.Drawing.Size(50, 16);
+            this.lblPlayer.TabIndex = 9;
+            this.lblPlayer.Text = "Player:";
+            // 
+            // cmbPlayers
+            // 
+            this.cmbPlayers.FormattingEnabled = true;
+            this.cmbPlayers.Location = new System.Drawing.Point(238, 67);
+            this.cmbPlayers.Name = "cmbPlayers";
+            this.cmbPlayers.Size = new System.Drawing.Size(42, 21);
+            this.cmbPlayers.TabIndex = 8;
+            // 
             // btnManual
             // 
-            this.btnManual.Location = new System.Drawing.Point(284, 34);
+            this.btnManual.Location = new System.Drawing.Point(181, 28);
             this.btnManual.Name = "btnManual";
-            this.btnManual.Size = new System.Drawing.Size(155, 40);
+            this.btnManual.Size = new System.Drawing.Size(99, 31);
             this.btnManual.TabIndex = 1;
             this.btnManual.Text = "Manuellt";
             this.btnManual.UseVisualStyleBackColor = true;
@@ -197,9 +222,9 @@
             // 
             // btnAutomatic
             // 
-            this.btnAutomatic.Location = new System.Drawing.Point(63, 34);
+            this.btnAutomatic.Location = new System.Drawing.Point(22, 28);
             this.btnAutomatic.Name = "btnAutomatic";
-            this.btnAutomatic.Size = new System.Drawing.Size(155, 40);
+            this.btnAutomatic.Size = new System.Drawing.Size(99, 31);
             this.btnAutomatic.TabIndex = 0;
             this.btnAutomatic.Text = "Autonomt";
             this.btnAutomatic.UseVisualStyleBackColor = true;
@@ -423,23 +448,61 @@
             this.lblDistanceMid.TabIndex = 0;
             this.lblDistanceMid.Text = "label4";
             // 
-            // cmbPlayers
+            // groupBox5
             // 
-            this.cmbPlayers.FormattingEnabled = true;
-            this.cmbPlayers.Location = new System.Drawing.Point(322, 90);
-            this.cmbPlayers.Name = "cmbPlayers";
-            this.cmbPlayers.Size = new System.Drawing.Size(117, 21);
-            this.cmbPlayers.TabIndex = 8;
+            this.groupBox5.Controls.Add(this.btnSendControls);
+            this.groupBox5.Controls.Add(this.txtKd);
+            this.groupBox5.Controls.Add(this.txtKp);
+            this.groupBox5.Controls.Add(this.label10);
+            this.groupBox5.Controls.Add(this.label3);
+            this.groupBox5.Location = new System.Drawing.Point(775, 353);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(438, 90);
+            this.groupBox5.TabIndex = 8;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Reglering";
             // 
-            // label1
+            // btnSendControls
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(266, 91);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 16);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Player:";
+            this.btnSendControls.Location = new System.Drawing.Point(229, 39);
+            this.btnSendControls.Name = "btnSendControls";
+            this.btnSendControls.Size = new System.Drawing.Size(75, 23);
+            this.btnSendControls.TabIndex = 4;
+            this.btnSendControls.Text = "Skicka";
+            this.btnSendControls.UseVisualStyleBackColor = true;
+            this.btnSendControls.Click += new System.EventHandler(this.btnSendControls_Click);
+            // 
+            // txtKd
+            // 
+            this.txtKd.Location = new System.Drawing.Point(154, 40);
+            this.txtKd.Name = "txtKd";
+            this.txtKd.Size = new System.Drawing.Size(46, 20);
+            this.txtKd.TabIndex = 3;
+            // 
+            // txtKp
+            // 
+            this.txtKp.Location = new System.Drawing.Point(53, 40);
+            this.txtKp.Name = "txtKp";
+            this.txtKp.Size = new System.Drawing.Size(46, 20);
+            this.txtKp.TabIndex = 2;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(24, 43);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(23, 13);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Kp:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(122, 43);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(26, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Kd: ";
             // 
             // MainProgram
             // 
@@ -447,6 +510,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1225, 767);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -462,6 +526,8 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._chart)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -505,7 +571,13 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataVisualization.Charting.Chart _chart;
         private System.Windows.Forms.ComboBox cmbChart;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblPlayer;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnSendControls;
+        private System.Windows.Forms.TextBox txtKd;
+        private System.Windows.Forms.TextBox txtKp;
+        private System.Windows.Forms.Label label10;
     }
 }
 
