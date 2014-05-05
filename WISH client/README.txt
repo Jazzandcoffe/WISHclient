@@ -5,8 +5,6 @@
 
    
 ================== Att göra ===============================
-- Axlarna i sensorvärdena bör vara anpassade till en specifik data. Som det är nu finns endast
-  2 olika sorters ChartAreas, en för signed och en för unsigned data. 
   
 - Textbox för output av styrbeslut, kod implementerad men bortkommenterad i tickupdate. 
   Denna måste testas när styrmodulen implementerat sändning av styrbeslut. 
@@ -41,7 +39,11 @@
   inkopplad Xboxkontroll. 
 
 - Initialize() bör återställa GUI till grundläget precis då man startat programmet. 
-  Detta gör att man enkelt kan återställa GUI vid olika exceptions utan att programmet kraschar.  
+  Detta gör att man enkelt kan återställa GUI vid olika exceptions utan att programmet kraschar.
+
+- Axlarna i sensorvärdena bör vara anpassade till en specifik data. Som det är nu finns endast
+  2 olika sorters ChartAreas, en för signed och en för unsigned data. 
+  Lösning: Finns nu tre olika sorters ChartAreas. Även bytt bakgrund till vitt.   
   
 =================== Åtgärdade buggar och dess lösningar ===============================================
 
