@@ -33,8 +33,9 @@ namespace WISH_client
         /// <summary>
         /// Chart variabler
         /// </summary>
-        public ChartArea _cAreaPos;
+        public ChartArea _cAreaDist;
         public ChartArea _cAreaSigned;
+        public ChartArea _cAreaType;
         private double _maximumX = 300;
         private double _maximumY = 200;
         private List<SensorDataGraph> _dataFront;

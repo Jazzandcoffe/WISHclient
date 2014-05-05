@@ -155,12 +155,20 @@ namespace WISH_client
         {
             lock (lockerChart)
             {
-                _chart.ChartAreas.Clear();
                 _chart.Series.Clear();
-                if (cmbChart.SelectedIndex > 5)
-                { _chart.ChartAreas.Add(_cAreaSigned); }
+                _chart.ChartAreas.Clear();
+                if (cmbChart.SelectedIndex < 4)
+                {
+                    _chart.ChartAreas.Add(_cAreaDist);
+                }
+                else if (cmbChart.SelectedIndex < 6)
+                {
+                    _chart.ChartAreas.Add(_cAreaType);
+                }
                 else
-                { _chart.ChartAreas.Add(_cAreaPos); }
+                {
+                    _chart.ChartAreas.Add(_cAreaSigned);
+                }
 
                 _chart.DataSource = ((DictWithCharts)cmbChart.SelectedItem).Data;
                 _chart.Series.Add("Sensordatan");
@@ -169,7 +177,7 @@ namespace WISH_client
                 _chart.DataBind();
 
                 _chart.Series[0].ChartType = SeriesChartType.Line;
-                _chart.Series[0].Color = orgColor.Color.White;
+                _chart.Series[0].Color = orgColor.Color.Black;
                 _chart.Series[0].BorderWidth = 2;
             }
         }

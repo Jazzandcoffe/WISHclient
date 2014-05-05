@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,8 @@ namespace WISH_client
 {
     public partial class MainProgram : Form
     {
+        private ChartAreaCollection _chartAreas;
+
         /// <summary>
         /// Fyller Dictionaryn _dictWithChartData med alla Lists som innehåller datan för olika sensorer. 
         /// </summary>
@@ -38,34 +41,50 @@ namespace WISH_client
         /// <param name="Data">Datan som ska knytas till grafen</param>
         private void SetupChart(ref Chart chart, ref List<SensorDataGraph> Data)
         {
-            _cAreaPos = new ChartArea("Positive");
+            _cAreaDist = new ChartArea("Distance");
             _cAreaSigned = new ChartArea("Signed");
+            _cAreaType = new ChartArea("Type");
+
             chart.ChartAreas.Clear();
             chart.Series.Clear();
             ///Chartareans utseende för positiva värden
-            _cAreaPos.AxisX.Minimum = 0;
-            _cAreaPos.AxisX.Maximum = _maximumX;
-            _cAreaPos.AxisX.Interval = _maximumX / 5;
-            _cAreaPos.AxisY.Maximum = _maximumY;
-            _cAreaPos.AxisY.Minimum = 0;
-            _cAreaPos.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
-            _cAreaPos.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            _cAreaPos.AxisY.Interval = _maximumY / 4;
-            _cAreaPos.BackColor = orgColor.Color.White;
-            _chart.ChartAreas.Add(_cAreaPos);
+            _cAreaDist.AxisX.Minimum = 0;
+            _cAreaDist.AxisX.Maximum = _maximumX;
+            _cAreaDist.AxisX.Interval = _maximumX / 5;
+            _cAreaDist.AxisX.MajorGrid.Enabled = false;
+            _cAreaDist.AxisY.Maximum = 260;
+            _cAreaDist.AxisY.Minimum = 0;
+            _cAreaDist.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
+            _cAreaDist.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
+            _cAreaDist.AxisY.Interval = 65;
+            _cAreaDist.BackColor = orgColor.Color.White;
 
             //Chartareans utseende för negativa värden
             _cAreaSigned.AxisX.Minimum = 0;
             _cAreaSigned.AxisX.Maximum = _maximumX;
             _cAreaSigned.AxisX.Interval = _maximumX / 5;
-            _cAreaSigned.AxisY.Maximum = 60;
-            _cAreaSigned.AxisY.Minimum = -60;
+            _cAreaSigned.AxisX.MajorGrid.Enabled = false;
+            _cAreaSigned.AxisY.Maximum = 50;
+            _cAreaSigned.AxisY.Minimum = -50;
             _cAreaSigned.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
             _cAreaSigned.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            _cAreaSigned.AxisY.Interval = 15;
+            _cAreaSigned.AxisY.Interval = 25;
             _cAreaSigned.BackColor = orgColor.Color.White;
 
+            //Chartareans utseende för type-värden
+            _cAreaType.AxisX.Minimum = 0;
+            _cAreaType.AxisX.Maximum = _maximumX;
+            _cAreaType.AxisX.Interval = _maximumX / 5;
+            _cAreaType.AxisX.MajorGrid.Enabled = false;
+            _cAreaType.AxisY.Maximum = 4;
+            _cAreaType.AxisY.Minimum = 0;
+            _cAreaType.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
+            _cAreaType.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
+            _cAreaType.AxisY.Interval = 1;
+            _cAreaType.BackColor = orgColor.Color.White;
 
+            chart.ChartAreas.Add(_cAreaDist);
+            
             //Ordnar till vilken data som ska plottas. 
             chart.DataSource = Data;
             chart.Series.Add("Sensordatan");
@@ -79,7 +98,8 @@ namespace WISH_client
 
             cmbChart.DataSource = _dictWithChartData;
             cmbChart.DisplayMember = "Name";
-            cmbChart.SelectedIndex = 0;
+            
+            cmbChart.SelectedIndex = 0; //Bör anropa selectedIndex changed event. 
         }
         
         /// <summary>
