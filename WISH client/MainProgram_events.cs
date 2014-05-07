@@ -28,7 +28,7 @@ namespace WISH_client
             catch
             {
                 Reset();
-                MessageBox.Show("Kontakten med bluetooth har försvunnit. Återställning av GUI sker.", "ERROR!", MessageBoxButtons.OK);
+                MessageBox.Show("KKunde inte uppdatera GUI, återställning har skett.", "ERROR!", MessageBoxButtons.OK);
             }
         }
 

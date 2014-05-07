@@ -12,7 +12,6 @@ namespace WISH_client
 {
     public partial class MainProgram : Form
     {
-        private ChartAreaCollection _chartAreas;
 
         /// <summary>
         /// Fyller Dictionaryn _dictWithChartData med alla Lists som innehåller datan för olika sensorer. 
@@ -64,11 +63,11 @@ namespace WISH_client
             _cAreaSigned.AxisX.Maximum = _maximumX;
             _cAreaSigned.AxisX.Interval = _maximumX / 5;
             _cAreaSigned.AxisX.MajorGrid.Enabled = false;
-            _cAreaSigned.AxisY.Maximum = 50;
-            _cAreaSigned.AxisY.Minimum = -50;
+            _cAreaSigned.AxisY.Maximum = 40;
+            _cAreaSigned.AxisY.Minimum = 10;
             _cAreaSigned.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
             _cAreaSigned.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            _cAreaSigned.AxisY.Interval = 25;
+            _cAreaSigned.AxisY.Interval = 10;
             _cAreaSigned.BackColor = orgColor.Color.White;
 
             //Chartareans utseende för type-värden

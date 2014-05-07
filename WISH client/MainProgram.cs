@@ -37,7 +37,6 @@ namespace WISH_client
         public ChartArea _cAreaSigned;
         public ChartArea _cAreaType;
         private double _maximumX = 300;
-        private double _maximumY = 200;
         private List<SensorDataGraph> _dataFront;
         private List<SensorDataGraph> _dataBack;
         private List<SensorDataGraph> _dataRight;
@@ -232,7 +231,7 @@ namespace WISH_client
             lblRearDetect.Text = dataOfType[12].ToString();
             lblDistRight.Text = dataOfType[13].ToString();
             lblDistLeft.Text = dataOfType[14].ToString();
-            //updateTxtBox(dataOfType[32].ToString()); //Ändra typ efter protokoll  ((((EJ implementerad i Styr))))
+            updateTxtBox(dataOfType[32].ToString()); //Ändra typ efter protokoll  ((((EJ implementerad i Styr))))
             AddValueToChart(ref _dataFront, dataOfType[9]);
             AddValueToChart(ref _dataRight, dataOfType[13]);
             AddValueToChart(ref _dataBack, dataOfType[10]);
@@ -371,8 +370,14 @@ namespace WISH_client
                 txtOutput.Lines = temp;
             }
 
-            if (!txtOutput.Lines[0].Equals(text))
+            if (txtOutput.Lines.Length == 0)
+            {
+                txtOutput.Text = text + Environment.NewLine;
+            }
+            else if (txtOutput.Lines[0] != text)
+            {
                 txtOutput.Text = text + Environment.NewLine + txtOutput.Text + Environment.NewLine;
+            }
         }
 
         /// <summary>
