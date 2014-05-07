@@ -97,6 +97,15 @@ namespace WISH_client
             lblDistRight.Text = String.Empty;
             lblFrontDetect.Text = String.Empty;
             lblRearDetect.Text = String.Empty;
+            lblBackUpper.Text = String.Empty;
+            lblBackLower.Text = String.Empty;
+            lblFrontLower.Text = String.Empty;
+            lblFrontUpper.Text = String.Empty;
+            lblLeftBack.Text = String.Empty;
+            lblLeftFront.Text = String.Empty;
+            lblRightBack.Text = String.Empty;
+            lblRightFront.Text = String.Empty;
+
             txtKd.Text = "0";
             txtKp.Text = "0";
             btnComStart.Enabled = true;
