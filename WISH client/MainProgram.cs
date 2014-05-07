@@ -231,6 +231,17 @@ namespace WISH_client
             lblRearDetect.Text = dataOfType[12].ToString();
             lblDistRight.Text = dataOfType[13].ToString();
             lblDistLeft.Text = dataOfType[14].ToString();
+            lblAngleRight.Text = dataOfType[15].ToString();
+            lblAngleLeft.Text = dataOfType[16].ToString();
+            lblLeftBack.Text = dataOfType[17].ToString();
+            lblLeftFront.Text = dataOfType[18].ToString();
+            lblRightBack.Text = dataOfType[19].ToString();
+            lblRightFront.Text = dataOfType[20].ToString();
+            lblFrontLower.Text = dataOfType[21].ToString();
+            lblFrontUpper.Text = dataOfType[22].ToString();
+            lblBackLower.Text = dataOfType[23].ToString();
+            lblBackUpper.Text = dataOfType[24].ToString();
+
             updateTxtBox(dataOfType[32].ToString()); //Ändra typ efter protokoll  ((((EJ implementerad i Styr))))
             AddValueToChart(ref _dataFront, dataOfType[9]);
             AddValueToChart(ref _dataRight, dataOfType[13]);
@@ -405,6 +416,7 @@ namespace WISH_client
             if (ReadControlValues(out Kp, out Kd))
                 _bt.transmit_byte(new byte[4] { 33, Kp, 34, Kd });
         }
+
 
 
         

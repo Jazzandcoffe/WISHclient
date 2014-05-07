@@ -22,6 +22,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainProgram));
             this.cmbComPorts = new System.Windows.Forms.ComboBox();
             this.btnComStart = new System.Windows.Forms.Button();
             this.lblCOM = new System.Windows.Forms.Label();
@@ -38,10 +39,19 @@
             this.btnManual = new System.Windows.Forms.Button();
             this.btnAutomatic = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lblAngleRight = new System.Windows.Forms.Label();
+            this.lblAngleLeft = new System.Windows.Forms.Label();
+            this.lblBackUpper = new System.Windows.Forms.Label();
+            this.lblLeftBack = new System.Windows.Forms.Label();
+            this.lblRightBack = new System.Windows.Forms.Label();
+            this.lblRightFront = new System.Windows.Forms.Label();
+            this.lblFrontLower = new System.Windows.Forms.Label();
+            this.lblLeftFront = new System.Windows.Forms.Label();
+            this.lblBackLower = new System.Windows.Forms.Label();
+            this.lblFrontUpper = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.cmbChart = new System.Windows.Forms.ComboBox();
             this._chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -55,11 +65,11 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.lblLeftDetect = new System.Windows.Forms.Label();
             this.lblRightDetect = new System.Windows.Forms.Label();
             this.lblSpeedMid = new System.Windows.Forms.Label();
             this.lblDistanceMid = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnSendControls = new System.Windows.Forms.Button();
             this.txtKd = new System.Windows.Forms.TextBox();
@@ -70,7 +80,9 @@
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._chart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -110,9 +122,9 @@
             this.groupBox1.Controls.Add(this.btnComStart);
             this.groupBox1.Controls.Add(this.cmbComPorts);
             this.groupBox1.Controls.Add(this.lblCOM);
-            this.groupBox1.Location = new System.Drawing.Point(766, 23);
+            this.groupBox1.Location = new System.Drawing.Point(954, 23);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(447, 177);
+            this.groupBox1.Size = new System.Drawing.Size(438, 177);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bluetooth";
@@ -145,7 +157,7 @@
             this.lblBaudRate.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblBaudRate.Location = new System.Drawing.Point(69, 68);
             this.lblBaudRate.Name = "lblBaudRate";
-            this.lblBaudRate.Size = new System.Drawing.Size(64, 23);
+            this.lblBaudRate.Size = new System.Drawing.Size(55, 23);
             this.lblBaudRate.TabIndex = 4;
             this.lblBaudRate.Text = "label1";
             this.lblBaudRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -165,19 +177,18 @@
             this.txtOutput.Multiline = true;
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.ReadOnly = true;
-            this.txtOutput.Size = new System.Drawing.Size(631, 199);
+            this.txtOutput.Size = new System.Drawing.Size(426, 306);
             this.txtOutput.TabIndex = 4;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.txtOutput);
-            this.groupBox2.Location = new System.Drawing.Point(18, 498);
+            this.groupBox2.Location = new System.Drawing.Point(954, 458);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(646, 227);
+            this.groupBox2.Size = new System.Drawing.Size(438, 340);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Info (Tänkte att man skulle kunna slänga ut alla styrbeslut som en sträng i rutan" +
-    " nedan)";
+            this.groupBox2.Text = "Styrbeslut";
             // 
             // groupBox3
             // 
@@ -185,7 +196,7 @@
             this.groupBox3.Controls.Add(this.cmbPlayers);
             this.groupBox3.Controls.Add(this.btnManual);
             this.groupBox3.Controls.Add(this.btnAutomatic);
-            this.groupBox3.Location = new System.Drawing.Point(914, 206);
+            this.groupBox3.Location = new System.Drawing.Point(1093, 206);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(299, 110);
             this.groupBox3.TabIndex = 6;
@@ -232,10 +243,19 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.lblAngleRight);
+            this.groupBox4.Controls.Add(this.lblAngleLeft);
+            this.groupBox4.Controls.Add(this.lblBackUpper);
+            this.groupBox4.Controls.Add(this.lblLeftBack);
+            this.groupBox4.Controls.Add(this.lblRightBack);
+            this.groupBox4.Controls.Add(this.lblRightFront);
+            this.groupBox4.Controls.Add(this.lblFrontLower);
+            this.groupBox4.Controls.Add(this.lblLeftFront);
+            this.groupBox4.Controls.Add(this.lblBackLower);
+            this.groupBox4.Controls.Add(this.lblFrontUpper);
+            this.groupBox4.Controls.Add(this.pictureBox2);
             this.groupBox4.Controls.Add(this.cmbChart);
             this.groupBox4.Controls.Add(this._chart);
-            this.groupBox4.Controls.Add(this.label9);
-            this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.label16);
             this.groupBox4.Controls.Add(this.label15);
@@ -249,22 +269,122 @@
             this.groupBox4.Controls.Add(this.label7);
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.label5);
-            this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.lblLeftDetect);
             this.groupBox4.Controls.Add(this.lblRightDetect);
             this.groupBox4.Controls.Add(this.lblSpeedMid);
             this.groupBox4.Controls.Add(this.lblDistanceMid);
+            this.groupBox4.Controls.Add(this.pictureBox1);
             this.groupBox4.Location = new System.Drawing.Point(18, 23);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(646, 458);
+            this.groupBox4.Size = new System.Drawing.Size(930, 775);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Diverse sensorinformation";
             // 
+            // lblAngleRight
+            // 
+            this.lblAngleRight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAngleRight.Location = new System.Drawing.Point(850, 202);
+            this.lblAngleRight.Name = "lblAngleRight";
+            this.lblAngleRight.Size = new System.Drawing.Size(50, 15);
+            this.lblAngleRight.TabIndex = 37;
+            this.lblAngleRight.Text = "label4";
+            // 
+            // lblAngleLeft
+            // 
+            this.lblAngleLeft.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAngleLeft.Location = new System.Drawing.Point(850, 175);
+            this.lblAngleLeft.Name = "lblAngleLeft";
+            this.lblAngleLeft.Size = new System.Drawing.Size(50, 15);
+            this.lblAngleLeft.TabIndex = 36;
+            this.lblAngleLeft.Text = "label4";
+            // 
+            // lblBackUpper
+            // 
+            this.lblBackUpper.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblBackUpper.Location = new System.Drawing.Point(137, 365);
+            this.lblBackUpper.Name = "lblBackUpper";
+            this.lblBackUpper.Size = new System.Drawing.Size(50, 15);
+            this.lblBackUpper.TabIndex = 31;
+            this.lblBackUpper.Text = "label4";
+            // 
+            // lblLeftBack
+            // 
+            this.lblLeftBack.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblLeftBack.Location = new System.Drawing.Point(29, 321);
+            this.lblLeftBack.Name = "lblLeftBack";
+            this.lblLeftBack.Size = new System.Drawing.Size(50, 15);
+            this.lblLeftBack.TabIndex = 30;
+            this.lblLeftBack.Text = "label4";
+            // 
+            // lblRightBack
+            // 
+            this.lblRightBack.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblRightBack.Location = new System.Drawing.Point(237, 321);
+            this.lblRightBack.Name = "lblRightBack";
+            this.lblRightBack.Size = new System.Drawing.Size(50, 15);
+            this.lblRightBack.TabIndex = 29;
+            this.lblRightBack.Text = "label4";
+            // 
+            // lblRightFront
+            // 
+            this.lblRightFront.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblRightFront.Location = new System.Drawing.Point(240, 142);
+            this.lblRightFront.Name = "lblRightFront";
+            this.lblRightFront.Size = new System.Drawing.Size(50, 15);
+            this.lblRightFront.TabIndex = 27;
+            this.lblRightFront.Text = "label4";
+            // 
+            // lblFrontLower
+            // 
+            this.lblFrontLower.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblFrontLower.Location = new System.Drawing.Point(137, 37);
+            this.lblFrontLower.Name = "lblFrontLower";
+            this.lblFrontLower.Size = new System.Drawing.Size(50, 15);
+            this.lblFrontLower.TabIndex = 26;
+            this.lblFrontLower.Text = "label4";
+            // 
+            // lblLeftFront
+            // 
+            this.lblLeftFront.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblLeftFront.Location = new System.Drawing.Point(29, 142);
+            this.lblLeftFront.Name = "lblLeftFront";
+            this.lblLeftFront.Size = new System.Drawing.Size(50, 15);
+            this.lblLeftFront.TabIndex = 25;
+            this.lblLeftFront.Text = "label4";
+            // 
+            // lblBackLower
+            // 
+            this.lblBackLower.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblBackLower.Location = new System.Drawing.Point(137, 423);
+            this.lblBackLower.Name = "lblBackLower";
+            this.lblBackLower.Size = new System.Drawing.Size(50, 15);
+            this.lblBackLower.TabIndex = 24;
+            this.lblBackLower.Text = "label4";
+            // 
+            // lblFrontUpper
+            // 
+            this.lblFrontUpper.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblFrontUpper.Location = new System.Drawing.Point(137, 92);
+            this.lblFrontUpper.Name = "lblFrontUpper";
+            this.lblFrontUpper.Size = new System.Drawing.Size(50, 15);
+            this.lblFrontUpper.TabIndex = 23;
+            this.lblFrontUpper.Text = "label4";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(6, 37);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(308, 401);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 28;
+            this.pictureBox2.TabStop = false;
+            // 
             // cmbChart
             // 
             this.cmbChart.FormattingEnabled = true;
-            this.cmbChart.Location = new System.Drawing.Point(519, 120);
+            this.cmbChart.Location = new System.Drawing.Point(91, 483);
             this.cmbChart.Name = "cmbChart";
             this.cmbChart.Size = new System.Drawing.Size(121, 21);
             this.cmbChart.TabIndex = 21;
@@ -272,64 +392,48 @@
             // 
             // _chart
             // 
-            this._chart.Location = new System.Drawing.Point(27, 161);
+            this._chart.Location = new System.Drawing.Point(218, 483);
             this._chart.Name = "_chart";
             this._chart.Size = new System.Drawing.Size(572, 280);
             this._chart.TabIndex = 20;
             this._chart.Text = "chart1";
             // 
-            // label9
-            // 
-            this.label9.Location = new System.Drawing.Point(39, 132);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(120, 13);
-            this.label9.TabIndex = 19;
-            this.label9.Text = "Avstånd fram: ";
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(296, 133);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(120, 15);
-            this.label8.TabIndex = 18;
-            this.label8.Text = "Avstånd vänster: ";
-            // 
             // label17
             // 
-            this.label17.Location = new System.Drawing.Point(296, 29);
+            this.label17.Location = new System.Drawing.Point(714, 203);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(120, 15);
             this.label17.TabIndex = 17;
-            this.label17.Text = "Avstånd bak: ";
+            this.label17.Text = "Vinkel vägg höger:";
             // 
             // label16
             // 
-            this.label16.Location = new System.Drawing.Point(296, 107);
+            this.label16.Location = new System.Drawing.Point(714, 176);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(120, 15);
             this.label16.TabIndex = 16;
-            this.label16.Text = "Avstånd höger: ";
+            this.label16.Text = "Vinkel vägg vänster:";
             // 
             // label15
             // 
-            this.label15.Location = new System.Drawing.Point(296, 81);
+            this.label15.Location = new System.Drawing.Point(714, 93);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(120, 15);
             this.label15.TabIndex = 15;
-            this.label15.Text = "Typ bak: ";
+            this.label15.Text = "Hindertyp bak: ";
             // 
             // label14
             // 
-            this.label14.Location = new System.Drawing.Point(296, 55);
+            this.label14.Location = new System.Drawing.Point(714, 64);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(120, 15);
             this.label14.TabIndex = 14;
-            this.label14.Text = "Typ fram: ";
+            this.label14.Text = "Hindertyp fram: ";
             // 
             // lblDistRight
             // 
             this.lblDistRight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblDistRight.Location = new System.Drawing.Point(431, 106);
+            this.lblDistRight.Location = new System.Drawing.Point(632, 229);
             this.lblDistRight.Name = "lblDistRight";
             this.lblDistRight.Size = new System.Drawing.Size(50, 15);
             this.lblDistRight.TabIndex = 13;
@@ -338,7 +442,7 @@
             // lblDistFront
             // 
             this.lblDistFront.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblDistFront.Location = new System.Drawing.Point(186, 131);
+            this.lblDistFront.Location = new System.Drawing.Point(505, 37);
             this.lblDistFront.Name = "lblDistFront";
             this.lblDistFront.Size = new System.Drawing.Size(50, 15);
             this.lblDistFront.TabIndex = 12;
@@ -347,7 +451,7 @@
             // lblDistLeft
             // 
             this.lblDistLeft.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblDistLeft.Location = new System.Drawing.Point(431, 131);
+            this.lblDistLeft.Location = new System.Drawing.Point(374, 229);
             this.lblDistLeft.Name = "lblDistLeft";
             this.lblDistLeft.Size = new System.Drawing.Size(50, 15);
             this.lblDistLeft.TabIndex = 11;
@@ -356,7 +460,7 @@
             // lblRearDetect
             // 
             this.lblRearDetect.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblRearDetect.Location = new System.Drawing.Point(431, 81);
+            this.lblRearDetect.Location = new System.Drawing.Point(850, 92);
             this.lblRearDetect.Name = "lblRearDetect";
             this.lblRearDetect.Size = new System.Drawing.Size(50, 15);
             this.lblRearDetect.TabIndex = 10;
@@ -365,7 +469,7 @@
             // lblDistRear
             // 
             this.lblDistRear.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblDistRear.Location = new System.Drawing.Point(431, 31);
+            this.lblDistRear.Location = new System.Drawing.Point(505, 423);
             this.lblDistRear.Name = "lblDistRear";
             this.lblDistRear.Size = new System.Drawing.Size(50, 15);
             this.lblDistRear.TabIndex = 9;
@@ -374,7 +478,7 @@
             // lblFrontDetect
             // 
             this.lblFrontDetect.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblFrontDetect.Location = new System.Drawing.Point(431, 56);
+            this.lblFrontDetect.Location = new System.Drawing.Point(850, 63);
             this.lblFrontDetect.Name = "lblFrontDetect";
             this.lblFrontDetect.Size = new System.Drawing.Size(50, 15);
             this.lblFrontDetect.TabIndex = 8;
@@ -382,7 +486,7 @@
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(41, 107);
+            this.label7.Location = new System.Drawing.Point(714, 149);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(84, 13);
             this.label7.TabIndex = 7;
@@ -390,7 +494,7 @@
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(41, 82);
+            this.label6.Location = new System.Drawing.Point(714, 122);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(76, 13);
             this.label6.TabIndex = 6;
@@ -398,24 +502,16 @@
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(39, 57);
+            this.label5.Location = new System.Drawing.Point(714, 37);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(122, 13);
             this.label5.TabIndex = 5;
             this.label5.Text = "Derivatan av avvikelsen";
             // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(39, 32);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(120, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Avvikelse från mittlinjen:";
-            // 
             // lblLeftDetect
             // 
             this.lblLeftDetect.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblLeftDetect.Location = new System.Drawing.Point(186, 106);
+            this.lblLeftDetect.Location = new System.Drawing.Point(850, 147);
             this.lblLeftDetect.Name = "lblLeftDetect";
             this.lblLeftDetect.Size = new System.Drawing.Size(50, 15);
             this.lblLeftDetect.TabIndex = 3;
@@ -424,7 +520,7 @@
             // lblRightDetect
             // 
             this.lblRightDetect.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblRightDetect.Location = new System.Drawing.Point(186, 81);
+            this.lblRightDetect.Location = new System.Drawing.Point(850, 120);
             this.lblRightDetect.Name = "lblRightDetect";
             this.lblRightDetect.Size = new System.Drawing.Size(50, 15);
             this.lblRightDetect.TabIndex = 2;
@@ -433,7 +529,7 @@
             // lblSpeedMid
             // 
             this.lblSpeedMid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblSpeedMid.Location = new System.Drawing.Point(186, 56);
+            this.lblSpeedMid.Location = new System.Drawing.Point(850, 36);
             this.lblSpeedMid.Name = "lblSpeedMid";
             this.lblSpeedMid.Size = new System.Drawing.Size(50, 15);
             this.lblSpeedMid.TabIndex = 1;
@@ -442,11 +538,21 @@
             // lblDistanceMid
             // 
             this.lblDistanceMid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblDistanceMid.Location = new System.Drawing.Point(186, 31);
+            this.lblDistanceMid.Location = new System.Drawing.Point(505, 229);
             this.lblDistanceMid.Name = "lblDistanceMid";
             this.lblDistanceMid.Size = new System.Drawing.Size(50, 15);
             this.lblDistanceMid.TabIndex = 0;
             this.lblDistanceMid.Text = "label4";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(374, 37);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(308, 401);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 22;
+            this.pictureBox1.TabStop = false;
             // 
             // groupBox5
             // 
@@ -455,7 +561,7 @@
             this.groupBox5.Controls.Add(this.txtKp);
             this.groupBox5.Controls.Add(this.label10);
             this.groupBox5.Controls.Add(this.label3);
-            this.groupBox5.Location = new System.Drawing.Point(775, 353);
+            this.groupBox5.Location = new System.Drawing.Point(954, 353);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(438, 90);
             this.groupBox5.TabIndex = 8;
@@ -509,7 +615,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1225, 767);
+            this.ClientSize = new System.Drawing.Size(1404, 805);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -525,7 +631,9 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._chart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
@@ -556,7 +664,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
@@ -567,8 +674,6 @@
         private System.Windows.Forms.Label lblRearDetect;
         private System.Windows.Forms.Label lblDistRear;
         private System.Windows.Forms.Label lblFrontDetect;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataVisualization.Charting.Chart _chart;
         private System.Windows.Forms.ComboBox cmbChart;
         private System.Windows.Forms.Label lblPlayer;
@@ -578,6 +683,18 @@
         private System.Windows.Forms.TextBox txtKd;
         private System.Windows.Forms.TextBox txtKp;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lblRightFront;
+        private System.Windows.Forms.Label lblFrontLower;
+        private System.Windows.Forms.Label lblLeftFront;
+        private System.Windows.Forms.Label lblBackLower;
+        private System.Windows.Forms.Label lblFrontUpper;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label lblRightBack;
+        private System.Windows.Forms.Label lblLeftBack;
+        private System.Windows.Forms.Label lblBackUpper;
+        private System.Windows.Forms.Label lblAngleRight;
+        private System.Windows.Forms.Label lblAngleLeft;
     }
 }
 
