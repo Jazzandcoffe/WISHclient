@@ -250,6 +250,7 @@ namespace WISH_client
             lblFrontUpper.Text = dataOfType[22].ToString();
             lblBackLower.Text = dataOfType[23].ToString();
             lblBackUpper.Text = dataOfType[24].ToString();
+            ChangeLabelColors();
 
             updateTxtBox(dataOfType[32].ToString()); //Ändra typ efter protokoll  ((((EJ implementerad i Styr))))
             AddValueToChart(ref _dataFront, dataOfType[9]);
@@ -414,16 +415,23 @@ namespace WISH_client
             return (Byte.TryParse(txtKp.Text, out Kp) && Byte.TryParse(txtKd.Text, out Kd));
         }
 
-        /// <summary>
-        /// Sänder iväg Kp och Kd via Bluetoothen. 
-        /// Felkontroll inkluderad då den anropar ReadControlValues().
-        /// </summary>
-        private void btnSendControls_Click(object sender, EventArgs e)
+        private void ChangeLabelColors()
         {
-            Byte Kd = 0;
-            Byte Kp = 0;
-            if (ReadControlValues(out Kp, out Kd))
-                _bt.transmit_byte(new byte[4] { 33, Kp, 34, Kd });
+            //Typ höger färgning
+            if (dataOfType[7] == 3 || dataOfType[7] == 1)
+                lblRightDetect.BackColor = orgColor.Color.Yellow;
+            else if (dataOfType[7] == 0)
+                lblRightDetect.BackColor = orgColor.Color.Green;
+            else if (dataOfType[7] == 1)
+                lblRightDetect.BackColor = orgColor.Color.Red;
+
+            //Typ vänster färgning
+            if (dataOfType[8] == 3 || dataOfType[8] == 1)
+                lblLeftDetect.BackColor = orgColor.Color.Yellow;
+            else if (dataOfType[7] == 0)
+                lblLeftDetect.BackColor = orgColor.Color.Green;
+            else if (dataOfType[7] == 1)
+                lblLeftDetect.BackColor = orgColor.Color.Red;
         }
 
 

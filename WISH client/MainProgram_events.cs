@@ -181,5 +181,17 @@ namespace WISH_client
                 _chart.Series[0].BorderWidth = 2;
             }
         }
+
+        /// <summary>
+        /// Sänder iväg Kp och Kd via Bluetoothen. 
+        /// Felkontroll inkluderad då den anropar ReadControlValues().
+        /// </summary>
+        private void btnSendControls_Click(object sender, EventArgs e)
+        {
+            Byte Kd = 0;
+            Byte Kp = 0;
+            if (ReadControlValues(out Kp, out Kd))
+                _bt.transmit_byte(new byte[4] { 33, Kp, 34, Kd });
+        }
     }
 }
