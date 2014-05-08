@@ -419,19 +419,19 @@ namespace WISH_client
         {
             //Typ höger färgning
             if (dataOfType[7] == 3 || dataOfType[7] == 1)
-                lblRightDetect.BackColor = orgColor.Color.Yellow;
+                lblDistRight.BackColor = orgColor.Color.Yellow;
             else if (dataOfType[7] == 0)
-                lblRightDetect.BackColor = orgColor.Color.Green;
-            else if (dataOfType[7] == 1)
-                lblRightDetect.BackColor = orgColor.Color.Red;
+                lblDistRight.BackColor = orgColor.Color.Green;
+            else if (dataOfType[7] == 2)
+                lblDistRight.BackColor = orgColor.Color.Red;
 
             //Typ vänster färgning
             if (dataOfType[8] == 3 || dataOfType[8] == 1)
-                lblLeftDetect.BackColor = orgColor.Color.Yellow;
+                lblDistLeft.BackColor = orgColor.Color.Yellow;
             else if (dataOfType[7] == 0)
-                lblLeftDetect.BackColor = orgColor.Color.Green;
-            else if (dataOfType[7] == 1)
-                lblLeftDetect.BackColor = orgColor.Color.Red;
+                lblDistLeft.BackColor = orgColor.Color.Green;
+            else if (dataOfType[7] == 2)
+                lblDistLeft.BackColor = orgColor.Color.Red;
         }
 
 
