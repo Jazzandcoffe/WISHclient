@@ -73,7 +73,7 @@ namespace WISH_client
             _cAreaSigned.AxisX.Maximum = _maximumX;
             _cAreaSigned.AxisX.Interval = _maximumX / 5;
             _cAreaSigned.AxisX.MajorGrid.Enabled = false;
-            _cAreaSigned.AxisY.Maximum = -40;
+            _cAreaSigned.AxisY.Maximum = 40;
             _cAreaSigned.AxisY.Minimum = -40;
             _cAreaSigned.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
             _cAreaSigned.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;

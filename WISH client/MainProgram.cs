@@ -271,6 +271,14 @@ namespace WISH_client
             AddValueToChart(ref _speedDeviation, dataOfType[6]);
             AddValueToChart(ref _angelLeft, dataOfType[16]);
             AddValueToChart(ref _angelRight, dataOfType[15]);
+            AddValueToChart(ref _dataLeftFront, dataOfType[18]);
+            AddValueToChart(ref _dataLeftBack, dataOfType[17]);
+            AddValueToChart(ref _dataRightBack, dataOfType[19]);
+            AddValueToChart(ref _dataRightFront, dataOfType[20]);
+            AddValueToChart(ref _dataFrontLower, dataOfType[21]);
+            AddValueToChart(ref _dataFrontUpper, dataOfType[22]);
+            AddValueToChart(ref _dataRearLower, dataOfType[23]);
+            AddValueToChart(ref _dataRearUpper, dataOfType[24]);
         }
 
         /// <summary>
