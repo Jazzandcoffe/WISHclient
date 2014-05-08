@@ -25,12 +25,22 @@ namespace WISH_client
             _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd vänster", Data = _dataLeft });
             _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd fram", Data = _dataFront });
             _dictWithChartData.Add(new DictWithCharts { Name = "Avstånd bak", Data = _dataBack });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Vänster fram", Data = _dataLeftFront });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Vänster bak", Data = _dataLeftBack });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Höger fram", Data = _dataRightFront });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Höger bak", Data = _dataRightBack });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Fram övre", Data = _dataFrontUpper });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Fram nedre", Data = _dataFrontLower });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Bak övre", Data = _dataRearUpper });
+            _dictWithChartData.Add(new DictWithCharts { Name = "Bak nedre", Data = _dataRearLower });
             _dictWithChartData.Add(new DictWithCharts { Name = "Typ vänster", Data = _dataTypeLeft });
             _dictWithChartData.Add(new DictWithCharts { Name = "Typ höger", Data = _dataTypeRight });
             _dictWithChartData.Add(new DictWithCharts { Name = "Vinkel vänster", Data = _angelLeft });
             _dictWithChartData.Add(new DictWithCharts { Name = "Vinkel höger", Data = _angelRight });
             _dictWithChartData.Add(new DictWithCharts { Name = "Avvikelse mitt", Data = _deviationMid });
             _dictWithChartData.Add(new DictWithCharts { Name = "Hastighet sidled", Data = _speedDeviation });
+
+            
         }
 
         /// <summary>
@@ -63,8 +73,8 @@ namespace WISH_client
             _cAreaSigned.AxisX.Maximum = _maximumX;
             _cAreaSigned.AxisX.Interval = _maximumX / 5;
             _cAreaSigned.AxisX.MajorGrid.Enabled = false;
-            _cAreaSigned.AxisY.Maximum = 40;
-            _cAreaSigned.AxisY.Minimum = 10;
+            _cAreaSigned.AxisY.Maximum = -40;
+            _cAreaSigned.AxisY.Minimum = -40;
             _cAreaSigned.AxisY.MajorGrid.LineColor = orgColor.Color.Blue;
             _cAreaSigned.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
             _cAreaSigned.AxisY.Interval = 10;

@@ -157,11 +157,11 @@ namespace WISH_client
             {
                 _chart.Series.Clear();
                 _chart.ChartAreas.Clear();
-                if (cmbChart.SelectedIndex < 4)
+                if (cmbChart.SelectedIndex < 12)
                 {
                     _chart.ChartAreas.Add(_cAreaDist);
                 }
-                else if (cmbChart.SelectedIndex < 6)
+                else if (cmbChart.SelectedIndex < 14)
                 {
                     _chart.ChartAreas.Add(_cAreaType);
                 }

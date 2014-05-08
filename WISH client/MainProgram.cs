@@ -47,6 +47,14 @@ namespace WISH_client
         private List<SensorDataGraph> _angelLeft;
         private List<SensorDataGraph> _deviationMid;
         private List<SensorDataGraph> _speedDeviation;
+        private List<SensorDataGraph> _dataLeftFront;
+        private List<SensorDataGraph> _dataLeftBack;
+        private List<SensorDataGraph> _dataRightFront;
+        private List<SensorDataGraph> _dataRightBack;
+        private List<SensorDataGraph> _dataFrontUpper;
+        private List<SensorDataGraph> _dataFrontLower;
+        private List<SensorDataGraph> _dataRearUpper;
+        private List<SensorDataGraph> _dataRearLower;
 
         private List<DictWithCharts> _dictWithChartData;
 
