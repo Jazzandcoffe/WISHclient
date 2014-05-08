@@ -76,6 +76,7 @@
             this.txtKp = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnStop = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -192,6 +193,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnStop);
             this.groupBox3.Controls.Add(this.lblPlayer);
             this.groupBox3.Controls.Add(this.cmbPlayers);
             this.groupBox3.Controls.Add(this.btnManual);
@@ -610,6 +612,17 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Kd: ";
             // 
+            // btnStop
+            // 
+            this.btnStop.BackColor = System.Drawing.Color.LightCoral;
+            this.btnStop.Location = new System.Drawing.Point(22, 80);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(99, 24);
+            this.btnStop.TabIndex = 10;
+            this.btnStop.Text = "STOP";
+            this.btnStop.UseVisualStyleBackColor = false;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
             // MainProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -695,6 +708,7 @@
         private System.Windows.Forms.Label lblBackUpper;
         private System.Windows.Forms.Label lblAngleRight;
         private System.Windows.Forms.Label lblAngleLeft;
+        private System.Windows.Forms.Button btnStop;
     }
 }
 

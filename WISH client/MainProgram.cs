@@ -459,6 +459,7 @@ namespace WISH_client
                 lblDistLeft.BackColor = orgColor.Color.Red;
         }
 
+        
 
 
         

@@ -98,6 +98,15 @@ namespace WISH_client
         }
 
         /// <summary>
+        /// Skickar manuellt läge till roboten som ska initera ett stopp. 
+        /// </summary>
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            _bt.transmit_byte(new byte[2] { 0, 0 });
+            _timer2.Stop();
+        }
+
+        /// <summary>
         /// Då Start-knappen för bluetooth-kommunikationen klickas på kontrolleras att en COM port är vald. 
         /// </summary>
         private void btnComStart_Click(object sender, EventArgs e)
