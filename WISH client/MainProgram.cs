@@ -206,11 +206,11 @@ namespace WISH_client
         private void FillControlDecisionsDictionary()
         {
             _ctrlDecisions.Clear();
-            _ctrlDecisions.Add(0, "Servofel, overload");
-            _ctrlDecisions.Add(1, "Servofel, range");
-            _ctrlDecisions.Add(2, "Servofel, overheat");
-            _ctrlDecisions.Add(3, "Servofel, voltage");
-            _ctrlDecisions.Add(4, "Servofel, reserv 1");
+            _ctrlDecisions.Add(0, "Data: 0");
+            _ctrlDecisions.Add(1, "Sväng vänster");
+            _ctrlDecisions.Add(2, "Sväng höger");
+            _ctrlDecisions.Add(3, "Färdig med sväng");
+            _ctrlDecisions.Add(4, "Vänd om");
             _ctrlDecisions.Add(5, "Servofel, reserv 2");
             _ctrlDecisions.Add(6, "Servofel, reserv 3");
             _ctrlDecisions.Add(7, "Servofel, reserv 4");
@@ -269,7 +269,7 @@ namespace WISH_client
             lblBackUpper.Text = dataOfType[24].ToString();
             ChangeLabelColors();
 
-            updateTxtBox(dataOfType[32].ToString()); //Ändra typ efter protokoll  ((((EJ implementerad i Styr))))
+            updateTxtBox(dataOfType[32]); //Ändra typ efter protokoll  ((((EJ implementerad i Styr))))
             AddValueToChart(ref _dataFront, dataOfType[9]);
             AddValueToChart(ref _dataRight, dataOfType[13]);
             AddValueToChart(ref _dataBack, dataOfType[10]);
@@ -406,9 +406,10 @@ namespace WISH_client
         /// Uppdaterar txtBox om ett nytt styrbeslut kommer.
         /// Placerar senaste styrbeslutet överst och skiftar ner de historiska besluten.
         /// </summary>
-        private void updateTxtBox(string text)
+        private void updateTxtBox(int data)
         {
             string[] temp = new string[15];
+            string text = _ctrlDecisions[data];
 
             if(txtOutput.Lines.Length > 25)
             {
