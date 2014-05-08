@@ -164,6 +164,15 @@ namespace WISH_client
             _angelLeft = new List<SensorDataGraph>();
             _deviationMid = new List<SensorDataGraph>();
             _speedDeviation = new List<SensorDataGraph>();
+            _dataFrontLower = new List<SensorDataGraph>();
+            _dataFrontUpper = new List<SensorDataGraph>();
+            _dataRearLower = new List<SensorDataGraph>();
+            _dataRearUpper = new List<SensorDataGraph>();
+            _dataLeftBack = new List<SensorDataGraph>();
+            _dataLeftFront = new List<SensorDataGraph>();
+            _dataRightBack = new List<SensorDataGraph>();
+            _dataRightFront = new List<SensorDataGraph>();
+
 
             _dictWithChartData = new List<DictWithCharts>();
             _lastData = new List<int[]>();
@@ -444,9 +453,9 @@ namespace WISH_client
             //Typ vänster färgning
             if (dataOfType[8] == 3 || dataOfType[8] == 1)
                 lblDistLeft.BackColor = orgColor.Color.Yellow;
-            else if (dataOfType[7] == 0)
+            else if (dataOfType[8] == 0)
                 lblDistLeft.BackColor = orgColor.Color.Green;
-            else if (dataOfType[7] == 2)
+            else if (dataOfType[8] == 2)
                 lblDistLeft.BackColor = orgColor.Color.Red;
         }
 
