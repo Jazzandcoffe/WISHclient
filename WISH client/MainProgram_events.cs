@@ -98,11 +98,12 @@ namespace WISH_client
         }
 
         /// <summary>
-        /// Skickar manuellt läge till roboten som ska initera ett stopp. 
+        /// Skickar manuellt läge följt av nödstopp till roboten. 
         /// </summary>
         private void btnStop_Click(object sender, EventArgs e)
         {
             _bt.transmit_byte(new byte[2] { 0, 0 });
+            _bt.transmit_byte(new byte[2] { 4, 0 });
             _timer2.Stop();
         }
 
