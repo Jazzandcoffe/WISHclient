@@ -408,6 +408,9 @@ namespace WISH_client
         /// </summary>
         private void updateTxtBox(int data)
         {
+            if (data >= _ctrlDecisions.Count)
+                return;
+
             string[] temp = new string[15];
             string text = _ctrlDecisions[data];
 
