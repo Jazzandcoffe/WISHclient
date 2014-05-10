@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bluetooth.cs" />
-    <Compile Include="MainForm_init.cs">
+    <Compile Include="MainProgram_init.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainProgram_events.cs">
