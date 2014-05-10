@@ -28,7 +28,7 @@ namespace WISH_client
             catch
             {
                 Reset();
-                MessageBox.Show("KKunde inte uppdatera GUI, återställning har skett.", "ERROR!", MessageBoxButtons.OK);
+                MessageBox.Show("Kunde inte uppdatera GUI, återställning har skett.", "ERROR!", MessageBoxButtons.OK);
             }
         }
 
@@ -162,33 +162,20 @@ namespace WISH_client
         /// <param name="e"></param>
         private void cmbChart_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lock (lockerChart)
-            {
-                _chart.Series.Clear();
-                _chart.ChartAreas.Clear();
-                if (cmbChart.SelectedIndex < 12)
-                {
-                    _chart.ChartAreas.Add(_cAreaDist);
-                }
-                else if (cmbChart.SelectedIndex < 14)
-                {
-                    _chart.ChartAreas.Add(_cAreaType);
-                }
-                else
-                {
-                    _chart.ChartAreas.Add(_cAreaSigned);
-                }
+            _chart.Series.Clear();
 
-                _chart.DataSource = ((DictWithCharts)cmbChart.SelectedItem).Data;
-                _chart.Series.Add("Sensordatan");
-                _chart.Series[0].XValueMember = "X";
-                _chart.Series[0].YValueMembers = "Y";
-                _chart.DataBind();
+            _chart.ChartAreas[0].AxisY.Maximum = ((NameAndSensor)cmbChart.SelectedItem).Sensor.YMax;
+            _chart.ChartAreas[0].AxisY.Minimum = ((NameAndSensor)cmbChart.SelectedItem).Sensor.YMin;
 
-                _chart.Series[0].ChartType = SeriesChartType.Line;
-                _chart.Series[0].Color = orgColor.Color.Black;
-                _chart.Series[0].BorderWidth = 2;
-            }
+            _chart.DataSource = ((NameAndSensor)cmbChart.SelectedItem).Sensor;
+            _chart.Series.Add("Sensordatan");
+            _chart.Series[0].XValueMember = "X";
+            _chart.Series[0].YValueMembers = "Y";
+            _chart.DataBind();
+
+            _chart.Series[0].ChartType = SeriesChartType.Line;
+            _chart.Series[0].Color = orgColor.Color.Black;
+            _chart.Series[0].BorderWidth = 2;
         }
 
         /// <summary>
