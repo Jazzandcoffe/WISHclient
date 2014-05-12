@@ -51,7 +51,9 @@ namespace WISH_client
         }
 
         public List<SensorDataGraph> SensorData
-        { get; set; }
+        {
+            get { return _sensorValues; }
+        }
 
         public int YMin
         { get; set; }
@@ -96,9 +98,9 @@ namespace WISH_client
         {
             _label.Text = data.ToString();
 
-            if(_redValues.Contains(data))
+            if(_redValues != null && _redValues.Contains(data))
             { _label.BackColor = Color.Red; }
-            else if (_yellowValues.Contains(data))
+            else if (_yellowValues != null && _yellowValues.Contains(data))
             { _label.BackColor = Color.Yellow; }
             else
             { _label.BackColor = Color.Green; }

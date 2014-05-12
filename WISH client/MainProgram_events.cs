@@ -163,11 +163,13 @@ namespace WISH_client
         private void cmbChart_SelectedIndexChanged(object sender, EventArgs e)
         {
             _chart.Series.Clear();
+            _chart.ChartAreas.Clear();
+            _chartArea.AxisY.Maximum = ((NameAndSensor)cmbChart.SelectedItem).Sensor.YMax;
+            _chartArea.AxisY.Minimum = ((NameAndSensor)cmbChart.SelectedItem).Sensor.YMin;
+            _chartArea.AxisY.Interval = ((NameAndSensor)cmbChart.SelectedItem).Sensor.Interval;
+            _chart.ChartAreas.Add(_chartArea);
 
-            _chart.ChartAreas[0].AxisY.Maximum = ((NameAndSensor)cmbChart.SelectedItem).Sensor.YMax;
-            _chart.ChartAreas[0].AxisY.Minimum = ((NameAndSensor)cmbChart.SelectedItem).Sensor.YMin;
-
-            _chart.DataSource = ((NameAndSensor)cmbChart.SelectedItem).Sensor;
+            _chart.DataSource = ((NameAndSensor)cmbChart.SelectedItem).Sensor.SensorData;
             _chart.Series.Add("Sensordatan");
             _chart.Series[0].XValueMember = "X";
             _chart.Series[0].YValueMembers = "Y";
