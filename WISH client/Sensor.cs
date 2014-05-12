@@ -103,7 +103,7 @@ namespace WISH_client
             else if (_yellowValues != null && _yellowValues.Contains(data))
             { _label.BackColor = Color.Yellow; }
             else
-            { _label.BackColor = Color.Green; }
+            { _label.BackColor = Color.LightGreen; }
         }
     }
 }
