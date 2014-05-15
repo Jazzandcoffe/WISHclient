@@ -151,21 +151,18 @@ namespace WISH_client
         private void FillControlDecisionsDictionary()
         {
             _ctrlDecisions.Clear();
-            _ctrlDecisions.Add(0, "Data: 0");
-            _ctrlDecisions.Add(1, "Sväng vänster");
-            _ctrlDecisions.Add(2, "Sväng höger");
-            _ctrlDecisions.Add(3, "Färdig med sväng");
-            _ctrlDecisions.Add(4, "Vänd om");
-            _ctrlDecisions.Add(5, "Servofel, reserv 2");
-            _ctrlDecisions.Add(6, "Servofel, reserv 3");
-            _ctrlDecisions.Add(7, "Servofel, reserv 4");
-            _ctrlDecisions.Add(8, "Gå framåt");
-            _ctrlDecisions.Add(9, "Gå bakåt");
-            _ctrlDecisions.Add(10, "Rotera moturs");
-            _ctrlDecisions.Add(11, "Rotera medurs");
-            _ctrlDecisions.Add(12, "Börja klättra upp");
-            _ctrlDecisions.Add(13, "Börja klättra ner");
-            _ctrlDecisions.Add(14, "Banan är slut, stå still");
+            _ctrlDecisions.Add(1, "Påbörjar vänster sväng");
+            _ctrlDecisions.Add(2, "Påbörjar höger sväng");
+            _ctrlDecisions.Add(3, "Klar med sväng");
+            _ctrlDecisions.Add(4, "Scannar omgivning");
+            _ctrlDecisions.Add(5, "Inget detekterat");
+            _ctrlDecisions.Add(6, "Påbörjar klättring");
+            _ctrlDecisions.Add(7, "Avslutar klättring");
+            _ctrlDecisions.Add(8, "Byter färdriktning");
+            _ctrlDecisions.Add(9, "Ignorera öppning till höger");
+            _ctrlDecisions.Add(10, "Ignorera öppning till vänster");
+            _ctrlDecisions.Add(11, "Rotation höger");
+            _ctrlDecisions.Add(12, "Rotation vänster");
         }
 
         /// <summary>

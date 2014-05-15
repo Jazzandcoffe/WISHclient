@@ -103,6 +103,8 @@ namespace WISH_client
             lblLeftFront.Text = String.Empty;
             lblRightBack.Text = String.Empty;
             lblRightFront.Text = String.Empty;
+            lblAngleLeft.Text = String.Empty;
+            lblAngleRight.Text = String.Empty;
 
             txtKd.Text = "0";
             txtKp.Text = "0";
@@ -304,7 +306,7 @@ namespace WISH_client
         /// </summary>
         private void updateTxtBox(int data)
         {
-            if (data >= _ctrlDecisions.Count)
+            if (data > _ctrlDecisions.Count || data == 0)
                 return;
 
             string[] temp = new string[15];
