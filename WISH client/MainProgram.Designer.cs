@@ -72,11 +72,11 @@
             this.lblDistanceMid = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnSend = new System.Windows.Forms.Button();
             this.rbtnSpeed4 = new System.Windows.Forms.RadioButton();
             this.rbtnSpeed3 = new System.Windows.Forms.RadioButton();
             this.rbtnSpeed2 = new System.Windows.Forms.RadioButton();
             this.rbtnSpeed1 = new System.Windows.Forms.RadioButton();
-            this.btnSend = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -292,7 +292,7 @@
             this.groupBox4.Size = new System.Drawing.Size(930, 775);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Diverse sensorinformation";
+            this.groupBox4.Text = "Sensorinformation";
             // 
             // lblAngleRight
             // 
@@ -581,6 +581,15 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Hastighet";
             // 
+            // btnSend
+            // 
+            this.btnSend.Location = new System.Drawing.Point(298, 18);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(75, 23);
+            this.btnSend.TabIndex = 6;
+            this.btnSend.Text = "Skicka";
+            this.btnSend.UseVisualStyleBackColor = true;
+            // 
             // rbtnSpeed4
             // 
             this.rbtnSpeed4.AutoSize = true;
@@ -625,15 +634,6 @@
             this.rbtnSpeed1.Text = "1";
             this.rbtnSpeed1.UseVisualStyleBackColor = true;
             // 
-            // btnSend
-            // 
-            this.btnSend.Location = new System.Drawing.Point(298, 18);
-            this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(75, 23);
-            this.btnSend.TabIndex = 6;
-            this.btnSend.Text = "Skicka";
-            this.btnSend.UseVisualStyleBackColor = true;
-            // 
             // MainProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -646,7 +646,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "MainProgram";
-            this.Text = "Form1";
+            this.Text = "WISH";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
