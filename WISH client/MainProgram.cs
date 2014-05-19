@@ -57,6 +57,7 @@ namespace WISH_client
         private List<int[]> _lastData; //Senaste datan från bluetooth ligger i denna lista. Vid varje tick kan denna itereras igenom. 
         private List<Players> _playerList = new List<Players>();
         private Xboxkontroll _player;
+        private bool isConnected; //Sätts till true av eventet för bluetooth. Kontrolleras sen vid tick. 
         public static object locker;   //Låsobjekt, för att ingen information ska visas vid låsning av access till _lastData.
         List<int[]> temp = new List<int[]>();
         int[] dataOfType = new int[40];
@@ -67,6 +68,7 @@ namespace WISH_client
         public MainProgram()
         {
             InitializeComponent();
+            ClearGUI();
             Initialize();
         }
 
@@ -85,6 +87,62 @@ namespace WISH_client
             SetupChart(ref _chart,ref _dataFront);
             initSensors();
             lblBaudRate.Text = "115200";
+            DisableGUI();
+        }
+
+        /// <summary>
+        /// Gör alla kontroller utom konfigureringen för COM Porten disabled. 
+        /// Ska anropas vid reset och då Stop-knappen används för COM porten. 
+        /// </summary>
+        private void DisableGUI()
+        {
+            btnComStart.Enabled = true;
+            btnComStop.Enabled = false;
+            btnManual.Enabled = false;
+            btnAutomatic.Enabled = false;
+            btnStop.Enabled = false;
+            cmbChart.Enabled = false;
+            cmbPlayers.Enabled = false;
+            lblPlayer.Enabled = false;
+            rbtnSpeed1.Checked = true;
+            rbtnSpeed2.Checked = false;
+            rbtnSpeed3.Checked = false;
+            rbtnSpeed4.Checked = false;
+            rbtnSpeed1.Enabled = false;
+            rbtnSpeed2.Enabled = false;
+            rbtnSpeed3.Enabled = false;
+            rbtnSpeed4.Enabled = false;
+            btnSend.Enabled = false;
+        }
+
+        /// <summary>
+        /// Gör alla kontroller tillgängliga till användaren. Anropas av Reset och när Start knappen används. 
+        /// </summary>
+        private void EnableGUI()
+        {
+            btnComStart.Enabled = false;
+            btnComStop.Enabled = true;
+            btnAutomatic.Enabled = true;
+            btnManual.Enabled = true;
+            cmbPlayers.Enabled = true;
+            cmbChart.Enabled = true;
+            lblPlayer.Enabled = true;
+            rbtnSpeed1.Enabled = true;
+            rbtnSpeed2.Enabled = true;
+            rbtnSpeed3.Enabled = true;
+            rbtnSpeed4.Enabled = true;
+            btnStop.Enabled = true;
+            btnSend.Enabled = true;
+            txtOutput.Text = "------------Start------------" + Environment.NewLine;
+        }
+
+        /// <summary>
+        /// Rensar alla labels från data, bör endast anropas vid start. 
+        /// Ifall återställning sker är det bekvämt att kunna se senaste värden. 
+        /// Därför används inte denna av Reset. 
+        /// </summary>
+        private void ClearGUI()
+        {
             lblDistanceMid.Text = String.Empty;
             lblLeftDetect.Text = String.Empty;
             lblRightDetect.Text = String.Empty;
@@ -105,27 +163,7 @@ namespace WISH_client
             lblRightFront.Text = String.Empty;
             lblAngleLeft.Text = String.Empty;
             lblAngleRight.Text = String.Empty;
-
-            btnComStart.Enabled = true;
-            btnComStop.Enabled = false;
-            btnManual.Enabled = false; 
-            btnAutomatic.Enabled = false;
-            btnStop.Enabled = false; 
-            cmbChart.Enabled = false;
-            cmbPlayers.Enabled = false;
-            lblPlayer.Enabled = false;
             txtOutput.Text = String.Empty;
-            rbtnSpeed1.Checked = true;
-            rbtnSpeed2.Checked = false;
-            rbtnSpeed3.Checked = false;
-            rbtnSpeed4.Checked = false;
-            rbtnSpeed1.Enabled = false;
-            rbtnSpeed2.Enabled = false;
-            rbtnSpeed3.Enabled = false;
-            rbtnSpeed4.Enabled = false;
-            btnSend.Enabled = false;
-
-
         }
 
         /// <summary>
@@ -151,8 +189,18 @@ namespace WISH_client
         /// </summary>
         private void UpdateGUIwithListData()
         {
-            //Om detta fungerar så låser den _lastData så att andra trådar måste vänta
-            //tills kopieringen är klar. 
+            //bt_DataReceived sätter denna till true, har snabbare tick än denna metod.
+            //Om isConnected skulle vara false betyder det att kontakten via bluetooth brutits eller är felaktig.
+            if (isConnected)
+            {
+                isConnected = false;
+            }
+            else
+            {
+                Reset();
+                MessageBox.Show("Tappat bluetooth kontakten, återställer GUI.", "ERROR", MessageBoxButtons.OK);
+            }
+                
             lock (locker)
             {
                temp = new List<int[]>(_lastData);
@@ -333,19 +381,5 @@ namespace WISH_client
                 txtOutput.Text = text + Environment.NewLine + txtOutput.Text + Environment.NewLine;
             }
         }
-
-        /// <summary>
-        /// Metod som läser av txtKp och txtKd. Metoden kontrollerar även
-        /// att värdet i textboxarna är ett giltigt byte värde (0-255).
-        /// </summary>
-        /// <param name="Kp">Värdet från txtKp.Text i Byte</param>
-        /// <param name="Kd">Värdet från txtKd.Text i Byte</param>
-        /// <returns>True om konverteringen av båda är giltig</returns>
-        //private bool ReadControlValues(out Byte Kp, out Byte Kd)
-        //{
-        //    //Kp = 0;
-        //   // Kd = 0;
-        //    //return (Byte.TryParse(txtKp.Text, out Kp) && Byte.TryParse(txtKd.Text, out Kd));
-        //}
     }
 }

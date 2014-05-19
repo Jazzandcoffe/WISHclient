@@ -56,10 +56,10 @@ namespace WISH_client
         /// <param name="Args"></param>
         void bt_DataReceived(object sender, BtDataReceivedEventArgs Args)
         {
-            //Om detta fungerar så låser den locker under tiden eventet körs.
             //Samma lås finns i UpdateGUIwithListData() då _lastData ska accessas. 
             lock (locker)
             {
+                isConnected = true;
                 _lastData.Clear();
                 for (int i = 0; i < Args.btData.Length - 1; i = i + 2)
                 {
@@ -73,6 +73,21 @@ namespace WISH_client
         private void MainForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// Skickar hastigheten till roboten.
+        /// </summary>
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+            if (rbtnSpeed1.Checked)
+                _bt.transmit_byte(new byte[2] { 33, 1 });
+            else if (rbtnSpeed2.Checked)
+                _bt.transmit_byte(new byte[2] { 33, 2 });
+            else if (rbtnSpeed3.Checked)
+                _bt.transmit_byte(new byte[2] { 33, 3 });
+            else if (rbtnSpeed4.Checked)
+                _bt.transmit_byte(new byte[2] { 33, 4 });
         }
 
         private void btnAutomatic_Click(object sender, EventArgs e)
@@ -103,6 +118,7 @@ namespace WISH_client
         private void btnStop_Click(object sender, EventArgs e)
         {
             _bt.transmit_byte(new byte[2] { 4, 0 });
+            DisableGUI();
             _timer2.Stop();
         }
 
@@ -119,19 +135,7 @@ namespace WISH_client
 
             if (OpenConnection(cmbComPorts.Text))
             {
-                btnComStart.Enabled = false;
-                btnComStop.Enabled = true;
-                btnAutomatic.Enabled = true;
-                btnManual.Enabled = true;
-                cmbPlayers.Enabled = true;
-                cmbChart.Enabled = true;
-                lblPlayer.Enabled = true;
-                rbtnSpeed1.Enabled = true;
-                rbtnSpeed2.Enabled = true;
-                rbtnSpeed3.Enabled = true;
-                rbtnSpeed4.Enabled = true;
-                btnStop.Enabled = true;
-                btnSend.Enabled = true;
+                EnableGUI();
                 _timer1.Start();
             }
         }
@@ -182,17 +186,5 @@ namespace WISH_client
             _chart.Series[0].Color = orgColor.Color.Black;
             _chart.Series[0].BorderWidth = 2;
         }
-
-        /// <summary>
-        /// Sänder iväg Kp och Kd via Bluetoothen. 
-        /// Felkontroll inkluderad då den anropar ReadControlValues().
-        /// </summary>
-        //private void btnSendControls_Click(object sender, EventArgs e)
-        //{
-        //    Byte Kd = 0;
-        //    Byte Kp = 0;
-        //    if (ReadControlValues(out Kp, out Kd))
-        //        _bt.transmit_byte(new byte[4] { 33, Kp, 34, Kd });
-        //}
     }
 }

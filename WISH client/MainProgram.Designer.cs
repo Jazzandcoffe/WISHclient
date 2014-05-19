@@ -589,6 +589,7 @@
             this.btnSend.TabIndex = 6;
             this.btnSend.Text = "Skicka";
             this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // rbtnSpeed4
             // 
