@@ -34,6 +34,7 @@
             this.txtOutput = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnStop = new System.Windows.Forms.Button();
             this.lblPlayer = new System.Windows.Forms.Label();
             this.cmbPlayers = new System.Windows.Forms.ComboBox();
             this.btnManual = new System.Windows.Forms.Button();
@@ -71,12 +72,11 @@
             this.lblDistanceMid = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.btnSendControls = new System.Windows.Forms.Button();
-            this.txtKd = new System.Windows.Forms.TextBox();
-            this.txtKp = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnStop = new System.Windows.Forms.Button();
+            this.rbtnSpeed4 = new System.Windows.Forms.RadioButton();
+            this.rbtnSpeed3 = new System.Windows.Forms.RadioButton();
+            this.rbtnSpeed2 = new System.Windows.Forms.RadioButton();
+            this.rbtnSpeed1 = new System.Windows.Forms.RadioButton();
+            this.btnSend = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -184,7 +184,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.txtOutput);
-            this.groupBox2.Location = new System.Drawing.Point(954, 458);
+            this.groupBox2.Location = new System.Drawing.Point(954, 378);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(438, 340);
             this.groupBox2.TabIndex = 5;
@@ -204,6 +204,17 @@
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Styrning";
+            // 
+            // btnStop
+            // 
+            this.btnStop.BackColor = System.Drawing.Color.LightCoral;
+            this.btnStop.Location = new System.Drawing.Point(22, 80);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(99, 24);
+            this.btnStop.TabIndex = 10;
+            this.btnStop.Text = "STOP";
+            this.btnStop.UseVisualStyleBackColor = false;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // lblPlayer
             // 
@@ -558,70 +569,70 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.btnSendControls);
-            this.groupBox5.Controls.Add(this.txtKd);
-            this.groupBox5.Controls.Add(this.txtKp);
-            this.groupBox5.Controls.Add(this.label10);
-            this.groupBox5.Controls.Add(this.label3);
-            this.groupBox5.Location = new System.Drawing.Point(954, 353);
+            this.groupBox5.Controls.Add(this.btnSend);
+            this.groupBox5.Controls.Add(this.rbtnSpeed4);
+            this.groupBox5.Controls.Add(this.rbtnSpeed3);
+            this.groupBox5.Controls.Add(this.rbtnSpeed2);
+            this.groupBox5.Controls.Add(this.rbtnSpeed1);
+            this.groupBox5.Location = new System.Drawing.Point(976, 322);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(438, 90);
+            this.groupBox5.Size = new System.Drawing.Size(416, 50);
             this.groupBox5.TabIndex = 8;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Reglering";
+            this.groupBox5.Text = "Hastighet";
             // 
-            // btnSendControls
+            // rbtnSpeed4
             // 
-            this.btnSendControls.Location = new System.Drawing.Point(229, 39);
-            this.btnSendControls.Name = "btnSendControls";
-            this.btnSendControls.Size = new System.Drawing.Size(75, 23);
-            this.btnSendControls.TabIndex = 4;
-            this.btnSendControls.Text = "Skicka";
-            this.btnSendControls.UseVisualStyleBackColor = true;
-            this.btnSendControls.Click += new System.EventHandler(this.btnSendControls_Click);
+            this.rbtnSpeed4.AutoSize = true;
+            this.rbtnSpeed4.Location = new System.Drawing.Point(227, 22);
+            this.rbtnSpeed4.Name = "rbtnSpeed4";
+            this.rbtnSpeed4.Size = new System.Drawing.Size(31, 17);
+            this.rbtnSpeed4.TabIndex = 5;
+            this.rbtnSpeed4.TabStop = true;
+            this.rbtnSpeed4.Text = "4";
+            this.rbtnSpeed4.UseVisualStyleBackColor = true;
             // 
-            // txtKd
+            // rbtnSpeed3
             // 
-            this.txtKd.Location = new System.Drawing.Point(154, 40);
-            this.txtKd.Name = "txtKd";
-            this.txtKd.Size = new System.Drawing.Size(46, 20);
-            this.txtKd.TabIndex = 3;
+            this.rbtnSpeed3.AutoSize = true;
+            this.rbtnSpeed3.Location = new System.Drawing.Point(158, 22);
+            this.rbtnSpeed3.Name = "rbtnSpeed3";
+            this.rbtnSpeed3.Size = new System.Drawing.Size(31, 17);
+            this.rbtnSpeed3.TabIndex = 4;
+            this.rbtnSpeed3.TabStop = true;
+            this.rbtnSpeed3.Text = "3";
+            this.rbtnSpeed3.UseVisualStyleBackColor = true;
             // 
-            // txtKp
+            // rbtnSpeed2
             // 
-            this.txtKp.Location = new System.Drawing.Point(53, 40);
-            this.txtKp.Name = "txtKp";
-            this.txtKp.Size = new System.Drawing.Size(46, 20);
-            this.txtKp.TabIndex = 2;
+            this.rbtnSpeed2.AutoSize = true;
+            this.rbtnSpeed2.Location = new System.Drawing.Point(81, 22);
+            this.rbtnSpeed2.Name = "rbtnSpeed2";
+            this.rbtnSpeed2.Size = new System.Drawing.Size(31, 17);
+            this.rbtnSpeed2.TabIndex = 3;
+            this.rbtnSpeed2.TabStop = true;
+            this.rbtnSpeed2.Text = "2";
+            this.rbtnSpeed2.UseVisualStyleBackColor = true;
             // 
-            // label10
+            // rbtnSpeed1
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(24, 43);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(23, 13);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "Kp:";
+            this.rbtnSpeed1.AutoSize = true;
+            this.rbtnSpeed1.Location = new System.Drawing.Point(13, 22);
+            this.rbtnSpeed1.Name = "rbtnSpeed1";
+            this.rbtnSpeed1.Size = new System.Drawing.Size(31, 17);
+            this.rbtnSpeed1.TabIndex = 2;
+            this.rbtnSpeed1.TabStop = true;
+            this.rbtnSpeed1.Text = "1";
+            this.rbtnSpeed1.UseVisualStyleBackColor = true;
             // 
-            // label3
+            // btnSend
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(122, 43);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(26, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Kd: ";
-            // 
-            // btnStop
-            // 
-            this.btnStop.BackColor = System.Drawing.Color.LightCoral;
-            this.btnStop.Location = new System.Drawing.Point(22, 80);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(99, 24);
-            this.btnStop.TabIndex = 10;
-            this.btnStop.Text = "STOP";
-            this.btnStop.UseVisualStyleBackColor = false;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.btnSend.Location = new System.Drawing.Point(298, 18);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(75, 23);
+            this.btnSend.TabIndex = 6;
+            this.btnSend.Text = "Skicka";
+            this.btnSend.UseVisualStyleBackColor = true;
             // 
             // MainProgram
             // 
@@ -691,11 +702,6 @@
         private System.Windows.Forms.ComboBox cmbChart;
         private System.Windows.Forms.Label lblPlayer;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnSendControls;
-        private System.Windows.Forms.TextBox txtKd;
-        private System.Windows.Forms.TextBox txtKp;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lblRightFront;
         private System.Windows.Forms.Label lblFrontLower;
@@ -709,6 +715,11 @@
         private System.Windows.Forms.Label lblAngleRight;
         private System.Windows.Forms.Label lblAngleLeft;
         private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.RadioButton rbtnSpeed4;
+        private System.Windows.Forms.RadioButton rbtnSpeed3;
+        private System.Windows.Forms.RadioButton rbtnSpeed2;
+        private System.Windows.Forms.RadioButton rbtnSpeed1;
+        private System.Windows.Forms.Button btnSend;
     }
 }
 

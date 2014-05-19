@@ -125,10 +125,13 @@ namespace WISH_client
                 btnManual.Enabled = true;
                 cmbPlayers.Enabled = true;
                 cmbChart.Enabled = true;
-                btnSendControls.Enabled = true;
-                txtKd.Enabled = true;
-                txtKp.Enabled = true;
                 lblPlayer.Enabled = true;
+                rbtnSpeed1.Enabled = true;
+                rbtnSpeed2.Enabled = true;
+                rbtnSpeed3.Enabled = true;
+                rbtnSpeed4.Enabled = true;
+                btnStop.Enabled = true;
+                btnSend.Enabled = true;
                 _timer1.Start();
             }
         }
@@ -184,12 +187,12 @@ namespace WISH_client
         /// Sänder iväg Kp och Kd via Bluetoothen. 
         /// Felkontroll inkluderad då den anropar ReadControlValues().
         /// </summary>
-        private void btnSendControls_Click(object sender, EventArgs e)
-        {
-            Byte Kd = 0;
-            Byte Kp = 0;
-            if (ReadControlValues(out Kp, out Kd))
-                _bt.transmit_byte(new byte[4] { 33, Kp, 34, Kd });
-        }
+        //private void btnSendControls_Click(object sender, EventArgs e)
+        //{
+        //    Byte Kd = 0;
+        //    Byte Kp = 0;
+        //    if (ReadControlValues(out Kp, out Kd))
+        //        _bt.transmit_byte(new byte[4] { 33, Kp, 34, Kd });
+        //}
     }
 }

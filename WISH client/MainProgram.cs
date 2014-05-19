@@ -106,19 +106,25 @@ namespace WISH_client
             lblAngleLeft.Text = String.Empty;
             lblAngleRight.Text = String.Empty;
 
-            txtKd.Text = "0";
-            txtKp.Text = "0";
             btnComStart.Enabled = true;
             btnComStop.Enabled = false;
             btnManual.Enabled = false; 
             btnAutomatic.Enabled = false;
+            btnStop.Enabled = false; 
             cmbChart.Enabled = false;
             cmbPlayers.Enabled = false;
-            txtKd.Enabled = false;
-            txtKp.Enabled = false;
-            btnSendControls.Enabled = false;
             lblPlayer.Enabled = false;
             txtOutput.Text = String.Empty;
+            rbtnSpeed1.Checked = true;
+            rbtnSpeed2.Checked = false;
+            rbtnSpeed3.Checked = false;
+            rbtnSpeed4.Checked = false;
+            rbtnSpeed1.Enabled = false;
+            rbtnSpeed2.Enabled = false;
+            rbtnSpeed3.Enabled = false;
+            rbtnSpeed4.Enabled = false;
+            btnSend.Enabled = false;
+
 
         }
 
@@ -335,11 +341,11 @@ namespace WISH_client
         /// <param name="Kp">Värdet från txtKp.Text i Byte</param>
         /// <param name="Kd">Värdet från txtKd.Text i Byte</param>
         /// <returns>True om konverteringen av båda är giltig</returns>
-        private bool ReadControlValues(out Byte Kp, out Byte Kd)
-        {
-            Kp = 0;
-            Kd = 0;
-            return (Byte.TryParse(txtKp.Text, out Kp) && Byte.TryParse(txtKd.Text, out Kd));
-        }
+        //private bool ReadControlValues(out Byte Kp, out Byte Kd)
+        //{
+        //    //Kp = 0;
+        //   // Kd = 0;
+        //    //return (Byte.TryParse(txtKp.Text, out Kp) && Byte.TryParse(txtKd.Text, out Kd));
+        //}
     }
 }
