@@ -59,7 +59,6 @@ namespace WISH_client
             //Samma lås finns i UpdateGUIwithListData() då _lastData ska accessas. 
             lock (locker)
             {
-                isConnected = true;
                 _lastData.Clear();
                 for (int i = 0; i < Args.btData.Length - 1; i = i + 2)
                 {

@@ -57,7 +57,6 @@ namespace WISH_client
         private List<int[]> _lastData; //Senaste datan från bluetooth ligger i denna lista. Vid varje tick kan denna itereras igenom. 
         private List<Players> _playerList = new List<Players>();
         private Xboxkontroll _player;
-        private bool isConnected; //Sätts till true av eventet för bluetooth. Kontrolleras sen vid tick. 
         public static object locker;   //Låsobjekt, för att ingen information ska visas vid låsning av access till _lastData.
         List<int[]> temp = new List<int[]>();
         int[] dataOfType = new int[40];
@@ -191,19 +190,9 @@ namespace WISH_client
         {
             //bt_DataReceived sätter denna till true, har snabbare tick än denna metod.
             //Om isConnected skulle vara false betyder det att kontakten via bluetooth brutits eller är felaktig.
-            if (isConnected)
-            {
-                isConnected = false;
-            }
-            else
-            {
-                Reset();
-                MessageBox.Show("Tappat bluetooth kontakten, återställer GUI.", "ERROR", MessageBoxButtons.OK);
-            }
-                
             lock (locker)
             {
-               temp = new List<int[]>(_lastData);
+                temp = new List<int[]>(_lastData);
             }
     
             foreach (int[] element in temp) 
