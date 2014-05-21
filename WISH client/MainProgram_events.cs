@@ -117,7 +117,6 @@ namespace WISH_client
         private void btnStop_Click(object sender, EventArgs e)
         {
             _bt.transmit_byte(new byte[2] { 4, 0 });
-            DisableGUI();
             _timer2.Stop();
         }
 
@@ -155,6 +154,7 @@ namespace WISH_client
         {
             btnComStop.Enabled = false;
             btnComStart.Enabled = true;
+            DisableGUI();
             _timer1.Stop();
             _timer2.Stop();
             CloseConnection();
