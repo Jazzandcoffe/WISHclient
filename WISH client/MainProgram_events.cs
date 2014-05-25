@@ -1,4 +1,15 @@
-﻿using System;
+﻿/* 
+ * Programmerare:
+ * Robin Holmbom
+ * Tore Landen
+ * Herman Molinder
+ * 
+ * Datum: 2014-05-25
+ * Version 1.0
+ *
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -89,6 +100,9 @@ namespace WISH_client
                 _bt.transmit_byte(new byte[2] { 33, 4 });
         }
 
+        /// <summary>
+        /// Skickar kommando till roboten att övergå till automatiskt läge
+        /// </summary>
         private void btnAutomatic_Click(object sender, EventArgs e)
         {
             //Skicka bt_data för aktivering av autonomt läge
@@ -96,6 +110,9 @@ namespace WISH_client
             _timer2.Stop();
         }
 
+        /// <summary>
+        /// Skickar kommando till roboten att övergå till manuellt läge
+        /// </summary>
         private void btnManual_Click(object sender, EventArgs e)
         {
             PlayerIndex temp = ((Players)cmbPlayers.SelectedItem).Player;

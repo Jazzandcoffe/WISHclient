@@ -1,4 +1,15 @@
-﻿using System;
+﻿/* 
+ * Programmerare:
+ * Robin Holmbom
+ * Tore Landen
+ * Herman Molinder
+ * 
+ * Datum: 2014-05-25
+ * Version 1.0
+ *
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +19,7 @@ using System.IO.Ports;
 namespace WISH_client
 {
     /// <summary>
-    /// Klassen för det eventet som klassen Bluetooth kastar. 
+    /// Klassen för det eventet som klassen Bluetooth höjer. 
     /// </summary>
     public class BtDataReceivedEventArgs : EventArgs
     {
@@ -39,8 +50,6 @@ namespace WISH_client
         /// <param name="port">COM porten som ska användas</param>
         public Bluetooth(string port)
         {
-            // Instantiate the communications
-            // port with some basic settings
             _port = new SerialPort(port, 115200, Parity.None, 8, StopBits.One);
             _port.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
         }

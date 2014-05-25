@@ -1,4 +1,15 @@
-﻿using System;
+﻿/* 
+ * Programmerare:
+ * Robin Holmbom
+ * Tore Landen
+ * Herman Molinder
+ * 
+ * Datum: 2014-05-25
+ * Version 1.0
+ *
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -176,7 +187,6 @@ namespace WISH_client
 
             chart.ChartAreas.Clear();
             chart.Series.Clear();
-            ///Chartareans utseende för positiva värden
             _chartArea.AxisX.Minimum = 0;
             _chartArea.AxisX.Maximum = 300;
             _chartArea.AxisX.Interval = 60;
@@ -204,11 +214,11 @@ namespace WISH_client
             cmbChart.DataSource = _dictWithSensors;
             cmbChart.DisplayMember = "Name";
 
-            cmbChart.SelectedIndex = 0; //Bör anropa selectedIndex changed event. 
+            cmbChart.SelectedIndex = 0; 
         }
 
         /// <summary>
-        /// Fyller Dictionaryn _dictWithChartData med alla Lists som innehåller datan för olika sensorer. 
+        /// Fyller Dictionaryn _dictWithSensors 
         /// </summary>
         private void FillDictWithCharts()
         {

@@ -1,4 +1,15 @@
-﻿using System;
+﻿/* 
+ * Programmerare:
+ * Robin Holmbom
+ * Tore Landen
+ * Herman Molinder
+ * 
+ * Datum: 2014-05-25
+ * Version 1.0
+ *
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +26,7 @@ namespace WISH_client
         private int[] _yellowValues;
         private int[] _greenValues;
 
+        //Listan som alla sensordvärden läggs in i.
         private List<SensorDataGraph> _sensorValues = new List<SensorDataGraph>();
 
         public Sensor(int ymin,int ymax,int interval)
@@ -26,24 +38,28 @@ namespace WISH_client
             Interval = interval;
         }
 
+        //Tillhörande label som visar senaste sensorvärdet. 
         public Label Label
         {
             get { return _label; }
             set { _label = value; }
         }
 
+        //Värdena i array ger röd bakgrund i tillhörande label
         public int[] RedValues
         {
             get { return _redValues; }
             set { _redValues = value; }
         }
 
+        //Värdena i array ger gul bakgrund i tillhörande label
         public int[] YellowValues
         {
             get { return _yellowValues; }
             set { _yellowValues = value; }
         }
 
+        //Värdena i array ger grön bakgrund i tillhörande label
         public int[] GreenValues
         {
             get { return _greenValues; }
@@ -55,18 +71,23 @@ namespace WISH_client
             get { return _sensorValues; }
         }
 
+        //Min Y-värde i sensorns graf
         public int YMin
         { get; set; }
 
+        //Max Y-värde i sensorns graf
         public int YMax
         { get; set; }
 
+        //Min X-värde i sensorns graf
         public int XMin
         { get; set; }
 
+        //Max X-värde i sensorns graf
         public int XMax
         { get; set; }
 
+        //Intervallavståndet för y-axelns linjer.
         public int Interval
         { get; set; }
 
@@ -93,7 +114,6 @@ namespace WISH_client
         /// Lägger in senaste adderade värdet i textboxen. 
         /// Ändrar även till rätt färg i textboxen. 
         /// </summary>
-        /// <param name="data"></param>
         private void ChangeTxtBox(int data)
         {
             _label.Text = data.ToString();

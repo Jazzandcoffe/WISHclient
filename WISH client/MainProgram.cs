@@ -1,4 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿/* 
+ * Programmerare:
+ * Robin Holmbom
+ * Tore Landen
+ * Herman Molinder
+ * 
+ * Datum: 2014-05-25
+ * Version 1.0
+ *
+ */
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -188,17 +199,13 @@ namespace WISH_client
         /// </summary>
         private void UpdateGUIwithListData()
         {
-            //bt_DataReceived sätter denna till true, har snabbare tick än denna metod.
-            //Om isConnected skulle vara false betyder det att kontakten via bluetooth brutits eller är felaktig.
-            lock (locker)
+            lock (locker) //Lås tillhörande _lastData
             {
                 temp = new List<int[]>(_lastData);
             }
     
             foreach (int[] element in temp) 
             {
-                //Provisorisk lösning för att få ut sensordata i GUI.
-                //Bättre implementering möjlig.
                 if (element[0] > 4 && element[0] < 40)
                     dataOfType[element[0]] = element[1];
             }
@@ -244,9 +251,6 @@ namespace WISH_client
         /// <summary>
         /// Konverterar ett data-fälts värde till int. 
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
         private int ConvertDataToInt(byte type, byte data)
         {
             if (type != 5 && type != 6 && type != 15 && type != 16)

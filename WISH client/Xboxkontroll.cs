@@ -1,4 +1,15 @@
-﻿using System;
+﻿/* 
+ * Programmerare:
+ * Robin Holmbom
+ * Tore Landen
+ * Herman Molinder
+ * 
+ * Datum: 2014-05-25
+ * Version 1.0
+ *
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +29,7 @@ namespace WISH_client
             _player = player;
         }
 
+        //Läser av kontrollen
         public void TickUpdate()
         {
             _kontroll = GamePad.GetState(_player);
